@@ -1,0 +1,189 @@
+/* ── SentenceArrangementDND ─────────────────────────────── */
+.sa-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: 'Fredoka One', sans-serif;
+}
+
+/* Header row: title left, Periksa button right */
+.sa-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sa-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4a3a6e;
+  margin: 0;
+}
+
+.sa-subtitle {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4a3a6e;
+  margin: 0 0 12px 0;
+}
+
+/* ── Drop Zones Row ──────────────────────────────────────── */
+.sa-zones-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.sa-drop-zone {
+  flex: 1 1 120px;
+  min-width: 100px;
+  height: 62px;
+  border: 2.5px dashed #757373; /* grey dashed */
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.2s, background-color 0.2s;
+  box-sizing: border-box;
+}
+
+.sa-drop-zone.locked {
+  border: 1.5px solid #5faa1e;
+}
+
+.sa-placeholder {
+  color: #aba9b4;
+  font-style: italic;
+  font-size: 0.8rem;
+  font-family: 'Fredoka One', sans-serif;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Placed Chips (inside Drop Zones) ───────────────────── */
+.sa-placed-chip {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 2.5px solid transparent;
+  padding: 0 28px 0 10px;
+  box-sizing: border-box;
+  transition: background-color 0.2s;
+}
+
+.sa-chip-text {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #3a3060;
+  text-align: center;
+  pointer-events: none;
+}
+
+.sa-remove-btn {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  background: none;
+  border: none;
+  color: #e05050;
+  font-size: 0.75rem;
+  font-weight: 900;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 3px;
+  border-radius: 50%;
+  transition: background 0.15s;
+}
+.sa-remove-btn:hover {
+  background: rgba(224, 80, 80, 0.15);
+}
+
+/* ── Pool Section — wrapped box ─────────────────────────── */
+.sa-pool-section {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.45);
+  border-radius: 16px;
+  padding: 16px 16px 20px;
+  min-height: 90px;
+}
+
+.sa-pool-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ── Draggables (in pool) — equal size ──────────────────── */
+.sa-draggable {
+  width: 148px;          /* fixed equal width */
+  height: 52px;          /* fixed equal height */
+  flex: 0 0 148px;       /* don't grow or shrink */
+  padding: 0 12px;
+  border-radius: 14px;
+  border: none;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3a3060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+  border: 2px solid rgba(0, 0, 0, 0.50);
+  box-shadow: 0 3px 0px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  transition: transform 0.1s;
+  text-align: center;
+}
+.sa-draggable:active {
+  cursor: grabbing;
+  transform: scale(0.97);
+}
+
+/* ── Periksa Button ─────────────────────────────────────── */
+.sa-periksa-btn {
+  padding: 10px 28px;
+  border-radius: 30px;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: #f5a623;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 0px #c47e0a;
+  transition: transform 0.1s, filter 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sa-periksa-btn:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+.sa-periksa-btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+.sa-periksa-btn:disabled:not(.correct) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.sa-periksa-btn.correct {
+  background-color: #4a9e6b;
+  box-shadow: 0 4px 0px #2e6b45;
+}

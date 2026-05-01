@@ -1,0 +1,255 @@
+.quiz-detail-page {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 32px 24px;
+  background-color: #fdf5e6; /* Soft yellow/beige matching design */
+  box-sizing: border-box;
+  font-family: 'Fredoka One', sans-serif;
+  padding-bottom: 150px;
+}
+
+/* Header */
+.quiz-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.quiz-back-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2.5px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quiz-back-btn:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.quiz-detail-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 2.2rem;
+  color: #8c603b;
+  margin: 0;
+  text-align: center;
+}
+
+/* Notification Banner */
+.quiz-notif-banner {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px 20px;
+  max-width: 800px;
+  margin: 0 auto 30px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  gap: 16px;
+}
+
+.quiz-notif-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffbc0d;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.quiz-notif-text {
+  font-weight: 500;
+  color: #856f61; /* Soft brown/grey */
+  font-size: 1.1rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Topics Container */
+.quiz-topics-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Topic Card */
+.quiz-topic-card {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 20px;
+  border: 3.5px solid #5a5a5a;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.quiz-topic-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.quiz-topic-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.quiz-topic-info h3 {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.4rem;
+  color: #1a1a1a;
+  margin: 0 0 4px 0;
+}
+
+.quiz-topic-info p {
+  color: #929292;
+  font-weight: 600;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Stars */
+.quiz-topic-stars-container {
+  position: relative;
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+.quiz-topic-line {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  border-top: 2px dashed #b9b9b9;
+  z-index: 1;
+}
+
+.quiz-topic-stars {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 4%;
+}
+
+.quiz-star-wrapper {
+  background-color: #ffffff; /* hide the line behind star */
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.3s ease;
+  z-index: 2; /* ensure it stays above the line */
+}
+
+.quiz-star-wrapper.star-empty svg {
+  filter: none;
+}
+
+.quiz-star-wrapper.star-filled svg {
+  filter: drop-shadow(0 0 6px rgba(255, 204, 0, 0.6)); /* Yellow glowing effect matched explicitly onto valid vectors */
+}
+
+/* Level Items */
+.quiz-topic-levels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-level-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 2px solid;
+  transition: transform 0.15s ease;
+}
+
+/* Unlocked (Playable) */
+.quiz-level-item.unlocked {
+  background-color: #ffffff;
+  border-color: #5a5a5a;
+  cursor: pointer;
+}
+.quiz-level-item.unlocked:hover {
+  transform: scale(1.02);
+}
+.quiz-level-xp.unlocked {
+  color: #f7a027; /* orange */
+}
+
+/* Locked */
+.quiz-level-item.locked {
+  background-color: #dcdcdc;
+  border-color: #5a5a5a;
+  cursor: not-allowed;
+}
+.quiz-level-xp.locked {
+  color: #f7a027; /* retains orange per mockup */
+}
+
+/* Completed */
+.quiz-level-item.completed {
+  background-color: #e6f7e6; /* light green */
+  border-color: #40ba39; /* dark green */
+}
+.quiz-level-icon-wrapper.completed {
+  background-color: #40ba39;
+  border-radius: 6px;
+  padding: 4px;
+  display: flex;
+}
+.quiz-level-xp.completed {
+  color: #f7a027; 
+}
+
+/* General level classes */
+.quiz-level-label {
+  flex: 1;
+  margin-left: 14px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #2f2f2f;
+}
+.quiz-level-xp {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Mascot floating at bottom right */
+.quiz-mascot {
+  position: fixed;
+  bottom: -20px;
+  right: 10px;
+  width: clamp(140px, 15vw, 220px);
+  z-index: 100;
+  pointer-events: none;
+}

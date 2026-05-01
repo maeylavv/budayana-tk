@@ -1,0 +1,98 @@
+/* MapUI.css */
+
+/* Island clickable images */
+.island {
+  position: absolute;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  z-index: 2;
+}
+
+.island:hover {
+  transform: scale(1.12);
+  z-index: 3;
+}
+
+/* Base positions (optimized for ~1366-1440px width) */
+.island.sumatra {
+  width: 290px;
+}
+.island.jawa {
+  width: 330px;
+}
+.island.kalimantan {
+  width: 290px;
+}
+.island.sulawesi {
+  width: 200px;
+}
+.island.bali {
+  width: 110px;
+}
+.island.maluku {
+  width: 140px;
+}
+
+/* Background Assets */
+.backgroundassets {
+  position: relative;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.wave {
+  position: absolute;
+  opacity: 0.8;
+}
+
+.wave1 { top: 0px; left: 20%; }
+.wave2 { top: 450px; left: 30%; }
+.wave3 { top: 150px; left: 2%; }
+.wave4 { top: 550px; left: 60%; }
+.wave5 { top: 500px; right: 20%; }
+.wave6 { top: 60px; right: 35%; }
+.wave7 { top: 280px; left: 15%; }
+.wave8 { top: 380px; right: 30%; }
+.wave9 { top: 530px; left: 40%; }
+.wave10 { top: 550px; left: 10%; }
+.wave11 { top: 410px; left: 3%; }
+
+/* Whale */
+.paus {
+  position: absolute;
+  width: 120px;
+  top: 10px;
+  left: 35%;
+}
+
+/* Shark */
+.hiuk {
+  position: absolute;
+  width: 95px;
+  top: 100px;
+  right: 20%;
+}
+
+/* Mobile & Tablet Styles */
+@media (max-width: 1366px) {
+  .island.sumatra { width: 260px; }
+  .island.jawa { width: 300px; }
+  .island.kalimantan { width: 260px; }
+}
+
+@media (max-width: 1024px) {
+  .island.sumatra { left: 2%; }
+  .island.sulawesi { left: 55%; }
+  .island.maluku { left: 75%; }
+}
+
+@media (max-width: 768px) {
+  .island { position: absolute; }
+  .island.sumatra { width: 180px; top: 120px; left: 0; }
+  .island.jawa { width: 200px; top: 280px; left: 15%; }
+  .island.kalimantan { width: 180px; top: 80px; left: 35%; }
+  .island.sulawesi { width: 120px; top: 140px; left: 65%; }
+  .island.bali { width: 70px; top: 340px; left: 45%; }
+  .island.maluku { width: 90px; top: 160px; left: 80%; }
+  .paus, .hiuk { display: none; }
+}

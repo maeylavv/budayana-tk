@@ -1,0 +1,331 @@
+body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka One', sans-serif; background-color: #fdf5e6; }
+.page_landing { width: 100vw; position: relative; overflow-x: hidden; background-color: #fdf5e6; }
+
+/* Navbar */
+.lnd-navbar-container {
+    padding-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    z-index: 100;
+}
+.lnd-navbar {
+    width: 90%;
+    max-width: 1100px;
+    border: 3px solid #955C2E;
+    border-radius: 50px;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+}
+.lnd-logo { height: 26px; cursor: pointer; margin-left: 10px; }
+.lnd-links { display: flex; gap: 40px; }
+.lnd-links button {
+    background: none;
+    border: none;
+    font-family: 'Fredoka One', sans-serif;
+    color: #955C2E;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.lnd-masuk-btn {
+    background-color: #955C2E;
+    color: #fff;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 30px;
+    font-family: 'Fredoka One', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Hero */
+.lnd-hero {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-top: 15% !important;
+    gap: 20%;
+    padding: 140px 5% 0;
+}
+.lnd-hero-mascots {
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+    z-index: 2;
+    margin-bottom: -5%; /* Stand on ground wave */
+}
+.lnd-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    padding-bottom: 80px;
+}
+.lnd-banner { width: 420px; margin-bottom: 20px; }
+.lnd-hero-sub {
+    font-family: 'Fredoka One', sans-serif;
+    color: #955C2E;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    text-align: center;
+    margin: 5px 0 30px 0;
+}
+.lnd-daftar-btn {
+    background-color: #955C2E;
+    color: #ffffff;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 40px;
+    font-family: 'Fredoka One', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(149, 92, 46, 0.4);
+    transition: transform 0.2s;
+}
+.lnd-daftar-btn:hover { transform: scale(1.05); }
+
+/* Ground Wave */
+.lnd-ground-wave {
+    width: 100%;
+    margin-top: -6%;
+    position: relative;
+    z-index: 1;
+    display: block;
+}
+
+/* Tentang Kami */
+.lnd-about {
+    background-color: #fdf5e6;
+    padding: 50px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.lnd-title-brown {
+    font-family: 'Fredoka One', sans-serif;
+    color: #955C2E;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-align: center;
+}
+.lnd-about-content {
+    display: flex;
+    max-width: 900px;
+    align-items: center;
+    gap: 50px;
+}
+.lnd-about-img-circle {
+    background-color: #ffdd6b;
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+.lnd-about-img-circle img {
+    width: 75%;
+}
+.lnd-about-text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.lnd-about-text-content p {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Kuis Budaya Interaktif */
+.lnd-interaktif {
+    background-color: #5e7a41;
+    padding: 80px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    margin: 60px auto;
+    width: 95%;
+    max-width: 1300px;
+    box-sizing: border-box;
+}
+.lnd-title-white {
+    font-family: 'Fredoka One', sans-serif;
+    color: #fff;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+.lnd-subtitle-white {
+    font-family: 'Fredoka One', sans-serif;
+    color: #fff;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 50px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+.lnd-grid-islands {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    max-width: 900px;
+    margin-bottom: 50px;
+    width: 100%;
+}
+.lnd-island-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 24px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.lnd-island-card:hover { transform: translateY(-5px); }
+.lnd-island-card img {
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+.lnd-island-card span {
+    font-family: 'Fredoka One', sans-serif;
+    font-weight: 700;
+    color: #955C2E;
+    font-size: 1rem;
+    margin: 0;
+}
+.lnd-btn-jelajah {
+    background-color: #ffaa00;
+    color: #fff;
+    padding: 12px 35px;
+    border-radius: 30px;
+    font-family: 'Fredoka One', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 0px #d98a00;
+    transition: transform 0.1s;
+}
+.lnd-btn-jelajah:active { transform: translateY(3px); box-shadow: none; }
+
+/* Fitur Utama */
+.lnd-features {
+    padding: 40px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.lnd-subtitle-brown {
+    font-family: 'Fredoka One', sans-serif;
+    color: #955C2E;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: -20px;
+    margin-bottom: 60px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+.lnd-features-content {
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+}
+.lnd-feature-img {
+    width: 60%;
+    max-width: 600px;
+    z-index: 2;
+}
+.lnd-badak-float {
+    position: absolute;
+    right: -50px;
+    bottom: -30px;
+    width: 250px;
+    z-index: 1;
+}
+
+/* Footer & Waves */
+.lnd-wave-footer {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    margin-bottom: -1px;
+}
+.lnd-wave-footer svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 70px;
+}
+.lnd-kontak {
+    background-color: #5c4333;
+    padding: 40px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.lnd-kontak-sub {
+    font-family: 'Fredoka One', sans-serif;
+    color: #fff;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 400;
+}
+.lnd-contact-info {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+.lnd-contact-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #fff;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.lnd-contact-row img {
+    width: 30px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+    .lnd-navbar-container { display: none; }
+    .lnd-hero { flex-direction: column; padding-top: 80px !important; align-items: center; gap: 0; }
+    .lnd-hero-text { order: 1; padding-bottom: 30px; }
+    .lnd-hero-mascots { order: 2; width: 80%; margin-bottom: -5px; }
+    .lnd-ground-wave { margin-top: -1%; }
+    .lnd-grid-islands { grid-template-columns: repeat(2, 1fr); padding: 0 10px; }
+    .lnd-about-content { flex-direction: column; text-align: center; gap: 30px; }
+    .lnd-features-content { flex-direction: column; align-items: center; }
+    .lnd-feature-img { width: 95%; margin-bottom: 50px; }
+    .lnd-badak-float { position: relative; right: 0; bottom: 0; margin-top: -30px; width: 200px; }
+    .lnd-contact-info { flex-direction: column; gap: 20px; }
+    
+    .lnd-title-brown, .lnd-title-white { font-size: 2.2rem; }
+    .lnd-subtitle-white, .lnd-subtitle-brown { font-size: 1.1rem; }
+    .lnd-interaktif { padding: 40px 10px; margin: 30px auto; border-radius: 16px; }
+}

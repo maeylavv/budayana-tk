@@ -1,0 +1,146 @@
+/**
+ * TypeBox validation schemas for Stories domain
+ */
+import { t } from "elysia"
+import {
+  createPaginatedSchema,
+  PaginationQuerySchema,
+} from "../../lib/utils/schemas"
+
+// Enums
+export const StoryTypeEnum = t.Union([
+  t.Literal("STATIC"),
+  t.Literal("INTERACTIVE"),
+])
+export const SlideTypeEnum = t.Union([
+  t.Literal("COVER"),
+  t.Literal("CONTENT"),
+  t.Literal("IMAGE"),
+  t.Literal("GAME"),
+  t.Literal("ESSAY"),
+  t.Literal("ENDING"),
+])
+
+// Base Story schema
+export const StorySchema = t.Object({
+  id: t.String(),
+  islandId: t.String(),
+  title: t.String(),
+  subtitle: t.Nullable(t.String()),
+  coverImage: t.Nullable(t.String()),
+  backgroundImage: t.Nullable(t.String()),
+  storyType: StoryTypeEnum,
+  order: t.Number(),
+})
+
+// Static Slide schema
+export const StaticSlideSchema = t.Object({
+  id: t.String(),
+  storyId: t.String(),
+  slideNumber: t.Number(),
+  slideType: SlideTypeEnum,
+  contentText: t.Nullable(t.String()),
+  imageUrl: t.Nullable(t.String()),
+})
+
+// Answer Option schema (without isCorrect for security)
+export const AnswerOptionSchema = t.Object({
+  id: t.String(),
+  optionText: t.String(),
+})
+
+// Question schema for interactive slides
+export const QuestionSchema = t.Object({
+  id: t.String(),
+  questionText: t.String(),
+  questionType: t.String(),
+  xpValue: t.Number(),
+  metadata: t.Nullable(t.Any()),
+  answerOptions: t.Array(AnswerOptionSchema),
+})
+
+// Interactive Slide base schema (for create/update responses)
+export const InteractiveSlideBaseSchema = t.Object({
+  id: t.String(),
+  storyId: t.String(),
+  questionId: t.Nullable(t.String()),
+  slideNumber: t.Number(),
+  slideType: SlideTypeEnum,
+  imageUrl: t.Nullable(t.String()),
+  contentText: t.Nullable(t.String()),
+})
+
+// Interactive Slide schema with question (for GET story response)
+export const InteractiveSlideSchema = t.Object({
+  id: t.String(),
+  storyId: t.String(),
+  questionId: t.Nullable(t.String()),
+  slideNumber: t.Number(),
+  slideType: SlideTypeEnum,
+  imageUrl: t.Nullable(t.String()),
+  contentText: t.Nullable(t.String()),
+  question: t.Optional(t.Nullable(QuestionSchema)),
+})
+
+// Story with relations
+export const StoryWithSlidesSchema = t.Object({
+  ...StorySchema.properties,
+  staticSlides: t.Optional(t.Array(StaticSlideSchema)),
+  interactiveSlides: t.Optional(t.Array(InteractiveSlideSchema)),
+  _count: t.Optional(
+    t.Object({
+      questions: t.Number(),
+      storyAttempts: t.Number(),
+    })
+  ),
+})
+
+// Create Story input
+export const CreateStorySchema = t.Object({
+  islandId: t.String(),
+  title: t.String({ minLength: 1, maxLength: 200 }),
+  subtitle: t.Optional(t.String()),
+  coverImage: t.Optional(t.String()),
+  backgroundImage: t.Optional(t.String()),
+  storyType: StoryTypeEnum,
+})
+
+// Update Story input
+export const UpdateStorySchema = t.Partial(
+  t.Object({
+    title: t.String({ minLength: 1, maxLength: 200 }),
+    subtitle: t.String(),
+    coverImage: t.String(),
+    backgroundImage: t.String(),
+    storyType: StoryTypeEnum,
+  })
+)
+
+// Story list query params
+export const StoryQuerySchema = t.Composite([
+  PaginationQuerySchema,
+  t.Object({
+    islandId: t.Optional(t.String()),
+    storyType: t.Optional(StoryTypeEnum),
+  }),
+])
+
+// Create Static Slide input
+export const CreateStaticSlideSchema = t.Object({
+  slideNumber: t.Number({ minimum: 0 }),
+  slideType: SlideTypeEnum,
+  contentText: t.Optional(t.String()),
+  imageUrl: t.Optional(t.String()),
+})
+
+// Create Interactive Slide input
+export const CreateInteractiveSlideSchema = t.Object({
+  questionId: t.Optional(t.String()),
+  slideNumber: t.Number({ minimum: 0 }),
+  slideType: SlideTypeEnum,
+  imageUrl: t.Optional(t.String()),
+  contentText: t.Optional(t.String()),
+})
+
+// Paginated response
+export const PaginatedStoriesSchema = createPaginatedSchema(StorySchema)

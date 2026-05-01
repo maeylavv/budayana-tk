@@ -1,0 +1,778 @@
+.gameplay-page {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 32px 24px;
+  background-color: #fdf5e6;
+  box-sizing: border-box;
+  font-family: 'Fredoka One', sans-serif;
+  color: #5a5a5a;
+}
+
+/* Header Tracker */
+.gameplay-header-container {
+  margin-bottom: 20px;
+}
+
+.gameplay-level-subtitle {
+  text-align: center;
+  font-family: 'Fredoka One', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #a3a3a3;
+  margin-bottom: 20px;
+}
+
+.gameplay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tracker-timeline {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 600px;
+  margin: 0 40px;
+}
+
+.timeline-line {
+  flex: 1;
+  height: 2px;
+  background-color: #000;
+}
+
+.timeline-node-wrapper {
+  position: relative;
+}
+
+.timeline-node {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background-color: #e5e7eb;
+  color: #fff;
+  border: 3px solid transparent;
+  /* default */
+}
+
+.timeline-node.completed {
+  background-color: #cbeebd;
+  border: 3px solid #40ba39;
+  color: #40ba39;
+}
+
+.timeline-node.active {
+  background-color: #d1d5db;
+  /* A bit darker gray or maybe distinct */
+  border-color: transparent;
+}
+
+/* Hearts Display */
+.hearts-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #ef4444;
+  /* red */
+  font-family: 'Fredoka One', sans-serif;
+}
+
+
+/* Literacy View */
+.gameplay-literacy-view {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.literacy-image-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #d3f0cb;
+  /* soft green placeholder space */
+  border: 4px solid #333333;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.literacy-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.literacy-text-container {
+  width: 100%;
+  background-color: #e6f6fa;
+  /* light cyan */
+  border: 4px solid #333333;
+  border-radius: 20px;
+  padding: 30px 40px;
+  box-sizing: border-box;
+}
+
+.literacy-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #3b3b3b;
+  text-align: center;
+  font-weight: 600;
+  margin: 0;
+  white-space: pre-line; /* Essential to cleanly format spaced paragraph mapping locally! */
+}
+
+.literacy-action {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+/* General Buttons */
+.quiz-action-btn {
+  padding: 16px 40px;
+  border-radius: 20px;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, filter 0.2s;
+  box-shadow: 0 4px 0px rgba(0, 0, 0, 0.15);
+  /* classic game button 3D effect */
+}
+
+.quiz-action-btn:hover {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.15);
+}
+
+.quiz-action-btn.primary {
+  background-color: #ffaa00;
+  /* standard orange */
+  color: #fff;
+  font-weight: bold;
+  border: 3px solid #d99100;
+}
+
+.quiz-action-btn.secondary {
+  background-color: #fff;
+  color: #0b809a;
+  border: 3px solid #0b809a;
+}
+
+.quiz-action-btn.error-btn {
+  background-color: #ff8b6b;
+  /* salmon/orange for try again */
+  color: #fff;
+  border: 3px solid #d67156;
+}
+
+
+/* Question View */
+.gameplay-question-view {
+  max-width: 680px;
+  margin: 0 auto;
+  background-color: #c4effc;
+  border-radius: 20px;
+  border: 4px solid #5a5a5a;
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Lavender variant for all Level 3 questions */
+.gameplay-question-view.level-3 {
+  background-color: #ddd5f5;
+  border-color: #6e5eaa;
+  align-items: stretch;
+  /* Compact overrides for level 3 only */
+  max-width: 900px;
+  padding: 24px 24px;
+}
+
+/* Green variant for all Level 2 questions */
+.gameplay-question-view.level-2 {
+  background-color: #D7FFDD;
+  border-color: #3aaa54;
+  align-items: stretch;
+}
+
+/* Center the mascot+bubble in level 2 and level 3 cards */
+.gameplay-question-view.level-2 .question-character-bubble,
+.gameplay-question-view.level-3 .question-character-bubble {
+  justify-content: center;
+  align-self: center;
+}
+
+.question-character-bubble {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+/* Level 3 compact: tighter bubble spacing */
+.gameplay-question-view.level-3 .question-character-bubble {
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.mascot-img {
+  width: 130px;
+  height: auto;
+}
+
+/* Level 3 compact mascot */
+.gameplay-question-view.level-3 .mascot-img {
+  width: 100px;
+}
+
+.speech-bubble {
+  background: #fff;
+  border: 4px solid #5a5a5a;
+  border-radius: 18px;
+  padding: 18px 20px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #3b3b3b;
+  position: relative;
+  max-width: 400px;
+}
+
+/* Level 3 compact bubble */
+.gameplay-question-view.level-3 .speech-bubble {
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-size: 1.05rem;
+}
+
+/* Speech bubble pointer */
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-style: solid;
+  border-width: 15px 25px 15px 0;
+  border-color: transparent #5a5a5a transparent transparent;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  left: -17px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-style: solid;
+  border-width: 12px 20px 12px 0;
+  border-color: transparent #ffffff transparent transparent;
+}
+
+.question-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Level 3 compact options gap */
+.gameplay-question-view.level-3 .question-options {
+  gap: 10px;
+}
+
+.question-options.picture-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 4px solid #5a5a5a;
+  border-radius: 12px;
+  padding: 13px 16px;
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+/* Level 3 compact option btn */
+.gameplay-question-view.level-3 .option-btn {
+  padding: 10px 14px;
+}
+
+.option-btn.correct-option {
+  background-color: #B5E878; /* bright lime green like the design reference */
+  border-color: #5faa1e;
+  border-width: 4px;
+  color: #2a5c00;
+}
+.option-btn.correct-option .option-label {
+  background-color: #5faa1e;
+}
+.option-btn.correct-option .option-text {
+  color: #2a5c00;
+  font-weight: 700;
+}
+
+.option-btn.wrong-option {
+  background-color: #E9645F;
+  border-color: #C0392B;
+  color: #fff;
+}
+.option-btn.wrong-option .option-text {
+  color: #fff;
+}
+
+.option-btn.picture-btn {
+  flex-direction: column;
+  padding: 24px;
+  justify-content: center;
+  align-items: center;
+  min-height: 180px;
+}
+
+.option-img {
+  width: 120px;
+  height: 110px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+/* Emoji icon for picture_selection cards */
+.option-emoji {
+  font-size: 3.8rem;
+  line-height: 1;
+  margin-bottom: 8px;
+  display: block;
+  min-height: 0; /* no reserved space — only visible when emoji actually exists */
+}
+
+.option-icon-label {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4a4a4a;
+  text-align: center;
+  line-height: 1.3;
+  margin-top: 4px;
+}
+
+/* Hover: only subtle scale, no color change */
+.option-btn:hover:not(.correct-option):not(.wrong-option) {
+  transform: scale(1.02);
+}
+
+.option-label {
+  background-color: #1b8599;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.1rem;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+/* Level 3 compact label */
+.gameplay-question-view.level-3 .option-label {
+  width: 32px;
+  height: 32px;
+  font-size: 1.05rem;
+  margin-right: 14px;
+}
+
+.option-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4a4a4a;
+  text-align: left;
+}
+
+/* Level 3 compact option text */
+.gameplay-question-view.level-3 .option-text {
+  font-size: 1rem;
+}
+
+
+/* Bottom Navigation Actions */
+.quiz-nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 28px;
+}
+
+/* Level 3 compact nav */
+.gameplay-question-view.level-3 .quiz-nav-buttons {
+  margin-top: 20px;
+}
+
+.quiz-nav-btn {
+  padding: 11px 22px;
+  border-radius: 16px;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 4px solid #5a5a5a;
+  transition: transform 0.1s, opacity 0.2s;
+  background-color: #fff;
+  color: #3b3b3b;
+}
+
+/* Level 3 compact nav btn */
+.gameplay-question-view.level-3 .quiz-nav-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.quiz-nav-btn.next-btn {
+  background-color: #ffaa00; /* standard orange */
+  color: #fff;
+  border: 4px solid #d99100;
+  box-shadow: 0 4px 0px #d99100;
+}
+
+.quiz-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.quiz-nav-btn:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+
+/* Feedback Overlays */
+.wrong-feedback-card {
+  background-color: #fdf5e6;
+  border-radius: 24px;
+  border: none;
+  padding: 60px 56px 46px;
+  text-align: center;
+  max-width: 460px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  position: relative;
+  margin-top: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrong-mascot-img {
+  position: absolute;
+  top: -110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: auto;
+  object-fit: contain;
+}
+
+.feedback-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2d6a75;
+  margin: 55px 0 20px;
+  line-height: 1.4;
+}
+
+.btn-retry-pill {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 40px;
+  background-color: #f08543;
+  color: #fff;
+  border: none;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.2s;
+  box-shadow: 0 4px 0px #c4622a;
+}
+.btn-retry-pill:hover {
+  filter: brightness(1.05);
+}
+.btn-retry-pill:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+/* Quit confirmation popup */
+.quit-feedback-card {
+  background-color: #fdf5e6;
+  border-radius: 24px;
+  border: none;
+  padding: 40px 36px 36px;
+  text-align: center;
+  max-width: 460px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  position: relative;
+  margin-top: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.quit-mascot-img {
+  position: absolute;
+  top: -90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: auto;
+  object-fit: contain;
+}
+
+.quit-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2d6a75;
+  margin: 98px 0 24px;
+  line-height: 1.5;
+}
+
+.btn-continue-pill {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 40px;
+  background-color: #f08543;
+  color: #fff;
+  border: none;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+  box-shadow: 0 4px 0px #c4622a;
+  margin-bottom: 16px;
+}
+.btn-continue-pill:hover { filter: brightness(1.05); }
+.btn-continue-pill:active { transform: translateY(3px); box-shadow: none; }
+
+.btn-quit-link {
+  background: none;
+  border: none;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #e05c2a;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 4px 0;
+}
+.btn-quit-link:hover { text-decoration: underline; }
+
+
+/* Success Block Redesign */
+.popup-overlay.success {
+  background-color: rgba(253, 245, 230, 0.95);
+}
+
+.success-feedback-card {
+  background-color: #fdf5e6;
+  border: 4px solid #51423c;
+  border-radius: 30px;
+  padding: 40px 30px 30px 30px;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  display: flex;
+  margin-top: 120px; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.mascot-img-success {
+  position: absolute;
+  top: -110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+}
+
+.success-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-weight: 800; /* was 700, bump to 800 */
+  font-size: 2.2rem;
+  color: #51423c;
+  margin: 40px 0 5px 0;
+}
+
+.success-subtitle {
+  font-size: 1rem;
+  color: #8c8c8c;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.success-stats {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  justify-content: center;
+  width: 100%;
+}
+
+.stat-box {
+  flex: 1;
+  min-width: 0;
+  padding: 15px 10px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.xp-box {
+  background-color: #ffefcd;
+  border: 3px solid #ffbe1a;
+}
+.xp-box h2 {
+  color: #ffa500;
+  font-family: 'Fredoka One', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  margin: 0 0 5px 0;
+}
+.xp-box p {
+  color: #a4a4a4;
+  font-weight: 700;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.time-box {
+  background-color: #e2f4f8;
+  border: 3px solid #23a0ba;
+}
+.time-box h2 {
+  color: #23a0ba;
+  font-family: 'Fredoka One', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  margin: 0 0 5px 0;
+}
+.time-box p {
+  color: #a4a4a4;
+  font-weight: 700;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.score-box {
+  background-color: #fde8f4;
+  border: 3px solid #e05fa3;
+}
+.score-box h2 {
+  color: #e05fa3;
+  font-family: 'Fredoka One', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  margin: 0 0 5px 0;
+}
+.score-box p {
+  color: #a4a4a4;
+  font-weight: 700;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 300px;
+  align-items: center;
+}
+
+.btn-pill-primary, .btn-pill-secondary {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 40px;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.btn-pill-primary {
+  background-color: #ffaa00;
+  color: #fff;
+  border: none;
+  box-shadow: 0 5px 0px #d99100;
+}
+.btn-pill-primary:active {
+  transform: translateY(5px);
+  box-shadow: none;
+}
+
+.btn-pill-secondary {
+  background-color: transparent;
+  color: #23a0ba;
+  border: 3px solid #23a0ba;
+  box-shadow: none;
+}
+.btn-pill-secondary:hover {
+  background-color: #e2f4f8;
+}
+
+
+@media (max-width: 768px) {
+  .question-character-bubble {
+    flex-direction: column;
+  }
+
+  .speech-bubble::before,
+  .speech-bubble::after {
+    display: none;
+    /* remove pointer on mobile due to stacking */
+  }
+
+  .success-stats {
+    flex-direction: column;
+    align-items: center;
+  }
+}

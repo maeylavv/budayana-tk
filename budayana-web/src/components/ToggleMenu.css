@@ -1,0 +1,39 @@
+.toggle-menu-container {
+  display: inline-flex;
+  background-color: #d18d4d; /* Soft round background */
+  border-radius: 40px;
+  padding: 6px;
+  gap: 4px;
+}
+
+.toggle-menu-btn {
+  background: transparent;
+  color: white;
+  border-radius: 35px;
+  padding: 12px 24px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.toggle-menu-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.toggle-menu-btn.active {
+  background-color: #ffffff;
+  color: #c06518; /* Active dark text */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+  .toggle-menu-btn {
+    padding: 8px 16px;
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,115 @@
+.or-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: 'Fredoka One', sans-serif;
+}
+
+.or-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.mt-10 {
+  margin-top: 30px;
+}
+
+.or-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.15rem;
+  color: #51423c;
+  margin: 0 0 15px 0;
+  text-align: left;
+}
+
+.or-opinions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.or-reasons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.or-opinion-btn, .or-reason-btn {
+  padding: 16px;
+  background-color: #fff;
+  border: 3px solid #51423c;
+  border-radius: 12px;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #51423c;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 0px #cfcfcf;
+}
+.or-opinion-btn {
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.or-opinion-btn:hover, .or-reason-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0px #cfcfcf;
+}
+
+.or-opinion-btn:active, .or-reason-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0px #cfcfcf;
+}
+
+.or-opinion-btn.selected, .or-reason-btn.selected {
+  background-color: #FFF3B0; 
+  border-color: #51423c;
+  box-shadow: 0 4px 0px #ffaa00; 
+}
+
+.or-opinion-btn.correct, .or-reason-btn.correct {
+  background-color: #7BC142 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 0px #588e2d !important;
+  border-color: #3b661a;
+}
+
+.or-opinion-btn.wrong, .or-reason-btn.wrong {
+  background-color: #E9645F !important;
+  color: #fff !important;
+  box-shadow: 0 4px 0px #b53e3a !important;
+  border-color: #72201d;
+}
+
+.or-actions {
+  display: flex;
+  justify-content: flex-end; 
+  margin-top: 30px;
+}
+
+.or-periksa-btn {
+  padding: 14px 40px;
+  border-radius: 30px;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: #ffaa00;
+  border: 4px solid #51423c;
+  cursor: pointer;
+  box-shadow: 0 4px 0px #51423c;
+  transition: transform 0.1s, background-color 0.2s;
+  margin: 0 auto;
+}
+.or-periksa-btn:hover {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0px #51423c;
+}
+.or-periksa-btn.correct {
+  background-color: #40ba39;
+}
+.or-periksa-btn.wrong {
+  background-color: #E9645F;
+}

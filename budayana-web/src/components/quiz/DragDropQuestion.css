@@ -1,0 +1,213 @@
+/* src/components/quiz/DragDropQuestion.css */
+.dnd-container {
+  width: 100%;
+  margin-top: 20px;
+  font-family: 'Fredoka One', sans-serif;
+}
+
+.dnd-boards {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.dnd-left-board {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dnd-right-board {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dnd-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.1rem;
+  color: #51423c;
+  margin: 0 0 15px 0;
+}
+
+.dnd-pool {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-height: 200px;
+}
+
+.dnd-draggable {
+  height: 64px; /* Force identically mapped row metrics */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 3px solid #51423c;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  cursor: grab;
+  user-select: none;
+  box-shadow: 0 4px 0px #cfcfcf;
+}
+
+/* Card variant — shown when draggable has an image */
+.dnd-draggable--card {
+  height: 120px;
+  flex-direction: column;
+  padding: 8px 12px 10px;
+  gap: 6px;
+}
+
+.dnd-card-img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.dnd-card-label {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: inherit;
+  text-align: center;
+  line-height: 1.2;
+}
+.dnd-draggable:active {
+  cursor: grabbing;
+}
+.dnd-draggable.placed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  border-radius: 0; /* Inherits the smooth mask from the parent's overflow! */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.dnd-zones {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.dnd-zone-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 64px;
+  box-sizing: border-box;
+}
+
+.dnd-drop-zone {
+  flex: 2;
+  height: 64px;
+  min-height: 64px;
+  border: 4px dashed #a4a4a4;
+  border-radius: 12px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.2s, background-color 0.2s;
+  box-sizing: border-box;
+}
+
+/* In card mode: full-width zone, same height as draggable card */
+.dnd-drop-zone--card {
+  flex: 1;
+  height: 120px;
+  min-height: 120px;
+  width: 100%;
+}
+
+/* In card mode: stack zone and label vertically */
+.dnd-zone-wrapper--card {
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: unset;
+  gap: 8px;
+}
+
+.dnd-placeholder {
+  color: #a4a4a4;
+  font-style: italic;
+  font-size: 1rem;
+  font-family: 'Fredoka One', sans-serif;
+}
+
+.dnd-zone-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #51423c;
+  flex: 1; /* Stretch remaining 1/3 conservatively to the right */
+  text-align: left; 
+  line-height: 1.3;
+  font-family: 'Fredoka One', sans-serif;
+}
+
+.dnd-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.dnd-periksa-btn {
+  padding: 14px 40px;
+  border-radius: 30px;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: #ffaa00;
+  border: 4px solid #51423c;
+  cursor: pointer;
+  box-shadow: 0 4px 0px #51423c;
+  transition: transform 0.1s, background-color 0.2s;
+}
+.dnd-periksa-btn:hover {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0px #51423c;
+}
+.dnd-periksa-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.dnd-periksa-btn.correct {
+  background-color: #40ba39;
+  opacity: 1;
+  cursor: default;
+  box-shadow: 0 4px 0px #51423c;
+}
+.dnd-periksa-btn.wrong {
+  background-color: #E9645F;
+  opacity: 1;
+  cursor: default;
+  box-shadow: 0 4px 0px #51423c;
+}
+
+@media (max-width: 768px) {
+  .dnd-boards {
+    flex-direction: column;
+  }
+}
