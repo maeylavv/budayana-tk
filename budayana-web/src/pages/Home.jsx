@@ -2,16 +2,11 @@ import { useState, useMemo, useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import "./Home.css"
 import { Check } from 'lucide-react'
-import {
-  useAttempts,
-  getStoryUnlockStatus,
-} from "../hooks/useAttempts"
-import { useMyProgress, useIslandCycles } from "../hooks/useProgress"
+import { useAttempts } from "../hooks/useAttempts"
 import { useIsland } from "../hooks/useIslands"
 import { islands as staticIslands } from "../data/islands"
 
 // Components
-import ToggleMenu from "../components/ToggleMenu"
 import MapUI from "../components/MapUI"
 
 // Helper to see if we need special slug handling
@@ -39,12 +34,11 @@ function StageCard({ stage, status, index, onClick, attempts }) {
   const isLocked = status === "locked"
   const isCompleted = status === "completed"
 
-  /* Logic for Label and Value */
+  /* Logic for XP Label */
   const { label, value } = useMemo(() => {
     if (!attempts || !stage.id) return { label: null, value: null }
 
     // Find latest finished attempt for this stage
-    // attempts is likely an array of objects
     const stageAttempts = attempts.filter(
       (a) => (a.storyId === stage.id || a.story?.id === stage.id) && a.finishedAt
     )
@@ -55,35 +49,15 @@ function StageCard({ stage, status, index, onClick, attempts }) {
       (a, b) => new Date(b.finishedAt) - new Date(a.finishedAt)
     )[0]
 
-    const lowerTitle = stage.title.toLowerCase()
-    const isTest = lowerTitle.includes("pre-test") || lowerTitle.includes("post-test")
+    // Show XP for all stages
+    let xp = latest.totalXpGained
+    if (!xp && (stage.apiStageType === "STATIC" || !stage.apiStageType)) {
+      xp = 100
+    }
 
-    if (isTest) {
-      // Test: Show Score
-      const score = lowerTitle.includes("pre")
-        ? latest.preTestScore
-        : latest.postTestScore
-
-      return {
-        label: "Nilai Terakhir",
-        value: score !== undefined && score !== null ? Math.round(score) : null
-      }
-    } else {
-      // Story/Game: Show XP
-      // If Static (no calculation), default to 100
-      // Check if it's static via API type or known static islands
-      let xp = latest.totalXpGained
-
-      // Fallback for Static Stories (e.g. Jawa/Papua) that might have 0 XP recorded
-      // Assuming if it's finished and XP is 0/null, it's 100 for static content
-      if (!xp && (stage.apiStageType === "STATIC" || !stage.apiStageType)) {
-        xp = 100
-      }
-
-      return {
-        label: "XP Terakhir",
-        value: xp !== undefined && xp !== null ? xp : 0
-      }
+    return {
+      label: "XP Terakhir",
+      value: xp !== undefined && xp !== null ? xp : 0
     }
   }, [attempts, stage])
 
@@ -138,37 +112,15 @@ export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeIsland, setActiveIsland] = useState(null)
 
-  // Fetch user's progress from API
-  const { data: progressData, isLoading: isProgressLoading } = useMyProgress()
-
-  // Use API progress data merged with static config
+  // In Kids version — all islands are always unlocked
   const allIslands = useMemo(() => {
-    // Create a map of progress items for easier lookup
-    const progressMap = new Map()
-    if (progressData && progressData.items) {
-      progressData.items.forEach((item) => {
-        if (item.island && item.island.islandName) {
-          const slug = getIslandSlug(item.island.islandName)
-          progressMap.set(slug, item)
-        }
-      })
-    }
-
-    // Merge static islands with progress data
-    return staticIslands.map((staticIsland) => {
-      const progressItem = progressMap.get(staticIsland.slug)
-
-      return {
-        ...staticIsland, // includes id, slug, name, etc.
-        // If progress exists, use it. Else use static defaults.
-        isUnlocked: progressItem
-          ? progressItem.isUnlocked
-          : !staticIsland.isLockedDefault,
-        isCompleted: progressItem ? progressItem.isCompleted : false,
-        apiIslandId: progressItem ? progressItem.islandId : null,
-      }
-    })
-  }, [progressData])
+    return staticIslands.map((staticIsland) => ({
+      ...staticIsland,
+      isUnlocked: true,   // Always unlocked in Kids version
+      isCompleted: false, // Completion tracked per-session via attempts
+      apiIslandId: null,  // Will be resolved when popup opens
+    }))
+  }, [])
 
   // Auto-open island popup from URL param (only on initial load)
   useEffect(() => {
@@ -178,11 +130,9 @@ export default function Home() {
         (i) => i.slug === islandParam || i.id === islandParam
       )
       if (matchedIsland) {
-        // Use setTimeout to avoid synchronous setState in effect warning
         setTimeout(() => setActiveIsland(matchedIsland), 0)
       }
     }
-    // Only run when allIslands changes (i.e., on initial data load)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allIslands])
 
@@ -197,59 +147,25 @@ export default function Home() {
     setSearchParams({}, { replace: true })
   }
 
-  // attempts and completed stages logic moved to IslandPopup
-
   const goToProfile = () => navigate("/profile")
-
-  // const handleStageClick = (stage, status) => {
-  //   if (status === "locked") return
-  //   navigate(stage.route)
-  // }
 
   return (
     <div className='page home-page'>
       {/* HEADER */}
       <div className='header'>
         <div style={{ zIndex: 10 }}>
-          <ToggleMenu />
+          {/* ToggleMenu removed — Kids version has no Quiz Kultur */}
+          <div className='kids-mode-badge'>🏫 Cerita Rakyat</div>
         </div>
 
         <div className='gameName'>
           <img src='/assets/budayana/islands/Game Name.png' alt='Budayana' />
         </div>
 
-        <div className='completedStories'>
-          <h1>Tahap Selesai: {progressData?.completedStory}</h1>
-        </div>
-
         <div className='profile' onClick={goToProfile}>
           <img src='/assets/budayana/islands/Profile.png' alt='Profil' />
         </div>
       </div>
-
-      {/* Loading indicator */}
-      {isProgressLoading && (
-        <div
-          style={{
-            position: "absolute",
-            top: "100px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 100,
-          }}
-        >
-          <span
-            style={{
-              color: "#fff",
-              background: "rgba(0,0,0,0.5)",
-              padding: "8px 16px",
-              borderRadius: "8px",
-            }}
-          >
-            Memuat progress...
-          </span>
-        </div>
-      )}
 
       {/* MAP ISLANDS */}
       <MapUI allIslands={allIslands} onIslandClick={handleOpenIsland} />
@@ -270,62 +186,22 @@ function IslandPopup({ activeIsland, onClose }) {
   )
 
   // Fetch attempts for this island
-  // Use API ID from progress if available, otherwise from island details
   const { data: attempts } = useAttempts(
-    activeIsland.apiIslandId || islandDetails?.id
+    islandDetails?.id
   )
 
-  // Fetch cycle count for this island
-  const { data: _cyclesData } = useIslandCycles(activeIsland.apiIslandId)
-
-  const handleStageClick = (stage, status) => {
-    if (status === "locked") return
-
-    let finalRoute = stage.route
-
-    // If resuming, try to find last read page from localStorage
-    if (status === "resume") {
-      try {
-        const storageKey = `budayana_story_${stage.id}_pagesRead`
-        const savedPages = localStorage.getItem(storageKey)
-
-        if (savedPages) {
-          const pages = JSON.parse(savedPages)
-          if (Array.isArray(pages) && pages.length > 0) {
-            const lastPage = Math.max(...pages)
-            finalRoute = `${finalRoute}?page=${lastPage}`
-          }
-        }
-      } catch (e) {
-        console.warn("Failed to retrieve resume position", e)
-      }
-    }
-
-    navigate(finalRoute)
+  const handleStageClick = (stage) => {
+    navigate(stage.route)
   }
 
   // Helper to map API stories to stage cards
+  // Kids version: ALL stories route to GamePage regardless of storyType
   const getDynamicStages = (stories, islandSlug) => {
     if (!stories) return []
 
     return stories.map((story, index) => {
-      // Determine route based on story type or title keyword
-      let route = ""
-      const lowerTitle = story.title.toLowerCase()
-
-      if (lowerTitle.includes("pre-test")) {
-        route = `/islands/${islandSlug}/story/${story.id}/pre-test`
-      } else if (lowerTitle.includes("post-test")) {
-        route = `/islands/${islandSlug}/story/${story.id}/post-test`
-      } else {
-        // Use storyType from API to determine route
-        // STATIC stories use flipbook, INTERACTIVE stories use game page
-        if (story.storyType === "STATIC") {
-          route = `/islands/${islandSlug}/story/${story.id}`
-        } else {
-          route = `/islands/${islandSlug}/story/${story.id}/game`
-        }
-      }
+      // All stories go to the GamePage (gamification format)
+      const route = `/islands/${islandSlug}/story/${story.id}/game`
 
       return {
         id: story.id,
@@ -346,111 +222,78 @@ function IslandPopup({ activeIsland, onClose }) {
     )
   }, [islandDetails, activeIsland])
 
-  // Calculate story unlock status based on attempts with finishedAt
-  // A story is unlocked if the previous story (lower order) has been finished
-  // Note: attempts API returns { items: [...], nextCursor, hasMore }
-  const storyUnlockStatus = useMemo(() => {
-    if (!islandDetails?.stories) return {}
+  // Kids version: All stages always unlocked — no sequential gating
+  const getStageStatus = (stageId) => {
     const attemptItems = attempts?.items || []
-    return getStoryUnlockStatus(islandDetails.stories, attemptItems)
-  }, [islandDetails, attempts])
+    const isFinished = attemptItems.some(
+      (a) => String(a.storyId) === String(stageId) && a.finishedAt !== null
+    )
+    const isStarted = attemptItems.some(
+      (a) => String(a.storyId) === String(stageId)
+    )
 
-  // Helper to get stage status from the new unlock logic
-  const getStageStatusFromUnlock = (stageId) => {
-    const status = storyUnlockStatus[stageId]
-    if (!status) return "locked"
-    if (status.isFinished) return "completed"
-    if (status.isUnlocked) {
-      // If started but not finished, it's resume
-      if (status.isStarted) return "resume"
-      return "unlocked"
-    }
-    return "locked"
+    if (isFinished) return "completed"
+    if (isStarted) return "resume"
+    return "unlocked" // Always unlocked in Kids version
   }
 
-  // Count unlocked stages for progress dots (shows how far user has reached)
+  // Count completed stages for progress dots
   const completedCount = useMemo(() => {
-    return Object.values(storyUnlockStatus).filter((s) => s.isUnlocked).length
-  }, [storyUnlockStatus])
-
-  // Calculate total finished attempts for this island
-  const totalFinishedAttempts = useMemo(() => {
-    if (!attempts?.items) return 0
-    return attempts.items.filter((a) => a.finishedAt).length
-  }, [attempts])
+    const attemptItems = attempts?.items || []
+    return stages.filter((s) =>
+      attemptItems.some(
+        (a) => String(a.storyId) === String(s.id) && a.finishedAt !== null
+      )
+    ).length
+  }, [stages, attempts])
 
   const isLoading = isIslandLoading
 
   return (
     <div className='popup-overlay' onClick={onClose}>
       <div
-        className={`popup ${activeIsland.isUnlocked ? "popup-unlocked" : "popup-locked"
-          }`}
+        className='popup popup-unlocked'
         onClick={(e) => e.stopPropagation()}
       >
-        {activeIsland.isUnlocked ? (
-          <div className='unlockedpopup'>
-            {/* Close button */}
-            <button className='popup-close' onClick={onClose}>
-              <img
-                src='/assets/budayana/islands/close button.png'
-                className='close-button'
-                alt='close'
-              />
-            </button>
-
-            {/* Cycle Count */}
-            <div className='popup-cycle-count'>
-              Percobaan : {totalFinishedAttempts}
-            </div>
-
-            {/* Title */}
-            <h2 className='popup-title'>{activeIsland.name}</h2>
-            <ProgressDots
-              completed={completedCount}
-              total={stages.length || 3}
-            />
-
-            {/* Loading state */}
-            {isLoading && <div className='loading-text'>Memuat cerita...</div>}
-
-            {/* Stage Grid */}
-            {!isLoading && (
-              <div className='stage-grid'>
-                {stages.map((stage, index) => {
-                  const status = getStageStatusFromUnlock(stage.id)
-                  return (
-                    <StageCard
-                      key={stage.key}
-                      stage={stage}
-                      status={status}
-                      index={index}
-                      attempts={attempts?.items}
-                      onClick={() => handleStageClick(stage, status)}
-                    />
-                  )
-                })}
-              </div>
-            )}
-          </div>
-        ) : (
-          /* LOCKED POPUP */
-          <div className='lockedpopup'>
+        <div className='unlockedpopup'>
+          {/* Close button */}
+          <button className='popup-close' onClick={onClose}>
             <img
-              src='/assets/budayana/islands/bocah flip.png'
-              className='notif-kid'
-              alt='notif-kid'
+              src='/assets/budayana/islands/close button.png'
+              className='close-button'
+              alt='close'
             />
+          </button>
 
-            <p className='locked-msg'>
-              Maaf, cerita ini masih dalam proses pengembangan. Tunggu ya!
-            </p>
+          {/* Title */}
+          <h2 className='popup-title'>{activeIsland.name}</h2>
+          <ProgressDots
+            completed={completedCount}
+            total={stages.length || 1}
+          />
 
-            <button className='ok-btn' onClick={onClose}>
-              Oke!
-            </button>
-          </div>
-        )}
+          {/* Loading state */}
+          {isLoading && <div className='loading-text'>Memuat cerita...</div>}
+
+          {/* Stage Grid */}
+          {!isLoading && (
+            <div className='stage-grid'>
+              {stages.map((stage, index) => {
+                const status = getStageStatus(stage.id)
+                return (
+                  <StageCard
+                    key={stage.key}
+                    stage={stage}
+                    status={status}
+                    index={index}
+                    attempts={attempts?.items}
+                    onClick={() => handleStageClick(stage)}
+                  />
+                )
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

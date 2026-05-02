@@ -1207,3 +1207,48 @@
     left: auto;
   }
 }
+
+/* Kids mode label (replaces ToggleMenu) */
+.kids-mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff8e7;
+  border: 3px solid #955c2e;
+  color: #955c2e;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(149, 92, 46, 0.15);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Audio replay button — used in GamePage narration and question panels */
+.audio-replay-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid #2c2c2c;
+  border-radius: 30px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c2c2c;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.audio-replay-btn:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+.audio-replay-btn:active {
+  transform: scale(0.97);
+}

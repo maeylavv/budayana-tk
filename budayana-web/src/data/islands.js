@@ -1,6 +1,6 @@
 /**
- * Static island configuration
- * Each island has a unique slug used in routing
+ * Static island configuration — Kids Version
+ * All islands are unlocked by default (no locked state in classroom mode)
  */
 export const islands = [
   {
@@ -10,8 +10,7 @@ export const islands = [
     storyTitle: "Nenek Pakande",
     unlockOrder: 1,
     isLockedDefault: false,
-    stages: ["pre-test", "story", "game", "post-test"],
-    // Theme colors for pre-test (blue) and post-test (orange)
+    stages: ["story", "game"],
     theme: {
       preTest: {
         cardBg: "#c6d7d0",
@@ -34,7 +33,7 @@ export const islands = [
     storyTitle: "Malin Kundang",
     unlockOrder: 2,
     isLockedDefault: false,
-    stages: ["pre-test", "story", "game", "post-test"],
+    stages: ["story", "game"],
     theme: {
       preTest: {
         cardBg: "#c6d7d0",
@@ -57,7 +56,7 @@ export const islands = [
     storyTitle: "Roro Jonggrang",
     unlockOrder: 3,
     isLockedDefault: false,
-    stages: ["pre-test", "story", "game", "post-test"],
+    stages: ["story", "game"],
     theme: {
       preTest: {
         cardBg: "#c6d7d0",
@@ -80,7 +79,7 @@ export const islands = [
     storyTitle: "Biwar Penakluk Naga",
     unlockOrder: 4,
     isLockedDefault: false,
-    stages: ["pre-test", "story", "game", "post-test"],
+    stages: ["story", "game"],
     theme: {
       preTest: {
         cardBg: "#c6d7d0",
@@ -102,8 +101,8 @@ export const islands = [
     name: "Kalimantan",
     storyTitle: "Coming Soon",
     unlockOrder: 5,
-    isLockedDefault: true,
-    stages: ["pre-test", "story", "game", "post-test"],
+    isLockedDefault: false,
+    stages: ["story", "game"],
     theme: {
       preTest: {
         cardBg: "#c6d7d0",
@@ -125,8 +124,8 @@ export const islands = [
     name: "Maluku",
     storyTitle: "Coming Soon",
     unlockOrder: 6,
-    isLockedDefault: true,
-    stages: ["pre-test", "story", "game", "post-test"],
+    isLockedDefault: false,
+    stages: ["story", "game"],
     theme: {
       preTest: {
         cardBg: "#c6d7d0",
@@ -148,8 +147,8 @@ export const islands = [
     name: "Bali",
     storyTitle: "Coming Soon",
     unlockOrder: 7,
-    isLockedDefault: true,
-    stages: ["pre-test", "story", "game", "post-test"],
+    isLockedDefault: false,
+    stages: ["story", "game"],
     theme: {
       preTest: {
         cardBg: "#c6d7d0",
@@ -171,8 +170,8 @@ export const islands = [
     name: "Nusa Tenggara",
     storyTitle: "Coming Soon",
     unlockOrder: 8,
-    isLockedDefault: true,
-    stages: ["pre-test", "story", "game", "post-test"],
+    isLockedDefault: false,
+    stages: ["story", "game"],
     theme: {
       preTest: {
         cardBg: "#c6d7d0",
@@ -205,7 +204,7 @@ export const getIslandBySlug = (slug) => {
  * @returns {string|null}
  */
 export const getNextStage = (currentStage) => {
-  const stageOrder = ["pre-test", "story", "game", "post-test"]
+  const stageOrder = ["story", "game"]
   const currentIndex = stageOrder.indexOf(currentStage)
   if (currentIndex < stageOrder.length - 1) {
     return stageOrder[currentIndex + 1]

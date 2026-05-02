@@ -20,7 +20,6 @@ export default function Results() {
         )
         const results = await Promise.all(promises)
 
-
         const newMap = {}
         results.forEach((islandData) => {
           if (islandData && islandData.stories) {
@@ -34,7 +33,6 @@ export default function Results() {
         console.error("Failed to fetch island details for mapping", error)
       }
     }
-
 
     fetchAllIslands()
   }, [])
@@ -66,13 +64,11 @@ export default function Results() {
       return storyIslandMap[storyId]
     }
 
-
     // 1. Try to find by islandId in story
     if (attempt.story?.islandId) {
       const island = islands.find((i) => i.id === attempt.story.islandId)
       if (island) return island.name
     }
-
 
     // 2. Try to match story title to island configuration
     const title = attempt.story?.title || ""
@@ -81,53 +77,32 @@ export default function Results() {
     )
     if (islandByStory) return islandByStory.name
 
-
-    // 3. Last filtered fallback checking common names if title contains island name
+    // 3. Last filtered fallback
     const lowerTitle = title.toLowerCase()
     const islandByName = islands.find(i => lowerTitle.includes(i.name.toLowerCase()))
     if (islandByName) return islandByName.name
 
-
     return ""
   }
 
-
   const getDisplayTitle = (attempt) => {
     const rawTitle = attempt.story?.title || "Unknown Story"
-    const lowerTitle = rawTitle.toLowerCase()
 
-    // Debug log
-    console.log("Story data:", {
-      title: rawTitle,
-      island: attempt.story?.island,
-      storyId: attempt.storyId || attempt.story?.id
-    })
-
-    // Get island name from API data 
+    // Get island name from API data
     let islandName = ""
     if (attempt.story?.island?.islandName) {
       islandName = attempt.story.island.islandName
     } else {
-      // Fallback to map if island data not in attempt
       islandName = getIslandName(attempt)
     }
 
-    console.log("Final island name:", islandName) // Debug
-
     const suffix = islandName ? ` ${islandName}` : ""
 
-    if (lowerTitle.includes("pre-test")) {
-      return `Pre-Test${suffix}`
-    } else if (lowerTitle.includes("post-test")) {
-      return `Post-Test${suffix}`
-    } else {
-      if (islandName && lowerTitle.includes(islandName.toLowerCase())) {
-        return rawTitle
-      }
-      return `${rawTitle}${suffix}`
+    if (islandName && rawTitle.toLowerCase().includes(islandName.toLowerCase())) {
+      return rawTitle
     }
+    return `${rawTitle}${suffix}`
   }
-
 
 
   if (isLoading) {
@@ -144,7 +119,7 @@ export default function Results() {
       {/* Statistics Section */}
       <section>
         <h2 className='results-section-title'>Statistik</h2>
-        <div className='stats-grid'>
+        <div className='stats-grid stats-grid-kids'>
           <div className='stat-card green'>
             <div className='stat-value'>{stats?.storiesCompleted || 0}</div>
             <div className='stat-label'>Tahap Selesai</div>
@@ -152,26 +127,6 @@ export default function Results() {
           <div className='stat-card purple'>
             <div className='stat-value'>{stats?.totalXp || 0}</div>
             <div className='stat-label'>Total XP</div>
-          </div>
-          <div className='stat-card pink'>
-            <div className='stat-value'>
-              <p>
-                {stats?.averagePreTestScore !== undefined
-                  ? Math.round(stats.averagePreTestScore)
-                  : "0"}%
-              </p>
-            </div>
-            <div className='stat-label'>Rata-rata Pre Test</div>
-          </div>
-          <div className='stat-card orange'>
-            <div className='stat-value'>
-              <p>
-                {stats?.averagePostTestScore !== undefined
-                  ? Math.round(stats.averagePostTestScore)
-                  : "0"}%
-              </p>
-            </div>
-            <div className='stat-label'>Rata-rata Post Test</div>
           </div>
         </div>
       </section>
@@ -181,37 +136,23 @@ export default function Results() {
       <section>
         <h2 className='results-section-title'>Riwayat Skor</h2>
         <div className='history-table-container'>
-          <div className='history-header'>
+          <div className='history-header history-header-kids'>
             <div>Cerita</div>
-            <div>Pre-test</div>
-            <div>Post-test</div>
+            <div>Pulau</div>
             <div>XP</div>
             <div>Tanggal</div>
             <div>Waktu</div>
           </div>
           <div className='history-body'>
             {(() => {
-              // Filter attempts to show only valid completed ones
+              // Filter: only finished story/game attempts (no tests)
               const filteredAttempts = attempts.filter((attempt) => {
-                // Must be finished
                 if (!attempt.finishedAt) return false
-
-
                 const title = (attempt.story?.title || "").toLowerCase()
-
-
-                // For Pre-test, must have a score
-                if (title.includes("pre-test")) return attempt.preTestScore !== null
-
-
-                // For Post-test, must have a score
-                if (title.includes("post-test")) return attempt.postTestScore !== null
-
-
-                // For Stories/Games:
+                // Exclude any pre/post test entries that might still exist
+                if (title.includes("pre-test") || title.includes("post-test")) return false
                 return true
               })
-
 
               if (filteredAttempts.length === 0) {
                 return (
@@ -221,31 +162,19 @@ export default function Results() {
                 )
               }
 
-
               return filteredAttempts.map((attempt) => {
-                const displayTitle = getDisplayTitle(attempt)
-                const isTest =
-                  displayTitle.toLowerCase().includes("pre-test") ||
-                  displayTitle.toLowerCase().includes("post-test")
-
+                const displayTitle = attempt.story?.title || "Unknown Story"
+                const islandName = getIslandName(attempt)
 
                 // Display XP
                 let displayXp = attempt.totalXpGained || 0
                 if (displayXp === 0 && attempt.stages && attempt.stages.length > 0) {
                   displayXp = attempt.stages.reduce((sum, s) => sum + (s.xpGained || 0), 0)
                 }
-
-                // If XP is still 0, default to 100 only for STATIC stories (or untyped stories that aren't tests)
-                // Games (INTERACTIVE) should show 0 if score is 0
-                const isStaticStory = attempt.story?.storyType === "STATIC" || (!attempt.story?.storyType && !isTest)
-
+                // Fallback for STATIC stories
+                const isStaticStory = attempt.story?.storyType === "STATIC" || !attempt.story?.storyType
                 if (displayXp === 0 && isStaticStory) {
-                  displayXp = 100;
-                }
-
-                // Per user request, Tests (Pre/Post) should NOT award XP.
-                if (isTest) {
-                  displayXp = 0;
+                  displayXp = 100
                 }
 
                 // Calculate duration
@@ -258,21 +187,11 @@ export default function Results() {
                   }
                 }
 
-
                 return (
-                  <div key={attempt.id} className='history-row'>
+                  <div key={attempt.id} className='history-row history-row-kids'>
                     <div>{displayTitle}</div>
-                    <div>
-                      {isTest && attempt.preTestScore !== null
-                        ? Math.round(attempt.preTestScore)
-                        : "-"}
-                    </div>
-                    <div>
-                      {isTest && attempt.postTestScore !== null
-                        ? Math.round(attempt.postTestScore)
-                        : "-"}
-                    </div>
-                    <div>{displayXp}</div>
+                    <div>{islandName || "-"}</div>
+                    <div>{displayXp} XP</div>
                     <div>{formatDate(attempt.startedAt)}</div>
                     <div>{formatDuration(duration)}</div>
                   </div>

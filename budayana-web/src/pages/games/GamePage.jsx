@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useRef } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { useParams, useNavigate, useSearchParams } from "react-router-dom"
-import { ArrowLeft, ArrowRight, Clock, Check, X } from "lucide-react"
+import { ArrowLeft, ArrowRight, Clock, Check, X, Volume2 } from "lucide-react"
 import { useStory } from "../../hooks/useStories"
 import { getGameByIsland } from "../../data/games"
 import {
@@ -10,6 +10,8 @@ import {
   useAddQuestionLog,
   useUpdateAttempt,
 } from "../../hooks/useAttempts"
+import { useSpeech } from "../../hooks/useSpeech"
+import { useAudio } from "../../hooks/useAudio"
 
 const formatTime = (seconds) => {
   const mins = Math.floor(seconds / 60)
@@ -17,6 +19,18 @@ const formatTime = (seconds) => {
     .padStart(2, "0")
   const secs = (seconds % 60).toString().padStart(2, "0")
   return `${mins} : ${secs}`
+}
+
+/**
+ * Small component that auto-plays result.mp3 when the results screen mounts.
+ * Must be a separate component so useEffect fires on mount.
+ */
+function ResultAudioPlayer({ playResult }) {
+  useEffect(() => {
+    playResult()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  return null
 }
 
 /**
@@ -61,6 +75,12 @@ export default function GamePage() {
 
   // Track questions that were answered incorrectly at least once
   const [incorrectAttempts, setIncorrectAttempts] = useState(new Set())
+
+  // Audio hooks
+  const { speak, cancel: cancelSpeech, isSupported: speechSupported } = useSpeech()
+  const { play: playCorrect } = useAudio('/audio/sfx/correct.mp3')
+  const { play: playWrong }   = useAudio('/audio/sfx/wrong.mp3')
+  const { play: playResult }  = useAudio('/audio/sfx/result.mp3')
 
   // Drag-drop state: { questionId: [itemId1, itemId2, ...] }
   const [dragDropOrder, setDragDropOrder] = useState({})
@@ -357,10 +377,25 @@ export default function GamePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dragDropOrder, attemptId])
 
+  // Auto-speak narration or question text when the page changes
+  useEffect(() => {
+    if (!currentPageData) return
+    if (isStory || isImage) {
+      const text = currentPageData.contentText || ''
+      if (text) speak(text)
+    } else if (isQuestion && currentPageData.question?.questionText) {
+      speak(currentPageData.question.questionText)
+    } else if (isEnding) {
+      speak('Cerita Selesai! Klik Selesai untuk melihat hasilmu.')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPageIndex])
+
   // Navigation
   const [isNavigating, setIsNavigating] = useState(false)
 
   const goNext = () => {
+    cancelSpeech()
     // Check if current question has pending answer validation
     if (isQuestion) {
       const currentQ = currentPageData.question
@@ -380,6 +415,7 @@ export default function GamePage() {
   }
 
   const goPrev = () => {
+    cancelSpeech()
     setCurrentPage(Math.max(0, currentPageIndex - 1))
   }
 
@@ -426,7 +462,12 @@ export default function GamePage() {
             },
           }))
 
-          if (!response.isCorrect) {
+          if (response.isCorrect) {
+            cancelSpeech()
+            playCorrect()
+          } else {
+            cancelSpeech()
+            playWrong()
             setLastIncorrectQuestionId(question.id)
             setShowIncorrectPopup(true)
             setIncorrectAttempts(prev => {
@@ -587,6 +628,7 @@ export default function GamePage() {
             <button
               key={opt.id}
               onClick={() => handleAnswer(question, idx)}
+              onMouseEnter={() => speechSupported && speak(opt.optionText)}
               disabled={current?.isCorrect === true || isPending || (showIncorrectPopup && lastIncorrectQuestionId === question.id)}
               className='w-full text-left rounded-2xl px-4 py-3 md:px-5 md:py-4 font-semibold shadow-sm transition border-2 relative'
               style={{ backgroundColor: bgColor, opacity, borderColor }}
@@ -635,6 +677,17 @@ export default function GamePage() {
         <div className='text-lg font-medium text-[#2c2c2c] text-center'>
           {pageData.contentText}
         </div>
+        {speechSupported && pageData.contentText && (
+          <div className='flex justify-start mt-4'>
+            <button
+              className='audio-replay-btn'
+              onClick={() => speak(pageData.contentText)}
+              title='Putar ulang narasi'
+            >
+              <Volume2 size={16} /> Ulangi
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -652,6 +705,17 @@ export default function GamePage() {
         ) : (
           <div className='text-center p-8 text-gray-400'>
             Gambar tidak tersedia
+          </div>
+        )}
+        {speechSupported && pageData.contentText && (
+          <div className='flex justify-start p-3'>
+            <button
+              className='audio-replay-btn'
+              onClick={() => speak(pageData.contentText)}
+              title='Putar ulang narasi'
+            >
+              <Volume2 size={16} /> Ulangi
+            </button>
           </div>
         )}
       </div>
@@ -1002,9 +1066,22 @@ export default function GamePage() {
                 className='w-full max-h-[220px] md:max-h-[400px] object-contain mx-auto mb-4 rounded-lg'
               />
             )}
-            {/* <p className='text-base md:text-lg font-semibold text-[#2c2c2c] leading-relaxed'>
-              {question.questionText}
-            </p> */}
+            {question.questionText && (
+              <div className='flex items-center justify-between gap-3 mb-2'>
+                <p className='text-base md:text-lg font-semibold text-[#2c2c2c] leading-relaxed flex-1'>
+                  {question.questionText}
+                </p>
+                {speechSupported && (
+                  <button
+                    className='audio-replay-btn flex-shrink-0'
+                    onClick={() => speak(question.questionText)}
+                    title='Putar ulang soal'
+                  >
+                    <Volume2 size={16} /> Ulangi
+                  </button>
+                )}
+              </div>
+            )}
           </div>
           {questionRenderer}
         </div>
@@ -1028,6 +1105,7 @@ export default function GamePage() {
     return (
       <div className='w-full max-w-4xl mx-auto px-2'>
         <div className='bg-white rounded-[40px] shadow-2xl p-6 md:p-10 border-[3px] border-[#2c2c2c] text-center'>
+          <ResultAudioPlayer playResult={playResult} />
           <div className='bg-[#E4AE28] text-white font-extrabold text-3xl px-12 py-3 rounded-full shadow-lg mb-8 inline-block'>
             Selesai!
           </div>
