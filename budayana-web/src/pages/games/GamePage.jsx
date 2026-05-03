@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useRef } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { useParams, useNavigate, useSearchParams } from "react-router-dom"
-import { ArrowLeft, ArrowRight, Clock, Check, X, Volume2 } from "lucide-react"
+import { ArrowLeft, ArrowRight, Clock, Check, X, Volume2, VolumeX, Play, Pause, SkipBack, SkipForward } from "lucide-react"
 import { useStory } from "../../hooks/useStories"
 import { getGameByIsland } from "../../data/games"
 import {
@@ -28,7 +28,7 @@ const formatTime = (seconds) => {
 function ResultAudioPlayer({ playResult }) {
   useEffect(() => {
     playResult()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return null
 }
@@ -79,8 +79,8 @@ export default function GamePage() {
   // Audio hooks
   const { speak, cancel: cancelSpeech, isSupported: speechSupported } = useSpeech()
   const { play: playCorrect } = useAudio('/audio/sfx/correct.mp3')
-  const { play: playWrong }   = useAudio('/audio/sfx/wrong.mp3')
-  const { play: playResult }  = useAudio('/audio/sfx/result.mp3')
+  const { play: playWrong } = useAudio('/audio/sfx/wrong.mp3')
+  const { play: playResult } = useAudio('/audio/sfx/result.mp3')
 
   // Drag-drop state: { questionId: [itemId1, itemId2, ...] }
   const [dragDropOrder, setDragDropOrder] = useState({})
@@ -661,66 +661,90 @@ export default function GamePage() {
     )
   }
 
-  // Renders a story slide (static)
-  const renderStoryPage = (pageData) => (
-    <div className='w-full max-w-4xl mx-auto px-2'>
-      <div className='bg-white rounded-[30px] shadow-xl border-[3px] border-[#2c2c2c] overflow-hidden p-4 md:p-6'>
-        {pageData.imageUrl && (
-          <div className='flex justify-center mb-4'>
+  const StoryAudioPlayerPage = ({ pageData }) => {
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [isMuted, setIsMuted] = useState(false)
+
+    // Toggle play
+    const handlePlay = () => {
+      setIsPlaying(!isPlaying)
+      if (!isPlaying && speechSupported && !isMuted && pageData.contentText) {
+        speak(pageData.contentText)
+      } else {
+        cancelSpeech()
+      }
+    }
+
+    // Stop speaking if unmounting
+    useEffect(() => {
+      return () => cancelSpeech()
+    }, [])
+
+    return (
+      <div className='w-full max-w-5xl mx-auto flex flex-col gap-6'>
+        {/* Full screen image wrapper */}
+        <div className='w-full relative px-2'>
+          {pageData.imageUrl ? (
             <img
               src={pageData.imageUrl}
               alt='Story'
-              className='w-full max-h-[380px] md:max-h-[150px] object-contain rounded-lg'
+              className='w-full max-h-[50vh] md:max-h-[60vh] object-contain rounded-3xl shadow-xl'
             />
-          </div>
-        )}
-        <div className='text-lg font-medium text-[#2c2c2c] text-center'>
-          {pageData.contentText}
+          ) : (
+            <div className='w-full min-h-[300px] border-4 border-dashed border-gray-400 rounded-3xl flex items-center justify-center text-gray-500 text-lg font-bold'>
+              Gambar cerita tidak tersedia
+            </div>
+          )}
         </div>
-        {speechSupported && pageData.contentText && (
-          <div className='flex justify-start mt-4'>
-            <button
-              className='audio-replay-btn'
-              onClick={() => speak(pageData.contentText)}
-              title='Putar ulang narasi'
-            >
-              <Volume2 size={16} /> Ulangi
+
+        {/* Audio Player UI */}
+        <div className='w-[95%] md:w-full border-4 border-[#2c2c2c] bg-[#FFF8E7] rounded-full px-4 md:px-6 py-3 flex items-center justify-between shadow-md mx-auto'>
+          <button onClick={() => setIsMuted(!isMuted)}>
+            {isMuted ? (
+              <div className='relative'>
+                <VolumeX size={28} className='text-red-500' />
+              </div>
+            ) : (
+              <Volume2 size={28} className='text-[#2c2c2c]' />
+            )}
+          </button>
+
+          <div className='flex items-center gap-3 md:gap-4 flex-1 justify-center'>
+            <button className='w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-400 flex items-center justify-center bg-gray-200 text-gray-400'>
+              <SkipBack size={16} fill="currentColor" />
+            </button>
+
+            <button onClick={handlePlay} className='w-12 h-12 md:w-14 md:h-14 rounded-full border border-[rgba(0,0,0,0.1)] shadow-sm bg-[#89D3A8] text-white flex items-center justify-center p-0 transition-transform hover:scale-105 active:scale-95'>
+              {isPlaying ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" className="ml-1" />}
+            </button>
+
+            <button className='w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-400 flex items-center justify-center bg-gray-200 text-gray-400'>
+              <SkipForward size={16} fill="currentColor" />
             </button>
           </div>
-        )}
+
+          <div className='hidden md:block w-1/3 bg-gray-300 rounded-full h-2 md:h-3 mx-4 relative overflow-hidden'>
+            <div className='bg-[#89D3A8] h-full rounded-full transition-all duration-300' style={{ width: isPlaying ? "30%" : "0%" }}></div>
+          </div>
+
+          <span className='font-bold text-[#2c2c2c] min-w-[36px] text-right text-sm md:text-base'>
+            {isPlaying ? "30 %" : "0 %"}
+          </span>
+
+          {/* Hidden space for Text-To-Speech Data without UI impact */}
+          <div className="sr-only">
+            {pageData.contentText || "Narration text placeholder here"}
+          </div>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
+
+  // Renders a story slide (static)
+  const renderStoryPage = (pageData) => <StoryAudioPlayerPage pageData={pageData} />
 
   // Renders an image slide (e.g., IMAGE slideType from interactiveSlides)
-  const renderImagePage = (pageData) => (
-    <div className='w-full max-w-4xl mx-auto px-2'>
-      <div className='bg-white rounded-[30px] shadow-xl border-[3px] border-[#2c2c2c] overflow-hidden'>
-        {pageData.imageUrl ? (
-          <img
-            src={pageData.imageUrl}
-            alt='Interactive Story'
-            className='w-full max-h-[200px] md:max-h-[700px] object-contain'
-          />
-        ) : (
-          <div className='text-center p-8 text-gray-400'>
-            Gambar tidak tersedia
-          </div>
-        )}
-        {speechSupported && pageData.contentText && (
-          <div className='flex justify-start p-3'>
-            <button
-              className='audio-replay-btn'
-              onClick={() => speak(pageData.contentText)}
-              title='Putar ulang narasi'
-            >
-              <Volume2 size={16} /> Ulangi
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  )
+  const renderImagePage = (pageData) => <StoryAudioPlayerPage pageData={pageData} />
 
   // Renders the ending slide
   const renderEndingPage = () => (

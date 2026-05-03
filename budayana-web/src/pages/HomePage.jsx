@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useAttempts } from "../hooks/useAttempts"
+import { getIslandBySlug } from "../data/islands"
 
 const islandData = [
   {
@@ -79,58 +81,6 @@ const islandData = [
   },
 ]
 
-const stagePalette = {
-  pretest: "#E393B3",
-  story: "#4FBA95",
-  posttest: "#D4734F",
-}
-
-const defaultStages = {
-  pretest: {
-    label: "Pre-Test",
-    stage: 1,
-    key: "pretest",
-    color: stagePalette.pretest,
-  },
-  story: {
-    label: "Cerita Rakyat Interaktif",
-    stage: 2,
-    key: "story",
-    color: stagePalette.story,
-  },
-  posttest: {
-    label: "Post-Test",
-    stage: 3,
-    key: "posttest",
-    color: stagePalette.posttest,
-  },
-}
-
-const StageCard = ({ stage, onClick, img }) => {
-  const locked = !stage.unlocked
-  const opacity = locked ? "opacity-40" : ""
-
-  return (
-    <button
-      onClick={onClick}
-      disabled={locked}
-      className={`relative w-[236.88px] h-[479px] rounded-[26px] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.12)] transition hover:-translate-y-1 ${opacity} cursor-pointer`}
-    >
-      <img src={img} alt={stage.label} className='w-full h-full object-cover' />
-      {locked && (
-        <div className='absolute inset-0 flex items-center justify-center bg-black/30'>
-          <div className='bg-black/70 rounded-full p-3'>
-            <img
-              src='/assets/budayana/islands/lock.png'
-              alt='locked'
-              className='w-8 h-8 object-contain'
-            />
-          </div>
-        </div>
-      )}
-    </button>
-  )
-}
 
 const IslandMarker = ({ island, onSelect }) => {
   return (
@@ -163,6 +113,14 @@ const IslandMarker = ({ island, onSelect }) => {
 const HomePage = () => {
   const navigate = useNavigate()
   const [selectedIsland, setSelectedIsland] = useState(null)
+
+  // Use attempts hook for the selected island
+  const { data: attempts } = useAttempts(selectedIsland?.id)
+  const attemptCount = attempts?.length || 0
+
+  const islandDetail = selectedIsland ? getIslandBySlug(selectedIsland.id) : null
+  const storyTitle = islandDetail ? islandDetail.storyTitle : "Cerita"
+
   // Track per-island stage progress (1=pretest unlocked, 2=story unlocked, 3=posttest unlocked)
   const [progressByIsland, setProgressByIsland] = useState(() =>
     islandData.reduce((acc, isl) => ({ ...acc, [isl.id]: 1 }), {})
@@ -203,30 +161,6 @@ const HomePage = () => {
     })
   }
 
-  const stages = useMemo(() => {
-    const stageNumber = selectedIsland
-      ? progressByIsland[selectedIsland.id] || 1
-      : 1
-    const preUnlocked = stageNumber >= 1
-    const storyUnlocked = stageNumber >= 2
-    const postUnlocked = stageNumber >= 3
-
-    return {
-      pretest: { ...defaultStages.pretest, unlocked: preUnlocked },
-      story: { ...defaultStages.story, unlocked: storyUnlocked },
-      posttest: { ...defaultStages.posttest, unlocked: postUnlocked },
-    }
-  }, [selectedIsland, progressByIsland])
-
-  const stageDots = useMemo(() => {
-    // All green, but still indicate how many stages are unlocked
-    const active = selectedIsland ? progressByIsland[selectedIsland.id] || 1 : 1
-    return [1, 2, 3].map((idx) => ({
-      id: idx,
-      active: idx <= active,
-      color: "#6ab04c",
-    }))
-  }, [selectedIsland, progressByIsland])
 
   return (
     <div
@@ -291,48 +225,46 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* Modal for stages */}
+      {/* Modal for stories */}
       {selectedIsland && (
         <div className='fixed inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center px-4 z-50'>
-          <div className='w-full max-w-4xl bg-[#f7eeda] rounded-[24px] shadow-2xl border border-[#d9c8a6] relative'>
-            <button
-              className='absolute right-4 top-4 text-[#2f2f2f] text-2xl font-bold'
-              onClick={() => setSelectedIsland(null)}
-            >
-              ×
-            </button>
-
-            <div className='text-center text-3xl md:text-4xl font-extrabold text-[#2a2a2a] mt-8'>
-              {selectedIsland.name}
+          <div className='w-full max-w-2xl bg-[#fdf6e3] rounded-[24px] shadow-2xl relative px-6 py-8 md:px-12 md:py-10 border border-[#f2ebd4]'>
+            {/* Top Bar for Modal */}
+            <div className='flex items-center justify-between mb-6'>
+              <div className='text-lg md:text-xl font-bold text-black'>
+                Percobaan : {attemptCount}
+              </div>
+              <div className='text-center text-3xl md:text-4xl font-extrabold text-[#000000] absolute left-1/2 -translate-x-1/2'>
+                {selectedIsland.name}
+              </div>
+              <button
+                className='text-black relative w-8 h-8 rounded-full border-2 border-black flex items-center justify-center bg-transparent transition-transform hover:scale-110 active:scale-95 z-10'
+                onClick={() => setSelectedIsland(null)}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
             </div>
 
-            <div className='flex items-center justify-center gap-3 mt-3 mb-8'>
-              {stageDots.map((dot) => (
-                <span
-                  key={dot.id}
-                  className={`w-3.5 h-3.5 rounded-full border border-white/70 shadow ${
-                    dot.active ? "" : "opacity-40"
-                  }`}
-                  style={{ backgroundColor: dot.color }}
-                />
-              ))}
-            </div>
+            {/* Central Card content */}
+            <div className='flex flex-col items-center justify-center bg-[#A4Bcf0] rounded-[20px] p-6 lg:p-8 mt-10 sm:mt-16 sm:w-[500px] mx-auto shadow-[0_4px_12px_rgba(0,0,0,0.1)]'>
+              <div className='text-center text-white text-[22px] md:text-[28px] font-extrabold leading-snug mb-5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]' style={{ fontFamily: "Comic Sans MS, sans-serif" }}>
+                Cerita Rakyat Interaktif<br />{storyTitle}
+              </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-6 px-6 pb-10 place-items-center'>
-              {Object.entries(stages).map(([key, stage]) => (
-                <StageCard
-                  key={key}
-                  stage={stage}
-                  onClick={() => handleStageClick(key)}
-                  img={
-                    key === "pretest"
-                      ? "/assets/budayana/islands/pretest monkey (1).png"
-                      : key === "story"
-                      ? "/assets/budayana/islands/story stage 2 (1).png"
-                      : "/assets/budayana/islands/posttest hippo (1).png"
-                  }
-                />
-              ))}
+              <button
+                onClick={() => handleStageClick("story")}
+                className='bg-[#eebe40] hover:bg-[#d8a82d] text-white font-bold py-2.5 px-8 rounded-full shadow-lg text-lg md:text-xl flex items-center justify-center mb-6 transition-transform hover:-translate-y-1 active:scale-95 border-2 border-transparent'
+              >
+                Mulai <span className='ml-2 text-xl md:text-2xl font-black'>▶</span>
+              </button>
+
+              <img
+                src='/assets/budayana/islands/story stage 2 (1).png'
+                alt='Crocodile Mascot reading book'
+                className='w-32 md:w-40 drop-shadow-[0_8px_16px_rgba(0,0,0,0.15)]'
+              />
             </div>
           </div>
         </div>
