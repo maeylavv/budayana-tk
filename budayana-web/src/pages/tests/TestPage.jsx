@@ -1,4 +1,6 @@
 import { useEffect, useState, useMemo, useRef } from "react"
+import LoadingScreen from "../../components/LoadingScreen"
+import { useMinimumLoading } from "../../hooks/useMinimumLoading"
 import { useParams, useNavigate, useSearchParams } from "react-router-dom"
 import { ArrowLeft, ArrowRight, Clock } from "lucide-react"
 import { getIslandBySlug } from "../../data/islands"
@@ -35,13 +37,14 @@ export default function TestPage({ testType = "pre" }) {
   // Fetch questions from API
   const {
     data: questionsData,
-    isLoading: isQuestionsLoading,
+    isLoading: isQuestionsLoadingRaw,
     error: questionsError,
   } = useQuestions({
     storyId,
     stageType,
     public: true,
   })
+  const isQuestionsLoading = useMinimumLoading(isQuestionsLoadingRaw)
 
   // Transform API questions to component format
   const questions = useMemo(() => {
@@ -406,16 +409,7 @@ export default function TestPage({ testType = "pre" }) {
 
   // Handle loading state
   if (isQuestionsLoading) {
-    return (
-      <div className='min-h-screen bg-[#fdf4d7] flex items-center justify-center'>
-        <div className='text-center'>
-          <div className='animate-spin rounded-full h-16 w-16 border-b-4 border-[#0e7794] mx-auto mb-4'></div>
-          <p className='text-xl font-semibold text-[#2c2c2c]'>
-            Memuat pertanyaan...
-          </p>
-        </div>
-      </div>
-    )
+    return null
   }
 
   // Handle error state

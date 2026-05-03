@@ -6,6 +6,8 @@ import {
   useMemo,
   useCallback,
 } from "react"
+import LoadingScreen from "../../components/LoadingScreen"
+import { useMinimumLoading } from "../../hooks/useMinimumLoading"
 import { useParams, useNavigate, useSearchParams } from "react-router-dom"
 import { ArrowLeft, ArrowRight, Clock, Sparkles } from "lucide-react"
 import { useStory } from "../../hooks/useStories"
@@ -49,7 +51,8 @@ export default function StoryPage() {
   )
 
   // API Hooks
-  const { data: story, isLoading: isStoryLoading } = useStory(storyId)
+  const { data: story, isLoading: isStoryLoadingRaw } = useStory(storyId)
+  const isStoryLoading = useMinimumLoading(isStoryLoadingRaw)
   const startAttempt = useStartAttempt()
   const addStage = useAddStage()
   const updateAttempt = useUpdateAttempt()
@@ -371,16 +374,7 @@ export default function StoryPage() {
 
   // Handle loading/error states
   if (isStoryLoading)
-    return (
-      <div className='min-h-screen bg-gradient-to-br from-[#fef8e7] to-[#f4e4c1] flex items-center justify-center'>
-        <div className='text-center'>
-          <div className='animate-spin rounded-full h-16 w-16 border-4 border-[#E4AE28] border-t-transparent mx-auto mb-4'></div>
-          <p className='text-lg font-semibold text-[#2c2c2c]'>
-            Memuat cerita...
-          </p>
-        </div>
-      </div>
-    )
+    return null
 
   if (!story)
     return (

@@ -1,5 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 import { authClient } from "../../lib/auth-client"
+import LoadingScreen from "../LoadingScreen"
 
 /**
  * GuestRoute - Layout route accessible only without authentication
@@ -12,11 +13,7 @@ export default function GuestRoute() {
 
   // Show loading state while checking session
   if (isPending) {
-    return (
-      <div className='auth-loading'>
-        <span>Loading...</span>
-      </div>
-    )
+    return <LoadingScreen />
   }
 
   const tempSession = localStorage.getItem("temp_dev_session")
