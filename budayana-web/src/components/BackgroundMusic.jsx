@@ -11,13 +11,17 @@ export default function BackgroundMusic() {
   const audioRef = useRef(null)
   const [hasInteracted, setHasInteracted] = useState(false)
 
-  const isLandingPage = !!(location.pathname === '/' || location.pathname === '')
+  const isAuthOrLandingPage = [
+    '/',
+    '/login',
+    '/sign-up'
+  ].includes(location.pathname)
 
   useEffect(() => {
     const audioNode = audioRef.current;
 
-    // Only continue if we're on the landing page
-    if (!isLandingPage) {
+    // Only continue if we're on the landing page or auth pages
+    if (!isAuthOrLandingPage) {
       if (audioNode) audioNode.pause();
       return;
     }
@@ -42,7 +46,7 @@ export default function BackgroundMusic() {
       if (!hasInteracted && audioNode) {
         setHasInteracted(true)
         audioNode.muted = false
-        audioNode.play().catch(() => {})
+        audioNode.play().catch(() => { })
       }
     }
 
@@ -59,9 +63,9 @@ export default function BackgroundMusic() {
         audioNode.pause();
       }
     }
-  }, [hasInteracted, isLandingPage])
+  }, [hasInteracted, isAuthOrLandingPage])
 
-  if (!isLandingPage) {
+  if (!isAuthOrLandingPage) {
     return null
   }
 

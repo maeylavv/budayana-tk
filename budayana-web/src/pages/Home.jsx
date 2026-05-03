@@ -180,6 +180,7 @@ export default function Home() {
 
 function IslandPopup({ activeIsland, onClose }) {
   const navigate = useNavigate()
+
   // Fetch dynamic island details including stories
   const { data: islandDetails, isLoading: isIslandLoading } = useIsland(
     activeIsland.slug
@@ -190,111 +191,74 @@ function IslandPopup({ activeIsland, onClose }) {
     islandDetails?.id
   )
 
-  const handleStageClick = (stage) => {
-    navigate(stage.route)
+  const handleStageClick = (route) => {
+    navigate(route)
   }
 
-  // Helper to map API stories to stage cards
-  // Kids version: ALL stories route to GamePage regardless of storyType
-  const getDynamicStages = (stories, islandSlug) => {
-    if (!stories) return []
+  const attemptItems = attempts?.items || []
+  const attemptCount = attemptItems.length
 
-    return stories.map((story, index) => {
-      // All stories go to the GamePage (gamification format)
-      const route = `/islands/${islandSlug}/story/${story.id}/game`
+  // Force UI to use activeIsland.storyTitle (from islands.js) to avoid showing 'Pre-Test' and ensure correct titles are displayed.
+  const storyTitle = activeIsland.storyTitle || islandDetails?.stories?.[0]?.title || "Coming Soon"
 
-      return {
-        id: story.id,
-        key: story.id,
-        title: story.title,
-        route: route,
-        apiStageType: story.storyType,
-        order: story.order || index + 1,
-      }
-    })
-  }
-
-  const stages = useMemo(() => {
-    if (!islandDetails?.stories) return []
-    return getDynamicStages(
-      islandDetails.stories,
-      activeIsland.slug || activeIsland.id
-    )
-  }, [islandDetails, activeIsland])
-
-  // Kids version: All stages always unlocked — no sequential gating
-  const getStageStatus = (stageId) => {
-    const attemptItems = attempts?.items || []
-    const isFinished = attemptItems.some(
-      (a) => String(a.storyId) === String(stageId) && a.finishedAt !== null
-    )
-    const isStarted = attemptItems.some(
-      (a) => String(a.storyId) === String(stageId)
-    )
-
-    if (isFinished) return "completed"
-    if (isStarted) return "resume"
-    return "unlocked" // Always unlocked in Kids version
-  }
-
-  // Count completed stages for progress dots
-  const completedCount = useMemo(() => {
-    const attemptItems = attempts?.items || []
-    return stages.filter((s) =>
-      attemptItems.some(
-        (a) => String(a.storyId) === String(s.id) && a.finishedAt !== null
-      )
-    ).length
-  }, [stages, attempts])
+  // Route to the first story game by default, or just fallback
+  const firstStoryId = islandDetails?.stories?.[0]?.id
+  const routeToMulai = firstStoryId
+    ? `/islands/${activeIsland.slug || activeIsland.id}/story/${firstStoryId}/game`
+    : `/cerita-rakyat?island=${activeIsland.id}`
 
   const isLoading = isIslandLoading
 
   return (
-    <div className='popup-overlay' onClick={onClose}>
+    <div className='fixed inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center px-4 z-50' onClick={onClose}>
       <div
-        className='popup popup-unlocked'
+        className='w-full max-w-2xl bg-[#fdf6e3] rounded-[24px] shadow-2xl relative px-6 py-8 md:px-12 md:py-10 border border-[#f2ebd4]'
         onClick={(e) => e.stopPropagation()}
       >
-        <div className='unlockedpopup'>
-          {/* Close button */}
-          <button className='popup-close' onClick={onClose}>
-            <img
-              src='/assets/budayana/islands/close button.png'
-              className='close-button'
-              alt='close'
-            />
+        {/* Top Bar for Modal */}
+        <div className='flex items-center justify-between mb-6'>
+          <div className='text-lg md:text-xl font-bold text-black z-10'>
+            Percobaan : {attemptCount}
+          </div>
+          <div className='text-center text-3xl md:text-4xl font-extrabold text-[#000000] absolute left-1/2 -translate-x-1/2 w-full'>
+            {activeIsland.name}
+          </div>
+          <button
+            className='text-black relative w-8 h-8 rounded-full border-2 border-black flex items-center justify-center bg-transparent transition-transform hover:scale-110 active:scale-95 z-10'
+            onClick={onClose}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
           </button>
-
-          {/* Title */}
-          <h2 className='popup-title'>{activeIsland.name}</h2>
-          <ProgressDots
-            completed={completedCount}
-            total={stages.length || 1}
-          />
-
-          {/* Loading state */}
-          {isLoading && <div className='loading-text'>Memuat cerita...</div>}
-
-          {/* Stage Grid */}
-          {!isLoading && (
-            <div className='stage-grid'>
-              {stages.map((stage, index) => {
-                const status = getStageStatus(stage.id)
-                return (
-                  <StageCard
-                    key={stage.key}
-                    stage={stage}
-                    status={status}
-                    index={index}
-                    attempts={attempts?.items}
-                    onClick={() => handleStageClick(stage)}
-                  />
-                )
-              })}
-            </div>
-          )}
         </div>
+
+        {/* Loading state */}
+        {isLoading ? (
+          <div className='text-center font-bold text-gray-500 py-10'>Memuat cerita...</div>
+        ) : (
+          /* Central Card content */
+          <div className='flex flex-col items-center justify-center bg-[#a6baf7] rounded-[20px] p-6 lg:p-8 mt-10 sm:mt-16 w-full sm:w-[500px] mx-auto shadow-[0_4px_12px_rgba(0,0,0,0.1)]'>
+            <div className='text-center text-white text-[22px] md:text-[28px] font-extrabold leading-snug mb-5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]' style={{ fontFamily: "Comic Sans MS, sans-serif" }}>
+              Cerita Rakyat Interaktif<br />{storyTitle}
+            </div>
+
+            <button
+              onClick={() => handleStageClick(routeToMulai)}
+              className='bg-[#eebe40] hover:bg-[#d8a82d] text-white font-bold py-2.5 px-8 rounded-full shadow-lg text-lg md:text-xl flex items-center justify-center mb-6 transition-transform hover:-translate-y-1 active:scale-95 border-2 border-transparent'
+            >
+              Mulai <span className='ml-2 text-xl md:text-2xl font-black'>▶</span>
+            </button>
+
+            <img
+              src='/assets/budayana/islands/Monyet.png'
+              alt='Crocodile Mascot'
+              className='w-32 md:w-36 drop-shadow-[0_8px_16px_rgba(0,0,0,0.15)] mt-2'
+            />
+          </div>
+        )}
       </div>
     </div>
   )
 }
+
