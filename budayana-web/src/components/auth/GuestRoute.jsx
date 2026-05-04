@@ -16,10 +16,10 @@ export default function GuestRoute() {
     return <LoadingScreen />
   }
 
-  const tempSession = localStorage.getItem("temp_dev_session")
+  // const tempSession = localStorage.getItem("temp_dev_session")
 
   // Redirect authenticated users to their intended destination or home
-  if (session?.user || tempSession) {
+  if (session?.user) {
     const from = location.state?.from?.pathname || "/home"
     return <Navigate to={from} replace />
   }
