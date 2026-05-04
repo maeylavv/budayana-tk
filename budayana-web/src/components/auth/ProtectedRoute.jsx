@@ -12,11 +12,7 @@ export default function ProtectedRoute() {
 
   // Show loading state while checking session
   if (isPending) {
-    return (
-      <div className='auth-loading'>
-        <span>Loading...</span>
-      </div>
-    )
+    return null
   }
 
   // Temporary bypass for local development due to cross-origin cookie issues

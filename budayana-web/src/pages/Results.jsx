@@ -8,6 +8,9 @@ import "./Results.css"
 
 export default function Results() {
   const { stats, attempts, isLoading } = useResults()
+  // Show loading only while data hasn't arrived yet — no minimum timer
+  // so the page never stays stuck.
+  const showLoading = isLoading && !stats
   const [storyIslandMap, setStoryIslandMap] = useState({})
 
 
@@ -105,12 +108,8 @@ export default function Results() {
   }
 
 
-  if (isLoading) {
-    return (
-      <div className='results-container'>
-        <p>Memuat data...</p>
-      </div>
-    )
+  if (showLoading) {
+    return null
   }
 
 

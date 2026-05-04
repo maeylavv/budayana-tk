@@ -122,6 +122,15 @@ export default function Home() {
     }))
   }, [])
 
+  // Fetch island data at Home level and pass it to the popup as a prop.
+  // The popup renders immediately once data is ready (no loading UI shown).
+  const { data: islandDetails, isLoading: isIslandLoading } = useIsland(
+    activeIsland?.slug ?? null
+  )
+
+  // Only show popup once data has loaded (or is already cached)
+  const islandReady = !!activeIsland && (!isIslandLoading || !!islandDetails)
+
   // Auto-open island popup from URL param (only on initial load)
   useEffect(() => {
     const islandParam = searchParams.get("island")
@@ -151,6 +160,7 @@ export default function Home() {
 
   return (
     <div className='page home-page'>
+
       {/* HEADER */}
       <div className='header'>
         <div style={{ zIndex: 10 }}>
@@ -170,26 +180,40 @@ export default function Home() {
       {/* MAP ISLANDS */}
       <MapUI allIslands={allIslands} onIslandClick={handleOpenIsland} />
 
-      {/* POPUP */}
-      {activeIsland && (
-        <IslandPopup activeIsland={activeIsland} onClose={handleCloseIsland} />
+      {/* POPUP — rendered as soon as island data is ready */}
+      {islandReady && (
+        <IslandPopup
+          activeIsland={activeIsland}
+          islandDetails={islandDetails}
+          onClose={handleCloseIsland}
+        />
       )}
     </div>
   )
 }
 
-function IslandPopup({ activeIsland, onClose }) {
+// ---------------------------------------------------------------------------
+// IslandPopup — receives pre-fetched islandDetails as a prop.
+// NO loading state, NO GIF here. All loading is handled by the parent Home.
+// ---------------------------------------------------------------------------
+function IslandPopup({ activeIsland, islandDetails, onClose }) {
   const navigate = useNavigate()
 
-  // Fetch dynamic island details including stories
-  const { data: islandDetails, isLoading: isIslandLoading } = useIsland(
-    activeIsland.slug
-  )
+  // Per-island card colors
+  const ISLAND_COLORS = {
+    sumatra:       "#A8BFFB",
+    jawa:          "#C498DD",
+    kalimantan:    "#5AD9AD",
+    sulawesi:      "#FFA6C9",
+    papua:         "#F6B80F",
+    maluku:        "#9ED65D",
+    bali:          "#F2E686",
+    nusa:          "#F7885E",
+  }
+  const cardColor = ISLAND_COLORS[activeIsland?.slug] || "#a6baf7"
 
-  // Fetch attempts for this island
-  const { data: attempts } = useAttempts(
-    islandDetails?.id
-  )
+  // Fetch attempts for this island (fast — uses cached island id)
+  const { data: attempts } = useAttempts(islandDetails?.id)
 
   const handleStageClick = (route) => {
     navigate(route)
@@ -198,7 +222,7 @@ function IslandPopup({ activeIsland, onClose }) {
   const attemptItems = attempts?.items || []
   const attemptCount = attemptItems.length
 
-  // Force UI to use activeIsland.storyTitle (from islands.js) to avoid showing 'Pre-Test' and ensure correct titles are displayed.
+  // Force UI to use activeIsland.storyTitle (from islands.js)
   const storyTitle = activeIsland.storyTitle || islandDetails?.stories?.[0]?.title || "Coming Soon"
 
   // Route to the first story game by default, or just fallback
@@ -206,8 +230,6 @@ function IslandPopup({ activeIsland, onClose }) {
   const routeToMulai = firstStoryId
     ? `/islands/${activeIsland.slug || activeIsland.id}/story/${firstStoryId}/game`
     : `/cerita-rakyat?island=${activeIsland.id}`
-
-  const isLoading = isIslandLoading
 
   return (
     <div className='fixed inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center px-4 z-50' onClick={onClose}>
@@ -233,32 +255,29 @@ function IslandPopup({ activeIsland, onClose }) {
           </button>
         </div>
 
-        {/* Loading state */}
-        {isLoading ? (
-          <div className='text-center font-bold text-gray-500 py-10'>Memuat cerita...</div>
-        ) : (
-          /* Central Card content */
-          <div className='flex flex-col items-center justify-center bg-[#a6baf7] rounded-[20px] p-6 lg:p-8 mt-10 sm:mt-16 w-full sm:w-[500px] mx-auto shadow-[0_4px_12px_rgba(0,0,0,0.1)]'>
-            <div className='text-center text-white text-[22px] md:text-[28px] font-extrabold leading-snug mb-5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]' style={{ fontFamily: "Comic Sans MS, sans-serif" }}>
-              Cerita Rakyat Interaktif<br />{storyTitle}
-            </div>
-
-            <button
-              onClick={() => handleStageClick(routeToMulai)}
-              className='bg-[#eebe40] hover:bg-[#d8a82d] text-white font-bold py-2.5 px-8 rounded-full shadow-lg text-lg md:text-xl flex items-center justify-center mb-6 transition-transform hover:-translate-y-1 active:scale-95 border-2 border-transparent'
-            >
-              Mulai <span className='ml-2 text-xl md:text-2xl font-black'>▶</span>
-            </button>
-
-            <img
-              src='/assets/budayana/islands/Monyet.png'
-              alt='Crocodile Mascot'
-              className='w-32 md:w-36 drop-shadow-[0_8px_16px_rgba(0,0,0,0.15)] mt-2'
-            />
+        {/* Central Card content — no loading state, data is always ready here */}
+        <div
+          className='flex flex-col items-center justify-center rounded-[20px] p-6 lg:p-8 mt-10 sm:mt-16 w-full sm:w-[500px] mx-auto shadow-[0_4px_12px_rgba(0,0,0,0.1)]'
+          style={{ backgroundColor: cardColor }}
+        >
+          <div className='text-center text-white text-[22px] md:text-[28px] font-extrabold leading-snug mb-5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]' style={{ fontFamily: "Comic Sans MS, sans-serif" }}>
+            Cerita Rakyat Interaktif<br />{storyTitle}
           </div>
-        )}
+
+          <button
+            onClick={() => handleStageClick(routeToMulai)}
+            className='bg-[#eebe40] hover:bg-[#d8a82d] text-white font-bold py-2.5 px-8 rounded-full shadow-lg text-lg md:text-xl flex items-center justify-center mb-6 transition-transform hover:-translate-y-1 active:scale-95 border-2 border-transparent'
+          >
+            Mulai <span className='ml-2 text-xl md:text-2xl font-black'>▶</span>
+          </button>
+
+          <img
+            src='/assets/budayana/islands/Monyet.png'
+            alt='Crocodile Mascot'
+            className='w-32 md:w-36 drop-shadow-[0_8px_16px_rgba(0,0,0,0.15)] mt-2'
+          />
+        </div>
       </div>
     </div>
   )
 }
-

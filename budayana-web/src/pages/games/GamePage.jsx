@@ -12,6 +12,7 @@ import {
 } from "../../hooks/useAttempts"
 import { useSpeech } from "../../hooks/useSpeech"
 import { useAudio } from "../../hooks/useAudio"
+import { useMinimumLoading } from "../../hooks/useMinimumLoading"
 
 const formatTime = (seconds) => {
   const mins = Math.floor(seconds / 60)
@@ -42,7 +43,8 @@ export default function GamePage() {
   const navigate = useNavigate()
 
   // API Hooks
-  const { data: story, isLoading: isStoryLoading } = useStory(storyId)
+  const { data: story, isLoading: isStoryLoadingRaw } = useStory(storyId)
+  const isStoryLoading = useMinimumLoading(isStoryLoadingRaw)
   const startAttempt = useStartAttempt()
   const addStage = useAddStage()
   const addQuestionLog = useAddQuestionLog()
@@ -583,7 +585,7 @@ export default function GamePage() {
 
   // Render Loading
   if (isStoryLoading)
-    return <div className='text-center p-10'>Memuat permainan...</div>
+    return null
   if (!story) return <div className='text-center p-10'>Story not found</div>
 
   /* ---------------- RENDER HELPERS ---------------- */
