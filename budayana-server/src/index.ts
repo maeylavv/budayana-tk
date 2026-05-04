@@ -28,4 +28,9 @@ const app = new Elysia()
   .use(apiRoutes)
   .get("/", () => "OK")
 
+if (process.env.NODE_ENV === "development") {
+  app.listen(3000)
+  console.log("🚀 Server running at http://localhost:3000")
+}
+
 export default app
