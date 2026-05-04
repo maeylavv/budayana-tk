@@ -228,7 +228,7 @@ function IslandPopup({ activeIsland, islandDetails, onClose }) {
   // Route to the first story game by default, or just fallback
   const firstStoryId = islandDetails?.stories?.[0]?.id
   const routeToMulai = firstStoryId
-    ? `/islands/${activeIsland.slug || activeIsland.id}/story/${firstStoryId}/game`
+    ? `/islands/${activeIsland.slug || activeIsland.id}/story/${firstStoryId}/game?page=1`
     : `/cerita-rakyat?island=${activeIsland.id}`
 
   return (

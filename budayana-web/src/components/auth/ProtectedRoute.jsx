@@ -16,10 +16,10 @@ export default function ProtectedRoute() {
   }
 
   // Temporary bypass for local development due to cross-origin cookie issues
-  const tempSession = localStorage.getItem("temp_dev_session")
+  // const tempSession = localStorage.getItem("temp_dev_session")
 
   // Redirect to login if no session AND no temp session
-  if (!session?.user && !tempSession) {
+  if (!session?.user) {
     return <Navigate to='/login' state={{ from: location }} replace />
   }
 

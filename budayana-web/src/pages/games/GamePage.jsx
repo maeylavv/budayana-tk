@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useRef } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { useParams, useNavigate, useSearchParams } from "react-router-dom"
-import { ArrowLeft, ArrowRight, Clock, Check, X, Volume2, VolumeX, Play, Pause, SkipBack, SkipForward } from "lucide-react"
+import { ArrowLeft, ArrowRight, Clock, Check, X } from "lucide-react"
 import { useStory } from "../../hooks/useStories"
 import { getGameByIsland } from "../../data/games"
 import {
@@ -10,9 +10,6 @@ import {
   useAddQuestionLog,
   useUpdateAttempt,
 } from "../../hooks/useAttempts"
-import { useSpeech } from "../../hooks/useSpeech"
-import { useAudio } from "../../hooks/useAudio"
-import { useMinimumLoading } from "../../hooks/useMinimumLoading"
 
 const formatTime = (seconds) => {
   const mins = Math.floor(seconds / 60)
@@ -20,18 +17,6 @@ const formatTime = (seconds) => {
     .padStart(2, "0")
   const secs = (seconds % 60).toString().padStart(2, "0")
   return `${mins} : ${secs}`
-}
-
-/**
- * Small component that auto-plays result.mp3 when the results screen mounts.
- * Must be a separate component so useEffect fires on mount.
- */
-function ResultAudioPlayer({ playResult }) {
-  useEffect(() => {
-    playResult()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  return null
 }
 
 /**
@@ -43,8 +28,7 @@ export default function GamePage() {
   const navigate = useNavigate()
 
   // API Hooks
-  const { data: story, isLoading: isStoryLoadingRaw } = useStory(storyId)
-  const isStoryLoading = useMinimumLoading(isStoryLoadingRaw)
+  const { data: story, isLoading: isStoryLoading } = useStory(storyId)
   const startAttempt = useStartAttempt()
   const addStage = useAddStage()
   const addQuestionLog = useAddQuestionLog()
@@ -77,12 +61,6 @@ export default function GamePage() {
 
   // Track questions that were answered incorrectly at least once
   const [incorrectAttempts, setIncorrectAttempts] = useState(new Set())
-
-  // Audio hooks
-  const { speak, cancel: cancelSpeech, isSupported: speechSupported } = useSpeech()
-  const { play: playCorrect } = useAudio('/audio/sfx/correct.mp3')
-  const { play: playWrong } = useAudio('/audio/sfx/wrong.mp3')
-  const { play: playResult } = useAudio('/audio/sfx/result.mp3')
 
   // Drag-drop state: { questionId: [itemId1, itemId2, ...] }
   const [dragDropOrder, setDragDropOrder] = useState({})
@@ -379,25 +357,10 @@ export default function GamePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dragDropOrder, attemptId])
 
-  // Auto-speak narration or question text when the page changes
-  useEffect(() => {
-    if (!currentPageData) return
-    if (isStory || isImage) {
-      const text = currentPageData.contentText || ''
-      if (text) speak(text)
-    } else if (isQuestion && currentPageData.question?.questionText) {
-      speak(currentPageData.question.questionText)
-    } else if (isEnding) {
-      speak('Cerita Selesai! Klik Selesai untuk melihat hasilmu.')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPageIndex])
-
   // Navigation
   const [isNavigating, setIsNavigating] = useState(false)
 
   const goNext = () => {
-    cancelSpeech()
     // Check if current question has pending answer validation
     if (isQuestion) {
       const currentQ = currentPageData.question
@@ -417,7 +380,6 @@ export default function GamePage() {
   }
 
   const goPrev = () => {
-    cancelSpeech()
     setCurrentPage(Math.max(0, currentPageIndex - 1))
   }
 
@@ -464,12 +426,7 @@ export default function GamePage() {
             },
           }))
 
-          if (response.isCorrect) {
-            cancelSpeech()
-            playCorrect()
-          } else {
-            cancelSpeech()
-            playWrong()
+          if (!response.isCorrect) {
             setLastIncorrectQuestionId(question.id)
             setShowIncorrectPopup(true)
             setIncorrectAttempts(prev => {
@@ -585,7 +542,7 @@ export default function GamePage() {
 
   // Render Loading
   if (isStoryLoading)
-    return null
+    return <div className='text-center p-10'>Memuat permainan...</div>
   if (!story) return <div className='text-center p-10'>Story not found</div>
 
   /* ---------------- RENDER HELPERS ---------------- */
@@ -630,7 +587,6 @@ export default function GamePage() {
             <button
               key={opt.id}
               onClick={() => handleAnswer(question, idx)}
-              onMouseEnter={() => speechSupported && speak(opt.optionText)}
               disabled={current?.isCorrect === true || isPending || (showIncorrectPopup && lastIncorrectQuestionId === question.id)}
               className='w-full text-left rounded-2xl px-4 py-3 md:px-5 md:py-4 font-semibold shadow-sm transition border-2 relative'
               style={{ backgroundColor: bgColor, opacity, borderColor }}
@@ -663,90 +619,44 @@ export default function GamePage() {
     )
   }
 
-  const StoryAudioPlayerPage = ({ pageData }) => {
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [isMuted, setIsMuted] = useState(false)
-
-    // Toggle play
-    const handlePlay = () => {
-      setIsPlaying(!isPlaying)
-      if (!isPlaying && speechSupported && !isMuted && pageData.contentText) {
-        speak(pageData.contentText)
-      } else {
-        cancelSpeech()
-      }
-    }
-
-    // Stop speaking if unmounting
-    useEffect(() => {
-      return () => cancelSpeech()
-    }, [])
-
-    return (
-      <div className='w-full max-w-5xl mx-auto flex flex-col gap-6'>
-        {/* Full screen image wrapper */}
-        <div className='w-full relative px-2'>
-          {pageData.imageUrl ? (
+  // Renders a story slide (static)
+  const renderStoryPage = (pageData) => (
+    <div className='w-full max-w-4xl mx-auto px-2'>
+      <div className='bg-white rounded-[30px] shadow-xl border-[3px] border-[#2c2c2c] overflow-hidden p-4 md:p-6'>
+        {pageData.imageUrl && (
+          <div className='flex justify-center mb-4'>
             <img
               src={pageData.imageUrl}
               alt='Story'
-              className='w-full max-h-[50vh] md:max-h-[60vh] object-contain rounded-3xl shadow-xl'
+              className='w-full max-h-[380px] md:max-h-[150px] object-contain rounded-lg'
             />
-          ) : (
-            <div className='w-full min-h-[300px] border-4 border-dashed border-gray-400 rounded-3xl flex items-center justify-center text-gray-500 text-lg font-bold'>
-              Gambar cerita tidak tersedia
-            </div>
-          )}
-        </div>
-
-        {/* Audio Player UI */}
-        <div className='w-[95%] md:w-full border-4 border-[#2c2c2c] bg-[#FFF8E7] rounded-full px-4 md:px-6 py-3 flex items-center justify-between shadow-md mx-auto'>
-          <button onClick={() => setIsMuted(!isMuted)}>
-            {isMuted ? (
-              <div className='relative'>
-                <VolumeX size={28} className='text-red-500' />
-              </div>
-            ) : (
-              <Volume2 size={28} className='text-[#2c2c2c]' />
-            )}
-          </button>
-
-          <div className='flex items-center gap-3 md:gap-4 flex-1 justify-center'>
-            <button className='w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-400 flex items-center justify-center bg-gray-200 text-gray-400'>
-              <SkipBack size={16} fill="currentColor" />
-            </button>
-
-            <button onClick={handlePlay} className='w-12 h-12 md:w-14 md:h-14 rounded-full border border-[rgba(0,0,0,0.1)] shadow-sm bg-[#89D3A8] text-white flex items-center justify-center p-0 transition-transform hover:scale-105 active:scale-95'>
-              {isPlaying ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" className="ml-1" />}
-            </button>
-
-            <button className='w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-400 flex items-center justify-center bg-gray-200 text-gray-400'>
-              <SkipForward size={16} fill="currentColor" />
-            </button>
           </div>
-
-          <div className='hidden md:block w-1/3 bg-gray-300 rounded-full h-2 md:h-3 mx-4 relative overflow-hidden'>
-            <div className='bg-[#89D3A8] h-full rounded-full transition-all duration-300' style={{ width: isPlaying ? "30%" : "0%" }}></div>
-          </div>
-
-          <span className='font-bold text-[#2c2c2c] min-w-[36px] text-right text-sm md:text-base'>
-            {isPlaying ? "30 %" : "0 %"}
-          </span>
-
-          {/* Hidden space for Text-To-Speech Data without UI impact */}
-          <div className="sr-only">
-            {pageData.contentText || "Narration text placeholder here"}
-          </div>
+        )}
+        <div className='text-lg font-medium text-[#2c2c2c] text-center'>
+          {pageData.contentText}
         </div>
       </div>
-    )
-  }
-
-  // Renders a story slide (static)
-  const renderStoryPage = (pageData) => <StoryAudioPlayerPage pageData={pageData} />
+    </div>
+  )
 
   // Renders an image slide (e.g., IMAGE slideType from interactiveSlides)
-  const renderImagePage = (pageData) => <StoryAudioPlayerPage pageData={pageData} />
+  const renderImagePage = (pageData) => (
+    <div className='w-full max-w-4xl mx-auto px-2'>
+      <div className='bg-white rounded-[30px] shadow-xl border-[3px] border-[#2c2c2c] overflow-hidden'>
+        {pageData.imageUrl ? (
+          <img
+            src={pageData.imageUrl}
+            alt='Interactive Story'
+            className='w-full max-h-[200px] md:max-h-[700px] object-contain'
+          />
+        ) : (
+          <div className='text-center p-8 text-gray-400'>
+            Gambar tidak tersedia
+          </div>
+        )}
+      </div>
+    </div>
+  )
 
   // Renders the ending slide
   const renderEndingPage = () => (
@@ -1092,22 +1002,9 @@ export default function GamePage() {
                 className='w-full max-h-[220px] md:max-h-[400px] object-contain mx-auto mb-4 rounded-lg'
               />
             )}
-            {question.questionText && (
-              <div className='flex items-center justify-between gap-3 mb-2'>
-                <p className='text-base md:text-lg font-semibold text-[#2c2c2c] leading-relaxed flex-1'>
-                  {question.questionText}
-                </p>
-                {speechSupported && (
-                  <button
-                    className='audio-replay-btn flex-shrink-0'
-                    onClick={() => speak(question.questionText)}
-                    title='Putar ulang soal'
-                  >
-                    <Volume2 size={16} /> Ulangi
-                  </button>
-                )}
-              </div>
-            )}
+            {/* <p className='text-base md:text-lg font-semibold text-[#2c2c2c] leading-relaxed'>
+              {question.questionText}
+            </p> */}
           </div>
           {questionRenderer}
         </div>
@@ -1131,7 +1028,6 @@ export default function GamePage() {
     return (
       <div className='w-full max-w-4xl mx-auto px-2'>
         <div className='bg-white rounded-[40px] shadow-2xl p-6 md:p-10 border-[3px] border-[#2c2c2c] text-center'>
-          <ResultAudioPlayer playResult={playResult} />
           <div className='bg-[#E4AE28] text-white font-extrabold text-3xl px-12 py-3 rounded-full shadow-lg mb-8 inline-block'>
             Selesai!
           </div>

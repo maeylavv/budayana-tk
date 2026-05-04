@@ -54,7 +54,7 @@ export default function SignIn() {
               console.warn("Progress initialization failed:", e)
             } finally {
               // TEMPORARY FIX: Set a local storage flag to bypass ProtectedRoute on localhost Cross-Origin issues
-              localStorage.setItem("temp_dev_session", "true")
+             // localStorage.setItem("temp_dev_session", "true")
 
               setPopupType("success")
               setPopupMessage("Pendaftaran berhasil! Selamat datang.")
