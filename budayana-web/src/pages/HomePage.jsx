@@ -71,7 +71,7 @@ const islandData = [
     scale: 1.15,
   },
   {
-    id: "nusa",
+    id: "nusa-tenggara",
     name: "Nusa Tenggara",
     top: "66%",
     left: "57%",

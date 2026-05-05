@@ -105,7 +105,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
 /* Tentang Kami */
 .lnd-about {
     background-color: #fdf5e6;
-    padding: 50px 20px;
+    padding: 80px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -120,15 +120,15 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
 }
 .lnd-about-content {
     display: flex;
-    max-width: 900px;
+    max-width: 1000px;
     align-items: center;
-    gap: 50px;
+    gap: 70px;
 }
 .lnd-about-img-circle {
     background-color: #ffdd6b;
     border-radius: 50%;
-    width: 250px;
-    height: 250px;
+    width: 320px;
+    height: 320px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -144,9 +144,9 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
 }
 .lnd-about-text-content p {
     font-family: 'Fredoka One', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #333;
-    line-height: 1.6;
+    line-height: 1.7;
     margin: 0;
     font-weight: 500;
 }

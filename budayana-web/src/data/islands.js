@@ -165,8 +165,8 @@ export const islands = [
     },
   },
   {
-    id: "nusa",
-    slug: "nusa",
+    id: "nusa-tenggara",
+    slug: "nusa-tenggara",
     name: "Nusa Tenggara",
     storyTitle: "Watu Maladong",
     unlockOrder: 8,

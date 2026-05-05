@@ -63,7 +63,7 @@ export const islandPositions = {
   papua: { left: '75%', top: '45%' },
   jawa: { left: '25%', top: '70%' },
   bali: { left: '50%', top: '75%' },
-  nusa: { left: '60%', top: '72%' },
+  "nusa-tenggara": { left: '60%', top: '72%' },
 };
 
 export default function MapUI({ allIslands, onIslandClick }) {
