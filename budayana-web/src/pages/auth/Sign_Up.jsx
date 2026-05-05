@@ -89,7 +89,7 @@ export default function SignIn() {
     registerMutation.mutate({
       email: email,
       name: name,
-      grade: Number(grade),
+      grade: grade,
       username: username,
       password: passwordValue,
       guardianEmail: guardianEmail,
@@ -145,7 +145,7 @@ export default function SignIn() {
           <div className='field'>
             <label htmlFor='kelas'>Kelas</label>
             <input
-              type='number'
+              type='string'
               id='kelas'
               placeholder='Kelas Kamu (contoh : 4)'
               required
