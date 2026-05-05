@@ -8,7 +8,7 @@ model User {
   updatedAt       DateTime  @updatedAt
   username        String?
   displayUsername String?
-  grade           Int
+  grade           String
   guardianEmail   String
   totalXp         Int?      @default(0)
   sessions        Session[]
