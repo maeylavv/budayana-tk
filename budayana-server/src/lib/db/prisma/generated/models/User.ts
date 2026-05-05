@@ -27,12 +27,10 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
-  grade: number | null
   totalXp: number | null
 }
 
 export type UserSumAggregateOutputType = {
-  grade: number | null
   totalXp: number | null
 }
 
@@ -46,7 +44,7 @@ export type UserMinAggregateOutputType = {
   updatedAt: Date | null
   username: string | null
   displayUsername: string | null
-  grade: number | null
+  grade: string | null
   guardianEmail: string | null
   totalXp: number | null
 }
@@ -61,7 +59,7 @@ export type UserMaxAggregateOutputType = {
   updatedAt: Date | null
   username: string | null
   displayUsername: string | null
-  grade: number | null
+  grade: string | null
   guardianEmail: string | null
   totalXp: number | null
 }
@@ -84,12 +82,10 @@ export type UserCountAggregateOutputType = {
 
 
 export type UserAvgAggregateInputType = {
-  grade?: true
   totalXp?: true
 }
 
 export type UserSumAggregateInputType = {
-  grade?: true
   totalXp?: true
 }
 
@@ -235,7 +231,7 @@ export type UserGroupByOutputType = {
   updatedAt: Date
   username: string | null
   displayUsername: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp: number | null
   _count: UserCountAggregateOutputType | null
@@ -273,7 +269,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   username?: Prisma.StringNullableFilter<"User"> | string | null
   displayUsername?: Prisma.StringNullableFilter<"User"> | string | null
-  grade?: Prisma.IntFilter<"User"> | number
+  grade?: Prisma.StringFilter<"User"> | string
   guardianEmail?: Prisma.StringFilter<"User"> | string
   totalXp?: Prisma.IntNullableFilter<"User"> | number | null
   sessions?: Prisma.SessionListRelationFilter
@@ -314,7 +310,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   username?: Prisma.StringNullableFilter<"User"> | string | null
   displayUsername?: Prisma.StringNullableFilter<"User"> | string | null
-  grade?: Prisma.IntFilter<"User"> | number
+  grade?: Prisma.StringFilter<"User"> | string
   guardianEmail?: Prisma.StringFilter<"User"> | string
   totalXp?: Prisma.IntNullableFilter<"User"> | number | null
   sessions?: Prisma.SessionListRelationFilter
@@ -356,7 +352,7 @@ export type UserScalarWhereWithAggregatesInput = {
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   username?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   displayUsername?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  grade?: Prisma.IntWithAggregatesFilter<"User"> | number
+  grade?: Prisma.StringWithAggregatesFilter<"User"> | string
   guardianEmail?: Prisma.StringWithAggregatesFilter<"User"> | string
   totalXp?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
 }
@@ -371,7 +367,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -390,7 +386,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -409,7 +405,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -428,7 +424,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -447,7 +443,7 @@ export type UserCreateManyInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
 }
@@ -462,7 +458,7 @@ export type UserUpdateManyMutationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
@@ -477,7 +473,7 @@ export type UserUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
@@ -503,7 +499,6 @@ export type UserCountOrderByAggregateInput = {
 }
 
 export type UserAvgOrderByAggregateInput = {
-  grade?: Prisma.SortOrder
   totalXp?: Prisma.SortOrder
 }
 
@@ -538,7 +533,6 @@ export type UserMinOrderByAggregateInput = {
 }
 
 export type UserSumOrderByAggregateInput = {
-  grade?: Prisma.SortOrder
   totalXp?: Prisma.SortOrder
 }
 
@@ -612,7 +606,7 @@ export type UserCreateWithoutStoryAttemptsInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -630,7 +624,7 @@ export type UserUncheckedCreateWithoutStoryAttemptsInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -664,7 +658,7 @@ export type UserUpdateWithoutStoryAttemptsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -682,7 +676,7 @@ export type UserUncheckedUpdateWithoutStoryAttemptsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -700,7 +694,7 @@ export type UserCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -718,7 +712,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -752,7 +746,7 @@ export type UserUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -770,7 +764,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -788,7 +782,7 @@ export type UserCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -806,7 +800,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -840,7 +834,7 @@ export type UserUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -858,7 +852,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -876,7 +870,7 @@ export type UserCreateWithoutUserProgressInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -894,7 +888,7 @@ export type UserUncheckedCreateWithoutUserProgressInput = {
   updatedAt?: Date | string
   username?: string | null
   displayUsername?: string | null
-  grade: number
+  grade: string
   guardianEmail: string
   totalXp?: number | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -928,7 +922,7 @@ export type UserUpdateWithoutUserProgressInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -946,7 +940,7 @@ export type UserUncheckedUpdateWithoutUserProgressInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  grade?: Prisma.StringFieldUpdateOperationsInput | string
   guardianEmail?: Prisma.StringFieldUpdateOperationsInput | string
   totalXp?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1106,7 +1100,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     updatedAt: Date
     username: string | null
     displayUsername: string | null
-    grade: number
+    grade: string
     guardianEmail: string
     totalXp: number | null
   }, ExtArgs["result"]["user"]>
@@ -1545,7 +1539,7 @@ export interface UserFieldRefs {
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly username: Prisma.FieldRef<"User", 'String'>
   readonly displayUsername: Prisma.FieldRef<"User", 'String'>
-  readonly grade: Prisma.FieldRef<"User", 'Int'>
+  readonly grade: Prisma.FieldRef<"User", 'String'>
   readonly guardianEmail: Prisma.FieldRef<"User", 'String'>
   readonly totalXp: Prisma.FieldRef<"User", 'Int'>
 }
