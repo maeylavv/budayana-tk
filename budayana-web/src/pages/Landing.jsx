@@ -18,14 +18,7 @@ export default function Landing() {
                         <button onClick={() => scrollToSection("features")}>Fitur Utama</button>
                         <button onClick={() => scrollToSection("contact")}>Kontak</button>
                     </nav>
-                    <div className="relative inline-block group">
-                        <button className="lnd-masuk-btn">Masuk</button>
-                        <div className="absolute right-0 mt-2 w-56 bg-white border border-[#E8D9C0] rounded-xl shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                            <button onClick={() => navigate('/login')} className="w-full text-left px-4 py-2 hover:bg-[#FDF5E6] font-fredoka-one text-[#955C2E] font-semibold transition-colors">Masuk sebagai Siswa</button>
-                            <button onClick={() => navigate('/monitoring-login-guru')} className="w-full text-left px-4 py-2 hover:bg-[#FDF5E6] font-fredoka-one text-[#955C2E] font-semibold transition-colors">Masuk sebagai Guru</button>
-                            <button onClick={() => navigate('/monitoring-login-ortu')} className="w-full text-left px-4 py-2 hover:bg-[#FDF5E6] font-fredoka-one text-[#955C2E] font-semibold transition-colors">Masuk sebagai Orang Tua</button>
-                        </div>
-                    </div>
+                    <button className="lnd-masuk-btn" onClick={() => navigate('/login')}>Masuk</button>
                 </div>
             </div>
 
@@ -34,14 +27,7 @@ export default function Landing() {
                 <div className="lnd-hero-text">
                     <img src="/assets/budayana/islands/Game Name.png" alt="Banner" className="lnd-banner" />
                     <h2 className="lnd-hero-sub">Platform Literasi<br/>Budaya untuk Siswa</h2>
-                    <div className="relative inline-block group">
-                        <button className="lnd-daftar-btn">Daftar Akun</button>
-                        <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white border border-[#E8D9C0] rounded-xl shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                            <button onClick={() => navigate('/sign-up')} className="w-full text-center px-4 py-2 hover:bg-[#FDF5E6] font-fredoka-one text-[#955C2E] font-semibold transition-colors">Daftar Siswa</button>
-                            <button onClick={() => navigate('/monitoring-login-guru')} className="w-full text-center px-4 py-2 hover:bg-[#FDF5E6] font-fredoka-one text-[#955C2E] font-semibold transition-colors">Daftar Guru</button>
-                            <button onClick={() => navigate('/monitoring-login-ortu')} className="w-full text-center px-4 py-2 hover:bg-[#FDF5E6] font-fredoka-one text-[#955C2E] font-semibold transition-colors">Daftar Orang Tua</button>
-                        </div>
-                    </div>
+                    <button className="lnd-daftar-btn" onClick={() => navigate('/sign-up')}>Daftar Akun</button>
                 </div>
             </div>
             
@@ -73,52 +59,14 @@ export default function Landing() {
                   <IslandCard img="Maluku.png" name="Maluku" navigate={navigate} />
                   <IslandCard img="Nusa Tenggara.png" name="Nusa Tenggara" navigate={navigate} />
                </div>
-               <div className="relative inline-block group">
-                   <button className="lnd-btn-jelajah">Mulai Jelajah Sekarang! 🚀</button>
-                   <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 bg-white border border-[#E8D9C0] rounded-xl shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                       <button onClick={() => navigate('/login')} className="w-full text-center px-4 py-2 hover:bg-[#FDF5E6] font-fredoka-one text-[#955C2E] font-semibold transition-colors">Masuk sebagai Siswa</button>
-                       <button onClick={() => navigate('/monitoring-login-guru')} className="w-full text-center px-4 py-2 hover:bg-[#FDF5E6] font-fredoka-one text-[#955C2E] font-semibold transition-colors">Masuk sebagai Guru</button>
-                       <button onClick={() => navigate('/monitoring-login-ortu')} className="w-full text-center px-4 py-2 hover:bg-[#FDF5E6] font-fredoka-one text-[#955C2E] font-semibold transition-colors">Masuk sebagai Orang Tua</button>
-                   </div>
-               </div>
+               <button className="lnd-btn-jelajah" onClick={() => navigate('/login')}>Mulai Jelajah Sekarang! 🚀</button>
             </div>
 
             <div id="features" className="lnd-features">
                <h1 className="lnd-title-brown">Fitur Utama</h1>
                <p className="lnd-subtitle-brown">Jelajahi kekayaan budaya Indonesia dari 8 pulau<br/>dengan cara yang menyenangkan!</p>
-               <div className="lnd-features-content" style={{ position: 'relative', width: '100%' }}>
-                 <div style={{ position: 'relative', border: '2px solid #7B4F2E', backgroundColor: '#FDEBCC', borderRadius: '24px', display: 'flex', width: '100%', maxWidth: '800px', margin: '40px auto', paddingBottom: '20px' }}>
-                    
-                    {/* Kolom Cerita Rakyat */}
-                    <div style={{ flex: 1, borderRight: '2px dashed #955C2E', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '40px', position: 'relative' }}>
-                       <div style={{ position: 'absolute', top: '-24px', backgroundColor: '#BE6E3A', borderRadius: '12px', padding: '12px 40px', color: 'white', fontWeight: '800', fontSize: '1.4rem' }}>
-                         Cerita Rakyat
-                       </div>
-                       
-                       {/* Connector Line */}
-                       <div style={{ position: 'absolute', width: '2px', backgroundColor: '#7B4F2E', top: '100px', bottom: '80px', zIndex: 1 }}></div>
-
-                       <FlowCircle img="tahap 1.png" text="Pre-Test" />
-                       <FlowCircle img="tahap 2.png" text="Story" />
-                       <FlowCircle img="tahap 3.png" text="Post-Test" />
-                    </div>
-
-                    {/* Kolom Quiz Kultur */}
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '40px', position: 'relative' }}>
-                       <div style={{ position: 'absolute', top: '-24px', backgroundColor: '#BE6E3A', borderRadius: '12px', padding: '12px 40px', color: 'white', fontWeight: '800', fontSize: '1.4rem' }}>
-                         Quiz Kultur
-                       </div>
-                       
-                       {/* Connector Line */}
-                       <div style={{ position: 'absolute', width: '2px', backgroundColor: '#7B4F2E', top: '100px', bottom: '80px', zIndex: 1 }}></div>
-
-                       <FlowCircle img="tahap 1.png" text="Pilih Pulau" />
-                       <FlowCircle img="tahap 2.png" text="Pilih Topik" />
-                       <FlowCircle img="tahap 3.png" text="Pilih Level" />
-                    </div>
-                 </div>
-                 
-                 <img src="/assets/budayana/islands/Badak.png" alt="Badak" className="lnd-badak-float" style={{ right: '-50px', bottom: '-50px', zIndex: 4 }} />
+               <div className="lnd-features-content w-full flex justify-center mt-[-20px] mb-12">
+                 <img src="/assets/budayana/islands/new landing.png" alt="Features" className="w-[85%] max-w-[1000px] object-contain drop-shadow-xl" />
                </div>
             </div>
 
@@ -150,22 +98,6 @@ function IslandCard({ img, name, navigate }) {
         <div className="lnd-island-card" onClick={() => navigate('/login')}>
             <img src={`/assets/budayana/islands/${img}`} alt={name} />
             <span>{name}</span>
-        </div>
-    );
-}
-
-function FlowCircle({ img, text }) {
-    return (
-        <div style={{ 
-            width: '180px', height: '120px', 
-            borderRadius: '50%', backgroundColor: 'white', 
-            border: '3px solid #7B4F2E', 
-            display: 'flex', flexDirection: 'column', 
-            justifyContent: 'center', alignItems: 'center', 
-            zIndex: 2, margin: '20px 0' 
-        }}>
-            <img src={`/assets/budayana/islands/${img}`} alt={text} style={{ width: '45px', height: '45px', objectFit: 'contain', marginBottom: '8px' }} />
-            <span style={{ color: '#955C2E', fontWeight: '800', fontSize: '1.1rem' }}>{text}</span>
         </div>
     );
 }

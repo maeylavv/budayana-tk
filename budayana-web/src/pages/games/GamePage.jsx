@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useRef } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { useParams, useNavigate, useSearchParams } from "react-router-dom"
-import { ArrowLeft, ArrowRight, Clock, Check, X } from "lucide-react"
+import { ArrowLeft, ArrowRight, Clock, Check, X, Volume2, VolumeX, Play, Pause, SkipBack, SkipForward } from "lucide-react"
 import { useStory } from "../../hooks/useStories"
 import { getGameByIsland } from "../../data/games"
 import {
@@ -10,6 +10,7 @@ import {
   useAddQuestionLog,
   useUpdateAttempt,
 } from "../../hooks/useAttempts"
+import { useSpeech } from "../../hooks/useSpeech"
 
 const formatTime = (seconds) => {
   const mins = Math.floor(seconds / 60)
@@ -58,6 +59,9 @@ export default function GamePage() {
   const [showExitWarning, setShowExitWarning] = useState(false)
   const [showIncorrectPopup, setShowIncorrectPopup] = useState(false)
   const [lastIncorrectQuestionId, setLastIncorrectQuestionId] = useState(null)
+
+  // Audio hooks
+  const { speak, cancel: cancelSpeech, isSupported: speechSupported } = useSpeech()
 
   // Track questions that were answered incorrectly at least once
   const [incorrectAttempts, setIncorrectAttempts] = useState(new Set())
@@ -361,6 +365,7 @@ export default function GamePage() {
   const [isNavigating, setIsNavigating] = useState(false)
 
   const goNext = () => {
+    cancelSpeech()
     // Check if current question has pending answer validation
     if (isQuestion) {
       const currentQ = currentPageData.question
@@ -380,6 +385,7 @@ export default function GamePage() {
   }
 
   const goPrev = () => {
+    cancelSpeech()
     setCurrentPage(Math.max(0, currentPageIndex - 1))
   }
 
@@ -639,24 +645,108 @@ export default function GamePage() {
     </div>
   )
 
-  // Renders an image slide (e.g., IMAGE slideType from interactiveSlides)
-  const renderImagePage = (pageData) => (
-    <div className='w-full max-w-4xl mx-auto px-2'>
-      <div className='bg-white rounded-[30px] shadow-xl border-[3px] border-[#2c2c2c] overflow-hidden'>
-        {pageData.imageUrl ? (
-          <img
-            src={pageData.imageUrl}
-            alt='Interactive Story'
-            className='w-full max-h-[200px] md:max-h-[700px] object-contain'
-          />
-        ) : (
-          <div className='text-center p-8 text-gray-400'>
-            Gambar tidak tersedia
+  const StoryAudioPlayerPage = ({ pageData }) => {
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [isMuted, setIsMuted] = useState(false)
+
+    // Toggle play
+    const handlePlay = () => {
+      setIsPlaying(!isPlaying)
+      if (!isPlaying && speechSupported && !isMuted && pageData.contentText) {
+        speak(pageData.contentText)
+      } else {
+        cancelSpeech()
+      }
+    }
+
+    // Stop speaking if unmounting
+    useEffect(() => {
+      return () => cancelSpeech()
+    }, [])
+
+    return (
+      <div className='w-full max-w-5xl mx-auto flex items-center justify-between gap-4 px-2'>
+        {/* Left Arrow */}
+        <button
+          onClick={goPrev}
+          disabled={currentPageIndex === 0}
+          className='flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full text-white font-semibold transition disabled:opacity-50 disabled:bg-[#ccc] bg-[#f27f68] shrink-0 hover:scale-105 active:scale-95'
+        >
+          <ArrowLeft size={32} />
+        </button>
+
+        {/* Main Content */}
+        <div className='flex-1 flex flex-col gap-6'>
+          {/* Full screen image wrapper */}
+          <div className='w-full relative flex justify-center'>
+            {pageData.imageUrl ? (
+              <img
+                src={pageData.imageUrl}
+                alt='Interactive Story'
+                className='w-full max-h-[400px] md:max-h-[600px] object-contain'
+              />
+            ) : (
+              <div className='text-center p-8 text-gray-400'>
+                Gambar tidak tersedia
+              </div>
+            )}
           </div>
-        )}
+
+          {/* Audio Player UI */}
+          <div className='w-[95%] md:w-[95%] border-[3px] border-[#2c2c2c] bg-[#FFF8E7] rounded-full px-4 md:px-6 py-3 flex items-center justify-between shadow-md mx-auto'>
+            <button onClick={() => setIsMuted(!isMuted)}>
+              {isMuted ? (
+                <div className='relative'>
+                  <VolumeX size={28} className='text-red-500' />
+                </div>
+              ) : (
+                <Volume2 size={28} className='text-[#2c2c2c]' />
+              )}
+            </button>
+
+            <div className='flex items-center gap-3 md:gap-4 flex-1 justify-center'>
+              <button className='w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-500 flex items-center justify-center bg-[FFF8E7] text-gray-500'>
+                <SkipBack size={16} fill="currentColor" />
+              </button>
+
+              <button onClick={handlePlay} className='w-12 h-12 md:w-14 md:h-14 rounded-full border border-[rgba(0,0,0,0.1)] shadow-sm bg-[#89D3A8] text-white flex items-center justify-center p-0 transition-transform hover:scale-105 active:scale-95'>
+                {isPlaying ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" className="ml-1" />}
+              </button>
+
+              <button className='w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-500 flex items-center justify-center bg-[FFF8E7] text-gray-500'>
+                <SkipForward size={16} fill="currentColor" />
+              </button>
+            </div>
+
+            <div className='hidden md:block w-1/3 bg-gray-300 rounded-full h-2 md:h-3 mx-4 relative overflow-hidden'>
+              <div className='bg-[#4fb986] h-full rounded-full transition-all duration-300' style={{ width: isPlaying ? "30%" : "0%" }}></div>
+            </div>
+
+            <span className='font-bold text-[#2c2c2c] min-w-[36px] text-right text-sm md:text-base'>
+              {isPlaying ? "30 %" : "0 %"}
+            </span>
+
+            {/* Hidden space for Text-To-Speech Data without UI impact */}
+            <div className="sr-only">
+              {pageData.contentText || "Narration text placeholder here"}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Arrow */}
+        <button
+          onClick={goNext}
+          disabled={isSubmitting}
+          className='flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full text-white font-semibold transition disabled:opacity-50 disabled:bg-[#ccc] bg-[#4fb986] shrink-0 hover:scale-105 active:scale-95'
+        >
+          <ArrowRight size={32} />
+        </button>
       </div>
-    </div>
-  )
+    )
+  }
+
+  // Renders an image slide (e.g., IMAGE slideType from interactiveSlides)
+  const renderImagePage = (pageData) => <StoryAudioPlayerPage pageData={pageData} />
 
   // Renders the ending slide
   const renderEndingPage = () => (
@@ -1185,7 +1275,7 @@ export default function GamePage() {
                   : null}
       </div>
 
-      {!isResultsPage && (
+      {!isResultsPage && !isImage && (
         <div className='w-full max-w-5xl mx-auto mt-6 flex justify-between'>
           <button
             onClick={goPrev}

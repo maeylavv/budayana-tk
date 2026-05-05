@@ -12,7 +12,7 @@ import MapUI from "../components/MapUI"
 // Helper to see if we need special slug handling
 function getIslandSlug(name) {
   const lower = name.toLowerCase()
-  if (lower === "nusa tenggara") return "nusa"
+  if (lower === "nusa tenggara") return "nusa-tenggara"
   return lower
 }
 
@@ -201,14 +201,14 @@ function IslandPopup({ activeIsland, islandDetails, onClose }) {
 
   // Per-island card colors
   const ISLAND_COLORS = {
-    sumatra:       "#A8BFFB",
-    jawa:          "#C498DD",
-    kalimantan:    "#5AD9AD",
-    sulawesi:      "#FFA6C9",
-    papua:         "#F6B80F",
-    maluku:        "#9ED65D",
-    bali:          "#F2E686",
-    nusa:          "#F7885E",
+    sumatra: "#A8BFFB",
+    jawa: "#C498DD",
+    kalimantan: "#5AD9AD",
+    sulawesi: "#FFA6C9",
+    papua: "#F6B80F",
+    maluku: "#9ED65D",
+    bali: "#F2E686",
+    nusa: "#F7885E",
   }
   const cardColor = ISLAND_COLORS[activeIsland?.slug] || "#a6baf7"
 
