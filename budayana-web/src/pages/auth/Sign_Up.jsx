@@ -54,7 +54,7 @@ export default function SignIn() {
               console.warn("Progress initialization failed:", e)
             } finally {
               // TEMPORARY FIX: Set a local storage flag to bypass ProtectedRoute on localhost Cross-Origin issues
-             // localStorage.setItem("temp_dev_session", "true")
+              // localStorage.setItem("temp_dev_session", "true")
 
               setPopupType("success")
               setPopupMessage("Pendaftaran berhasil! Selamat datang.")
@@ -145,9 +145,9 @@ export default function SignIn() {
           <div className='field'>
             <label htmlFor='kelas'>Kelas</label>
             <input
-              type='string'
+              type='text'
               id='kelas'
-              placeholder='Kelas Kamu (contoh : 4)'
+              placeholder='Kelas Kamu (contoh : TK-A)'
               required
               value={grade}
               onChange={(e) => setGrade(e.target.value)}
