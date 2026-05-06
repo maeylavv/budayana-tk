@@ -147,7 +147,7 @@ export default function SignIn() {
             <input
               type='string'
               id='kelas'
-              placeholder='Kelas Kamu (contoh : 4)'
+              placeholder='Kelas Kamu (contoh : TK-A)'
               required
               value={grade}
               onChange={(e) => setGrade(e.target.value)}
