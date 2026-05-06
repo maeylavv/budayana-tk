@@ -3,6 +3,7 @@
   "type": "module",
   "version": "1.0.50",
   "scripts": {
+    "build": "bun run db:generate",
     "db:push": "bunx --bun prisma db push",
     "db:generate": "bunx --bun prisma generate",
     "db:migrate": "bunx --bun prisma migrate dev",
