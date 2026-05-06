@@ -49,7 +49,10 @@ export const auth = betterAuth({
   },
   trustedOrigins: allowedOrigins,
   emailAndPassword: {
-    enabled: true,
+  enabled: true,
+  validateEmail: (email: string) => {
+  return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+},
   },
   advanced: {
     defaultCookieAttributes: {
