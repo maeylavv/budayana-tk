@@ -393,12 +393,12 @@ export default function TestPage({ testType = "pre" }) {
     return (
       <div className='min-h-screen bg-[#fdf4d7] flex items-center justify-center'>
         <div className='text-center'>
-          <h1 className='text-2xl font-bold text-[#2c2c2c] mb-4'>
+          <h1 className='text-2xl font-regular text-[#2c2c2c] mb-4'>
             Island not found
           </h1>
           <button
             onClick={() => navigate(`/home?island=${islandSlug}`)}
-            className='bg-[#F7885E] text-white px-6 py-2 rounded-full font-semibold'
+            className='bg-[#F7885E] text-white px-6 py-2 rounded-full font-regular'
           >
             Back to Home
           </button>
@@ -417,7 +417,7 @@ export default function TestPage({ testType = "pre" }) {
     return (
       <div className='min-h-screen bg-[#fdf4d7] flex items-center justify-center'>
         <div className='text-center'>
-          <h1 className='text-2xl font-bold text-[#e64c45] mb-4'>
+          <h1 className='text-2xl font-regular text-[#e64c45] mb-4'>
             Gagal memuat pertanyaan
           </h1>
           <p className='text-[#2c2c2c] mb-6'>
@@ -425,7 +425,7 @@ export default function TestPage({ testType = "pre" }) {
           </p>
           <button
             onClick={() => navigate("/home")}
-            className='bg-[#F7885E] text-white px-6 py-2 rounded-full font-semibold'
+            className='bg-[#F7885E] text-white px-6 py-2 rounded-full font-regular'
           >
             Back to Home
           </button>
@@ -439,7 +439,7 @@ export default function TestPage({ testType = "pre" }) {
     return (
       <div className='min-h-screen bg-[#fdf4d7] flex items-center justify-center'>
         <div className='text-center'>
-          <h1 className='text-2xl font-bold text-[#2c2c2c] mb-4'>
+          <h1 className='text-2xl font-regular text-[#2c2c2c] mb-4'>
             Tidak ada pertanyaan
           </h1>
           <p className='text-[#5a5a5a] mb-6'>
@@ -447,7 +447,7 @@ export default function TestPage({ testType = "pre" }) {
           </p>
           <button
             onClick={() => navigate("/home")}
-            className='bg-[#F7885E] text-white px-6 py-2 rounded-full font-semibold'
+            className='bg-[#F7885E] text-white px-6 py-2 rounded-full font-regular'
           >
             Back to Home
           </button>
@@ -463,7 +463,7 @@ export default function TestPage({ testType = "pre" }) {
         <div className='w-full max-w-4xl mx-auto px-2'>
           <div className='rounded-[40px] shadow-2xl p-6 md:p-10 border-[3px] border-[#2c2c2c] text-center min-h-125 flex flex-col items-center justify-center relative bg-[#fdf8e4]'>
             {/* Header Badge */}
-            <div className='bg-[#E4AE28] text-white font-extrabold text-3xl md:text-4xl px-12 py-3 rounded-full shadow-lg mb-8 border-[3px] border-[#fff4d6] ring-4 ring-[#E4AE28]/30'>
+            <div className='bg-[#E4AE28] text-white font-regular text-3xl md:text-4xl px-12 py-3 rounded-full shadow-lg mb-8 border-[3px] border-[#fff4d6] ring-4 ring-[#E4AE28]/30'>
               Berhasil!
             </div>
 
@@ -471,7 +471,7 @@ export default function TestPage({ testType = "pre" }) {
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full max-w-2xl mb-8 md:mb-10'>
               {/* Waktu Card - Pink */}
               <div className='bg-[#FF9ECF] rounded-3xl p-6 border-[3px] border-[#2c2c2c] shadow-lg flex flex-col items-center justify-center gap-2 transform hover:scale-105 transition duration-300'>
-                <span className='text-[#2c2c2c] font-extrabold text-xl md:text-2xl'>
+                <span className='text-[#2c2c2c] font-regular text-xl md:text-2xl'>
                   Waktu
                 </span>
                 <div className='text-[#2c2c2c] font-black text-xl md:text-3xl flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 leading-tight'>
@@ -482,7 +482,7 @@ export default function TestPage({ testType = "pre" }) {
 
               {/* Nilai Card - Green */}
               <div className='bg-[#5ADCB6] rounded-3xl p-6 border-[3px] border-[#2c2c2c] shadow-lg flex flex-col items-center justify-center gap-2 transform hover:scale-105 transition duration-300'>
-                <span className='text-[#2c2c2c] font-extrabold text-xl md:text-2xl'>
+                <span className='text-[#2c2c2c] font-regular text-xl md:text-2xl'>
                   Nilai
                 </span>
                 <span className='text-[#2c2c2c] font-black text-3xl md:text-4xl'>
@@ -494,7 +494,7 @@ export default function TestPage({ testType = "pre" }) {
             {/* Continue Button */}
             <button
               onClick={handleBackToHome}
-              className='bg-[#F7885E] hover:bg-[#e4764c] text-white font-extrabold text-xl md:text-2xl px-12 py-3 md:py-4 rounded-full shadow-lg border-b-4 border-[#c9623d] active:border-b-0 active:translate-y-1 transition-all'
+              className='bg-[#F7885E] hover:bg-[#e4764c] text-white font-regular text-xl md:text-2xl px-12 py-3 md:py-4 rounded-full shadow-lg border-b-4 border-[#c9623d] active:border-b-0 active:translate-y-1 transition-all'
             >
               Kembali ke Beranda
             </button>
@@ -519,13 +519,13 @@ export default function TestPage({ testType = "pre" }) {
             <ArrowLeft size={22} />
           </button>
 
-          <div className='absolute left-1/2 -translate-x-1/2 text-4xl font-semibold text-[#2f2f2f]'>
+          <div className='absolute left-1/2 -translate-x-1/2 text-4xl font-regular text-[#2f2f2f]'>
             {testTitle} {displayName}
           </div>
 
           <div className='flex items-center gap-2 bg-white/70 px-4 py-2 rounded-full shadow-sm border-2 border-[#2c2c2c]'>
             <Clock size={20} className='text-[#2c2c2c]' />
-            <span className='text-[#2c2c2c] font-semibold tracking-[0.12em]'>
+            <span className='text-[#2c2c2c] font-regular tracking-[0.12em]'>
               {formatTime(timeElapsed)}
             </span>
           </div>
@@ -537,7 +537,7 @@ export default function TestPage({ testType = "pre" }) {
           style={{ backgroundColor: cardBg }}
         >
           <div className='flex justify-center mb-6'>
-            <div className='bg-white px-12 py-3 rounded-2xl shadow-md text-lg font-bold text-[#202020]'>
+            <div className='bg-white px-12 py-3 rounded-2xl shadow-md text-lg font-regular text-[#202020]'>
               {storyTitle}
             </div>
           </div>
@@ -548,12 +548,12 @@ export default function TestPage({ testType = "pre" }) {
           >
             <div className='flex items-center gap-4 mb-8'>
               <div
-                className='w-11 h-11 rounded-full text-white font-bold flex items-center justify-center shadow-inner'
+                className='w-11 h-11 rounded-full text-white font-regular flex items-center justify-center shadow-inner'
                 style={{ backgroundColor: accent }}
               >
                 {currentQuestion + 1}
               </div>
-              <p className='text-lg font-semibold text-[#2c2c2c] leading-relaxed'>
+              <p className='text-lg font-regular text-[#2c2c2c] leading-relaxed'>
                 {q?.question}
               </p>
             </div>
@@ -565,7 +565,7 @@ export default function TestPage({ testType = "pre" }) {
                   <button
                     key={i}
                     onClick={() => handleAnswerSelect(i)}
-                    className='w-full text-left font-semibold rounded-2xl border-[2.5px] px-5 py-4 transition-transform duration-150'
+                    className='w-full text-left font-regular rounded-2xl border-[2.5px] px-5 py-4 transition-transform duration-150'
                     style={{
                       backgroundColor: selected ? accent : contentBg,
                       color: selected ? "white" : "#1f1f1f",
@@ -588,7 +588,7 @@ export default function TestPage({ testType = "pre" }) {
             <button
               onClick={handlePrevQuestion}
               disabled={currentQuestion === 0}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold shadow-md transition ${currentQuestion === 0
+              className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular shadow-md transition ${currentQuestion === 0
                 ? "bg-[#f2c3c3] cursor-not-allowed"
                 : "bg-[#e76964] hover:bg-[#d95e59]"
                 }`}
@@ -597,7 +597,7 @@ export default function TestPage({ testType = "pre" }) {
               Sebelumnya
             </button>
 
-            <div className='text-sm font-semibold text-[#5a5a5a]'>
+            <div className='text-sm font-regular text-[#5a5a5a]'>
               Halaman {currentQuestion + 1} dari {questions.length}
             </div>
 
@@ -605,7 +605,7 @@ export default function TestPage({ testType = "pre" }) {
               <button
                 onClick={handleFinish}
                 disabled={answers[currentQuestion] === undefined || isSubmitting}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold shadow-md transition ${answers[currentQuestion] === undefined || isSubmitting
+                className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular shadow-md transition ${answers[currentQuestion] === undefined || isSubmitting
                   ? "bg-gray-300 cursor-not-allowed opacity-50"
                   : "bg-[#19758E] hover:bg-[#17748D]"
                   }`}
@@ -617,7 +617,7 @@ export default function TestPage({ testType = "pre" }) {
               <button
                 onClick={handleNext}
                 disabled={answers[currentQuestion] === undefined}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold shadow-md transition ${answers[currentQuestion] === undefined
+                className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular shadow-md transition ${answers[currentQuestion] === undefined
                   ? "bg-gray-300 cursor-not-allowed opacity-50"
                   : "bg-[#19758E] hover:bg-[#17748D]"
                   }`}
@@ -640,13 +640,13 @@ export default function TestPage({ testType = "pre" }) {
               className='w-32 mx-auto mb-3'
             />
 
-            <p className='text-lg font-semibold text-[#2f2f2f] leading-relaxed mb-6'>
+            <p className='text-lg font-regular text-[#2f2f2f] leading-relaxed mb-6'>
               Kamu yakin mau keluar?
             </p>
 
             <button
               onClick={() => setShowWarning(false)}
-              className='w-full bg-[#f88c63] text-white font-bold py-3 rounded-full shadow-md hover:bg-[#e27852] transition mb-2'
+              className='w-full bg-[#f88c63] text-white font-regular py-3 rounded-full shadow-md hover:bg-[#e27852] transition mb-2'
             >
               Lanjutkan Belajar
             </button>
@@ -654,7 +654,7 @@ export default function TestPage({ testType = "pre" }) {
             <button
               onClick={handleConfirmExit}
               disabled={isSubmitting}
-              className={`font-bold ${isSubmitting ? "text-gray-400" : "text-[#e64c45]"}`}
+              className={`font-regular ${isSubmitting ? "text-gray-400" : "text-[#e64c45]"}`}
             >
               {isSubmitting ? "Mengakhiri..." : "Keluar"}
             </button>

@@ -1,10 +1,10 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Fredoka+One&family=Fredoka:wght@300..700&display=swap");
+@import "tailwindcss";
 
 :root {
-    font-family: 'Fredoka One', 'ADLaM Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Fredoka', 'ADLaM Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.5;
-    font-weight: 400;
+    font-weight: 300;
     color: #1f1f1f;
     background-color: #fdf4d7;
     /* Restored original background color */
@@ -65,4 +65,50 @@ body {
         transform: rotateY(0deg);
         z-index: 20;
     }
+}
+
+/* Custom Audio Slider */
+.custom-audio-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+  outline: none;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.custom-audio-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--progress-bg, #e0d6c8);
+}
+
+.custom-audio-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #8e5c3b;
+  margin-top: -6px;
+}
+
+.custom-audio-slider::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--progress-bg, #e0d6c8);
+}
+
+.custom-audio-slider::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #8e5c3b;
+  border: none;
 }

@@ -172,13 +172,13 @@ const HomePage = () => {
       {/* Top HUD */}
       <div className='absolute top-6 left-6'>
         <div
-          className='text-[#a2541f] font-extrabold text-2xl drop-shadow-sm'
+          className='text-[#a2541f] font-regular text-2xl drop-shadow-sm'
           style={{ textShadow: "0 0 2px #fff, 0 0 4px #fff" }}
         >
           Cerita Selesai :
         </div>
         <div
-          className='text-[#a2541f] font-extrabold text-3xl drop-shadow-sm text-center'
+          className='text-[#a2541f] font-regular text-3xl drop-shadow-sm text-center'
           style={{ textShadow: "0 0 2px #fff, 0 0 4px #fff" }}
         >
           {summary.completed}/{summary.total}
@@ -231,10 +231,10 @@ const HomePage = () => {
           <div className='w-full max-w-2xl bg-[#fdf6e3] rounded-[24px] shadow-2xl relative px-6 py-8 md:px-12 md:py-10 border border-[#f2ebd4]'>
             {/* Top Bar for Modal */}
             <div className='flex items-center justify-between mb-6'>
-              <div className='text-lg md:text-xl font-bold text-black'>
+              <div className='text-lg md:text-xl font-regular text-black'>
                 Percobaan : {attemptCount}
               </div>
-              <div className='text-center text-3xl md:text-4xl font-extrabold text-[#000000] absolute left-1/2 -translate-x-1/2'>
+              <div className='text-center text-3xl md:text-4xl font-regular text-[#000000] absolute left-1/2 -translate-x-1/2'>
                 {selectedIsland.name}
               </div>
               <button
@@ -249,13 +249,13 @@ const HomePage = () => {
 
             {/* Central Card content */}
             <div className='flex flex-col items-center justify-center bg-[#A4Bcf0] rounded-[20px] p-6 lg:p-8 mt-10 sm:mt-16 sm:w-[500px] mx-auto shadow-[0_4px_12px_rgba(0,0,0,0.1)]'>
-              <div className='text-center text-white text-[22px] md:text-[28px] font-extrabold leading-snug mb-5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]' style={{ fontFamily: "Comic Sans MS, sans-serif" }}>
+              <div className='text-center text-white text-[22px] md:text-[28px] font-regular leading-snug mb-5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]' style={{ fontFamily: "Comic Sans MS, sans-serif" }}>
                 Cerita Rakyat Interaktif<br />{storyTitle}
               </div>
 
               <button
                 onClick={() => handleStageClick("story")}
-                className='bg-[#eebe40] hover:bg-[#d8a82d] text-white font-bold py-2.5 px-8 rounded-full shadow-lg text-lg md:text-xl flex items-center justify-center mb-6 transition-transform hover:-translate-y-1 active:scale-95 border-2 border-transparent'
+                className='bg-[#eebe40] hover:bg-[#d8a82d] text-white font-regular py-2.5 px-8 rounded-full shadow-lg text-lg md:text-xl flex items-center justify-center mb-6 transition-transform hover:-translate-y-1 active:scale-95 border-2 border-transparent'
               >
                 Mulai <span className='ml-2 text-xl md:text-2xl font-black'>▶</span>
               </button>

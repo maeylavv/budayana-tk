@@ -29,7 +29,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     font-family: 'Fredoka One', sans-serif;
     color: #955C2E;
     font-size: 1.05rem;
-    font-weight: 600;
+    font-weight: normal;
     cursor: pointer;
 }
 .lnd-masuk-btn {
@@ -39,7 +39,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     padding: 10px 40px;
     border-radius: 30px;
     font-family: 'Fredoka One', sans-serif;
-    font-weight: 600;
+    font-weight: normal;
     font-size: 1rem;
     cursor: pointer;
 }
@@ -85,7 +85,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     padding: 14px 40px;
     border-radius: 40px;
     font-family: 'Fredoka One', sans-serif;
-    font-weight: 700;
+    font-weight: normal;
     font-size: 1.25rem;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(149, 92, 46, 0.4);
@@ -114,7 +114,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     font-family: 'Fredoka One', sans-serif;
     color: #955C2E;
     font-size: 3rem;
-    font-weight: 700;
+    font-weight: normal;
     margin-bottom: 40px;
     text-align: center;
 }
@@ -148,7 +148,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     color: #333;
     line-height: 1.7;
     margin: 0;
-    font-weight: 500;
+    font-weight: normal;
 }
 
 /* Kuis Budaya Interaktif */
@@ -168,7 +168,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     font-family: 'Fredoka One', sans-serif;
     color: #fff;
     font-size: 2.8rem;
-    font-weight: 700;
+    font-weight: normal;
     margin: 0 0 10px 0;
     text-align: center;
 }
@@ -179,7 +179,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     text-align: center;
     margin-bottom: 50px;
     line-height: 1.5;
-    font-weight: 500;
+    font-weight: normal;
 }
 .lnd-grid-islands {
     display: grid;
@@ -208,7 +208,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
 }
 .lnd-island-card span {
     font-family: 'Fredoka One', sans-serif;
-    font-weight: 700;
+    font-weight: normal;
     color: #955C2E;
     font-size: 1rem;
     margin: 0;
@@ -219,7 +219,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     padding: 12px 35px;
     border-radius: 30px;
     font-family: 'Fredoka One', sans-serif;
-    font-weight: 700;
+    font-weight: normal;
     font-size: 1.2rem;
     border: none;
     cursor: pointer;
@@ -243,7 +243,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     margin-top: -20px;
     margin-bottom: 60px;
     line-height: 1.5;
-    font-weight: 500;
+    font-weight: normal;
 }
 .lnd-features-content {
     display: flex;
@@ -291,7 +291,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     font-size: 1.1rem;
     text-align: center;
     margin-bottom: 40px;
-    font-weight: 400;
+    font-weight: normal;
 }
 .lnd-contact-info {
     display: flex;
@@ -305,7 +305,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     color: #fff;
     font-family: 'Fredoka One', sans-serif;
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: normal;
 }
 .lnd-contact-row img {
     width: 30px;

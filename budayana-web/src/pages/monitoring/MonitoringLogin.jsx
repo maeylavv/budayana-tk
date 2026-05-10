@@ -34,7 +34,7 @@ export default function MonitoringLogin({ role }) {
         <h1>Selamat Datang di</h1>
         <img src='/assets/budayana/islands/Game Name.png' alt='Budayana'></img>
         <h2>Dashboard {isGuru ? "Guru" : "Orang Tua"}</h2>
-        <p style={{ fontFamily: 'Fredoka One', color: '#955C2E', marginTop: '-10px', marginBottom: '20px', fontWeight: 'bold' }}>
+        <p style={{ fontFamily: 'Fredoka One', color: '#955C2E', marginTop: '-10px', marginBottom: '20px', fontWeight: 'normal' }}>
           Daftar akunmu dulu yuk!
         </p>
       </div>

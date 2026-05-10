@@ -30,7 +30,7 @@ export default function ScoreTable({ history }) {
           history.map((item, index) => (
             <div key={index} className="history-row" style={{ display: 'grid', gridTemplateColumns: '1.5fr 2fr 1fr 1fr 1fr 1fr 1.5fr', padding: '16px 24px', borderBottom: '1px solid #E8D9C0', alignItems: 'center' }}>
               <div style={{ textAlign: 'center' }}>
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${ISLAND_COLORS[item.island] || 'bg-gray-100'}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-regular border ${ISLAND_COLORS[item.island] || 'bg-gray-100'}`}>
                   {item.island}
                 </span>
               </div>
@@ -40,11 +40,11 @@ export default function ScoreTable({ history }) {
               </div>
               <div style={{ textAlign: 'center' }}>{item.level}</div>
               <div style={{ textAlign: 'center' }}>
-                <span className={`px-2 py-1 rounded-md text-xs font-bold ${getBloomColor(item.bloom)}`}>
+                <span className={`px-2 py-1 rounded-md text-xs font-regular ${getBloomColor(item.bloom)}`}>
                   {item.bloom}
                 </span>
               </div>
-              <div className={`text-center font-bold ${getScoreColor(item.scorePercent)}`}>
+              <div className={`text-center font-regular ${getScoreColor(item.scorePercent)}`}>
                 {item.score}
               </div>
               <div style={{ textAlign: 'center' }}>{item.time}</div>
