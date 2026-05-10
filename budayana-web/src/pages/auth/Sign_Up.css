@@ -25,7 +25,7 @@
 .header_form h1 {
   font-family: 'Fredoka One', sans-serif;
   color: #955C2E;
-  font-weight: 650;
+  font-weight: normal;
   font-size: clamp(1.8rem, 5vw, 2.3rem);
   /* Responsive font size */
   margin-bottom: 2px;
@@ -36,7 +36,7 @@
 .header_form h2 {
   font-family: 'Fredoka One', sans-serif;
   color: #967C66;
-  font-weight: 650;
+  font-weight: normal;
   font-size: clamp(1.2rem, 4vw, 1.5rem);
   margin-top: 2px;
   text-align: center;
@@ -53,7 +53,7 @@
 
   font-family: 'Fredoka One', sans-serif;
   color: #967C66;
-  font-weight: 600;
+  font-weight: normal;
   font-size: 1.5rem;
 }
 
@@ -65,7 +65,7 @@
   border: 2px solid #955C2E;
   font-family: 'Fredoka One', sans-serif;
   color: #ffffff;
-  font-weight: 600;
+  font-weight: normal;
   font-size: 1.5rem;
   transition: background-color 0.2s;
 }
@@ -112,7 +112,7 @@ label {
   width: 25%;
   font-family: 'Fredoka One', sans-serif;
   color: #955C2E;
-  font-weight: 650;
+  font-weight: normal;
   font-size: 1.5rem;
   margin: 0;
 }
@@ -123,7 +123,7 @@ input {
   border-radius: 10px;
   font-family: 'Fredoka One', sans-serif;
   color: #000000;
-  font-weight: 650;
+  font-weight: normal;
   font-size: 1.2rem;
   border: 1px solid #ccc;
   /* Added border for better visibility */
@@ -152,7 +152,7 @@ input::placeholder {
   border: 1px solid #955c2e;
   background-color: #ffffff;
   font-family: 'Fredoka One', sans-serif;
-  font-weight: 600;
+  font-weight: normal;
   font-size: 0.9rem;
   color: #955c2e;
   cursor: pointer;
@@ -178,7 +178,7 @@ input::placeholder {
   background-color: #955C2E;
   color: #ffffff;
   font-family: 'Fredoka One', sans-serif;
-  font-weight: 600;
+  font-weight: normal;
   font-size: 1.3rem;
   cursor: pointer;
 }

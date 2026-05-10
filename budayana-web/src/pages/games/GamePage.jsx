@@ -20,6 +20,338 @@ const formatTime = (seconds) => {
   return `${mins} : ${secs}`
 }
 
+// Helper function to generate hardcoded audio URL based on island and slide number
+const getHardcodedAudioUrl = (islandSlug, slideNumber) => {
+  if (!islandSlug || !slideNumber) return null
+
+  // Handle folder mapping for nusa-tenggara -> ntt
+  const folderSlug = islandSlug === "nusa-tenggara" ? "ntt" : islandSlug;
+
+  // Map island slugs to proper casing for audio file names
+  const islandNameMap = {
+    sulawesi: "SULAWESI",
+    bali: "BALI",
+    sumatra: "SUMATRA",
+    jawa: "JAWA",
+    kalimantan: "KALIMANTAN",
+    maluku: "MALUKU",
+    ntt: "NTT",
+    "nusa-tenggara": "NTT",
+    papua: "PAPUA",
+  }
+
+  const islandName = islandNameMap[islandSlug?.toLowerCase()]
+  if (!islandName) return null
+
+  // Check if it is an odd-numbered slide (story slide)
+  if (slideNumber % 2 !== 0) {
+    // Convert odd slide numbers (1, 3, 5, 7, 9) into sequential indexes (1, 2, 3, 4, 5)
+    const audioIndex = (slideNumber + 1) / 2;
+    
+    // Format: /audio/[island_slug]/[ISLAND_NAME] [audioIndex].mp3
+    return `/audio/${folderSlug}/${islandName} ${audioIndex}.mp3`;
+  } else {
+    // Return null or handle game slides where there is no audio
+    return null; 
+  }
+}
+
+const StoryAudioPlayerPage = ({
+  pageData,
+  goPrev,
+  goNext,
+  currentPageIndex,
+  isSubmitting,
+  speak,
+  cancelSpeech,
+  speechSupported
+}) => {
+  const audioRef = useRef(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isMuted, setIsMuted] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [audioLoaded, setAudioLoaded] = useState(false)
+  const animationRef = useRef(null)
+  const progressBarRef = useRef(null)
+  const timeDisplayRef = useRef(null)
+
+  // Use hardcoded audio URL (priority), fallback to pageData.audioUrl
+  const audioUrl = pageData.audioUrl
+
+  // Handle audio source changes
+  useEffect(() => {
+    if (audioRef.current && audioUrl) {
+      // Reset states when audio source changes
+      setIsPlaying(false)
+      setCurrentTime(0)
+      setDuration(0)
+      setAudioLoaded(false)
+
+      // Set new source
+      audioRef.current.src = encodeURI(audioUrl)
+      audioRef.current.load()
+    }
+  }, [audioUrl])
+
+  // Pause audio when page data changes (navigation)
+  useEffect(() => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.pause()
+      setIsPlaying(false)
+    }
+  }, [pageData.sortOrder])
+
+  // Toggle play
+  const handlePlay = () => {
+    if (!audioUrl) {
+      // Fallback to TTS
+      setIsPlaying(!isPlaying)
+      if (!isPlaying && speechSupported && !isMuted && pageData.contentText) {
+        speak(pageData.contentText)
+      } else {
+        cancelSpeech()
+      }
+      return
+    }
+
+    if (!audioRef.current) return
+
+    if (isPlaying) {
+      audioRef.current.pause()
+      setIsPlaying(false)
+    } else {
+      if (audioRef.current.currentTime >= audioRef.current.duration) {
+        audioRef.current.currentTime = 0;
+        setCurrentTime(0);
+      }
+
+      // Ensure audio is loaded before playing
+      if (!audioLoaded) {
+        audioRef.current.load()
+      }
+
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true)
+        })
+        .catch(e => {
+          console.error("Audio play failed:", e)
+          setIsPlaying(false)
+        })
+    }
+  }
+
+  useEffect(() => {
+    const updateProgress = () => {
+      if (audioRef.current && isPlaying) {
+        const current = audioRef.current.currentTime;
+        const durationVal = audioRef.current.duration || 1;
+        const progressPercent = durationVal > 0 ? (current / durationVal) * 100 : 0;
+
+        if (progressBarRef.current) {
+          progressBarRef.current.value = current;
+          progressBarRef.current.style.setProperty(
+            '--progress-bg',
+            `linear-gradient(to right, #8e5c3b ${progressPercent}%, #e0d6c8 ${progressPercent}%)`
+          );
+        }
+
+        if (timeDisplayRef.current) {
+          timeDisplayRef.current.innerText = `${formatAudioTime(current)} / ${formatAudioTime(durationVal)}`;
+        }
+
+        animationRef.current = requestAnimationFrame(updateProgress);
+      }
+    }
+
+    if (isPlaying) {
+      animationRef.current = requestAnimationFrame(updateProgress)
+    } else {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current)
+    }
+
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current)
+    }
+  }, [isPlaying])
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration)
+      setAudioLoaded(true)
+    }
+  }
+
+  const handleCanPlay = () => {
+    setAudioLoaded(true)
+    // Small delay to ensure audio is fully ready
+    setTimeout(() => {
+      if (audioRef.current && !audioRef.current.error) {
+        setAudioLoaded(true)
+      }
+    }, 100)
+  }
+
+  const handleEnded = () => {
+    setIsPlaying(false)
+
+    if (audioRef.current && progressBarRef.current && timeDisplayRef.current) {
+      const dur = audioRef.current.duration || 1;
+      progressBarRef.current.value = dur;
+      progressBarRef.current.style.setProperty('--progress-bg', `linear-gradient(to right, #8e5c3b 100%, #e0d6c8 100%)`);
+      timeDisplayRef.current.innerText = `${formatAudioTime(dur)} / ${formatAudioTime(dur)}`;
+    }
+  }
+
+  const handleError = (e) => {
+    console.error("Audio error:", e)
+    setIsPlaying(false)
+    setAudioLoaded(false)
+  }
+
+  const formatAudioTime = (timeInSeconds) => {
+    if (isNaN(timeInSeconds) || !isFinite(timeInSeconds)) return "0:00"
+    const m = Math.floor(timeInSeconds / 60)
+    const s = Math.floor(timeInSeconds % 60)
+    return `${m}:${s.toString().padStart(2, "0")}`
+  }
+
+  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0
+
+  // Stop speaking/playing if unmounting
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current.currentTime = 0
+      }
+      cancelSpeech()
+    }
+  }, [cancelSpeech])
+
+  // Update muted state of audio element
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.muted = isMuted
+    }
+  }, [isMuted])
+
+  return (
+    <div className='w-full max-w-5xl mx-auto flex flex-col gap-6 px-2'>
+      {/* Main Content */}
+      <div className='flex-1 flex flex-col gap-6'>
+        {/* Full screen image wrapper */}
+        <div className='w-full relative flex justify-center'>
+          {pageData.imageUrl ? (
+            <img
+              src={pageData.imageUrl}
+              alt='Interactive Story'
+              className='w-full max-h-[500px] md:max-h-[700px] object-contain'
+            />
+          ) : (
+            <div className='text-center p-8 text-gray-400'>
+              Gambar tidak tersedia
+            </div>
+          )}
+        </div>
+
+        {/* Audio Player UI */}
+        <div className='w-[95%] md:w-[95%] border-[3px] border-[#8e5c3b] bg-transparent rounded-full px-4 md:px-8 py-3 flex items-center justify-between mx-auto gap-4 md:gap-6'>
+          {audioUrl && (
+            <audio
+              ref={audioRef}
+              onLoadedMetadata={handleLoadedMetadata}
+              onCanPlay={handleCanPlay}
+              onEnded={handleEnded}
+              onError={handleError}
+              preload="metadata"
+              className="hidden"
+            />
+          )}
+
+          {/* Play/Pause Button */}
+          <button
+            onClick={handlePlay}
+            disabled={!audioLoaded && audioUrl}
+            className='text-[#8e5c3b] flex-shrink-0 transition-transform hover:scale-105 active:scale-95 flex items-center justify-center w-8 h-8 disabled:opacity-50'
+          >
+            {(!audioLoaded && audioUrl) ? (
+              <div className="animate-spin rounded-full h-6 w-6 border-2 border-[#8e5c3b] border-t-transparent"></div>
+            ) : (
+              isPlaying ? <Pause size={32} fill="currentColor" /> : <Play size={32} fill="currentColor" />
+            )}
+          </button>
+
+          {/* Time */}
+          <span ref={timeDisplayRef} className='font-regular text-[#1f1f1f] text-sm md:text-base flex-shrink-0 w-24 text-center'>
+            {formatAudioTime(currentTime)} / {formatAudioTime(duration)}
+          </span>
+
+          {/* Progress Bar */}
+          <input
+            ref={progressBarRef}
+            type="range"
+            min="0"
+            max={duration || 100}
+            step="0.01"
+            defaultValue={currentTime}
+            onChange={(e) => {
+              const val = Number(e.target.value)
+              setCurrentTime(val)
+              if (audioRef.current) audioRef.current.currentTime = val
+
+              const durationVal = duration || 1;
+              const progressPct = durationVal > 0 ? (val / durationVal) * 100 : 0;
+              e.target.style.setProperty('--progress-bg', `linear-gradient(to right, #8e5c3b ${progressPct}%, #e0d6c8 ${progressPct}%)`);
+
+              if (timeDisplayRef.current) {
+                timeDisplayRef.current.innerText = `${formatAudioTime(val)} / ${formatAudioTime(durationVal)}`;
+              }
+            }}
+            className='flex-1 custom-audio-slider'
+            style={{
+              '--progress-bg': `linear-gradient(to right, #8e5c3b ${progressPercent}%, #e0d6c8 ${progressPercent}%)`
+            }}
+          />
+
+          {/* Replay & Volume Buttons Wrapper */}
+          <div className="flex gap-2 items-center flex-shrink-0">
+            {/* Replay Button */}
+            <button
+              onClick={() => {
+                setCurrentTime(0)
+                if (audioRef.current) {
+                  audioRef.current.currentTime = 0
+                  audioRef.current.play()
+                  setIsPlaying(true)
+                }
+              }}
+              className='flex items-center justify-center w-8 h-8 hover:scale-105 active:scale-95 transition-transform'
+            >
+              <img src="/assets/budayana/islands/replay-logo.png" alt="Replay" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
+            </button>
+
+            {/* Volume Button */}
+            <button onClick={() => setIsMuted(!isMuted)} className='flex items-center justify-center w-8 h-8 hover:scale-105 active:scale-95 transition-transform'>
+              {isMuted ? (
+                <img src="/assets/budayana/islands/speaker mute-logo.png" alt="Muted" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
+              ) : (
+                <img src="/assets/budayana/islands/speaker-logo.png" alt="Speaker" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
+              )}
+            </button>
+          </div>
+
+          {/* Hidden space for Text-To-Speech Data without UI impact */}
+          <div className="sr-only">
+            {pageData.contentText || "Narration text placeholder here"}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /**
  * Game Page Component
  * Fetches story data and manages interactive game attempts
@@ -97,12 +429,14 @@ export default function GamePage() {
         ...s,
         type: "story",
         sortOrder: s.slideNumber,
+        audioUrl: getHardcodedAudioUrl(islandSlug, s.slideNumber),
       })) || []
     const interactiveSlides =
       story.interactiveSlides?.map((s) => ({
         ...s,
         type: getInternalType(s),
         sortOrder: s.slideNumber,
+        audioUrl: getHardcodedAudioUrl(islandSlug, s.slideNumber),
       })) || []
 
     // Combine and sort by slideNumber
@@ -594,23 +928,23 @@ export default function GamePage() {
               key={opt.id}
               onClick={() => handleAnswer(question, idx)}
               disabled={current?.isCorrect === true || isPending || (showIncorrectPopup && lastIncorrectQuestionId === question.id)}
-              className='w-full text-left rounded-2xl px-4 py-3 md:px-5 md:py-4 font-semibold shadow-sm transition border-2 relative'
+              className='w-full text-left rounded-2xl px-4 py-3 md:px-5 md:py-4 font-regular shadow-sm transition border-2 relative'
               style={{ backgroundColor: bgColor, opacity, borderColor }}
             >
               <div className='flex items-center gap-2 md:gap-3'>
-                <div className='w-8 h-8 rounded-full bg-white/80 border-2 border-black/20 flex items-center justify-center font-bold text-sm'>
+                <div className='w-8 h-8 rounded-full bg-white/80 border-2 border-black/20 flex items-center justify-center font-regular text-sm'>
                   {String.fromCharCode(65 + idx)}
                 </div>
                 <span className='text-[#1f1f1f] flex-1 text-sm md:text-base' style={{ color: questionIsIncorrect && hasResult && !isSelected ? '#6b6b6b' : undefined }}>
                   {opt.optionText}
                 </span>
                 {isWrongAnswer && (
-                  <span className='inline-flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-[#E9645F] text-white font-bold ml-2'>
+                  <span className='inline-flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-[#E9645F] text-white font-regular ml-2'>
                     <X size={20} strokeWidth={3.5} color='#ffffff' />
                   </span>
                 )}
                 {isCorrectAnswer && (
-                  <span className='inline-flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#7BC142] text-white font-bold ml-2'>
+                  <span className='inline-flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#7BC142] text-white font-regular ml-2'>
                     <Check size={18} strokeWidth={3} color='#ffffff' />
                   </span>
                 )}
@@ -638,122 +972,35 @@ export default function GamePage() {
             />
           </div>
         )}
-        <div className='text-lg font-medium text-[#2c2c2c] text-center'>
+        <div className='text-lg font-regular text-[#2c2c2c] text-center'>
           {pageData.contentText}
         </div>
       </div>
     </div>
   )
 
-  const StoryAudioPlayerPage = ({ pageData }) => {
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [isMuted, setIsMuted] = useState(false)
 
-    // Toggle play
-    const handlePlay = () => {
-      setIsPlaying(!isPlaying)
-      if (!isPlaying && speechSupported && !isMuted && pageData.contentText) {
-        speak(pageData.contentText)
-      } else {
-        cancelSpeech()
-      }
-    }
-
-    // Stop speaking if unmounting
-    useEffect(() => {
-      return () => cancelSpeech()
-    }, [])
-
-    return (
-      <div className='w-full max-w-5xl mx-auto flex items-center justify-between gap-4 px-2'>
-        {/* Left Arrow */}
-        <button
-          onClick={goPrev}
-          disabled={currentPageIndex === 0}
-          className='flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full text-white font-semibold transition disabled:opacity-50 disabled:bg-[#ccc] bg-[#f27f68] shrink-0 hover:scale-105 active:scale-95'
-        >
-          <ArrowLeft size={32} />
-        </button>
-
-        {/* Main Content */}
-        <div className='flex-1 flex flex-col gap-6'>
-          {/* Full screen image wrapper */}
-          <div className='w-full relative flex justify-center'>
-            {pageData.imageUrl ? (
-              <img
-                src={pageData.imageUrl}
-                alt='Interactive Story'
-                className='w-full max-h-[400px] md:max-h-[600px] object-contain'
-              />
-            ) : (
-              <div className='text-center p-8 text-gray-400'>
-                Gambar tidak tersedia
-              </div>
-            )}
-          </div>
-
-          {/* Audio Player UI */}
-          <div className='w-[95%] md:w-[95%] border-[3px] border-[#2c2c2c] bg-[#FFF8E7] rounded-full px-4 md:px-6 py-3 flex items-center justify-between shadow-md mx-auto'>
-            <button onClick={() => setIsMuted(!isMuted)}>
-              {isMuted ? (
-                <div className='relative'>
-                  <VolumeX size={28} className='text-red-500' />
-                </div>
-              ) : (
-                <Volume2 size={28} className='text-[#2c2c2c]' />
-              )}
-            </button>
-
-            <div className='flex items-center gap-3 md:gap-4 flex-1 justify-center'>
-              <button className='w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-500 flex items-center justify-center bg-[FFF8E7] text-gray-500'>
-                <SkipBack size={16} fill="currentColor" />
-              </button>
-
-              <button onClick={handlePlay} className='w-12 h-12 md:w-14 md:h-14 rounded-full border border-[rgba(0,0,0,0.1)] shadow-sm bg-[#89D3A8] text-white flex items-center justify-center p-0 transition-transform hover:scale-105 active:scale-95'>
-                {isPlaying ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" className="ml-1" />}
-              </button>
-
-              <button className='w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-500 flex items-center justify-center bg-[FFF8E7] text-gray-500'>
-                <SkipForward size={16} fill="currentColor" />
-              </button>
-            </div>
-
-            <div className='hidden md:block w-1/3 bg-gray-300 rounded-full h-2 md:h-3 mx-4 relative overflow-hidden'>
-              <div className='bg-[#4fb986] h-full rounded-full transition-all duration-300' style={{ width: isPlaying ? "30%" : "0%" }}></div>
-            </div>
-
-            <span className='font-bold text-[#2c2c2c] min-w-[36px] text-right text-sm md:text-base'>
-              {isPlaying ? "30 %" : "0 %"}
-            </span>
-
-            {/* Hidden space for Text-To-Speech Data without UI impact */}
-            <div className="sr-only">
-              {pageData.contentText || "Narration text placeholder here"}
-            </div>
-          </div>
-        </div>
-
-        {/* Right Arrow */}
-        <button
-          onClick={goNext}
-          disabled={isSubmitting}
-          className='flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full text-white font-semibold transition disabled:opacity-50 disabled:bg-[#ccc] bg-[#4fb986] shrink-0 hover:scale-105 active:scale-95'
-        >
-          <ArrowRight size={32} />
-        </button>
-      </div>
-    )
-  }
 
   // Renders an image slide (e.g., IMAGE slideType from interactiveSlides)
-  const renderImagePage = (pageData) => <StoryAudioPlayerPage pageData={pageData} />
+  const renderImagePage = (pageData) => (
+    <StoryAudioPlayerPage
+      pageData={pageData}
+      goPrev={goPrev}
+      goNext={goNext}
+      currentPageIndex={currentPageIndex}
+      isSubmitting={isSubmitting}
+      speak={speak}
+      cancelSpeech={cancelSpeech}
+      speechSupported={speechSupported}
+    />
+  )
 
   // Renders the ending slide
   const renderEndingPage = () => (
     <div className='w-full max-w-4xl mx-auto px-2'>
       <div className='bg-white rounded-[40px] shadow-2xl p-8 md:p-12 border-[3px] border-[#2c2c2c] text-center'>
         <div className='text-6xl mb-6'>🎉</div>
-        <h2 className='text-3xl font-extrabold text-[#2c2c2c] mb-4'>
+        <h2 className='text-3xl font-regular text-[#2c2c2c] mb-4'>
           Cerita Selesai!
         </h2>
         <p className='text-lg text-gray-600 mb-6'>
@@ -865,13 +1112,13 @@ export default function GamePage() {
       <div className='flex flex-col gap-4 md:gap-6'>
         <div>
           <div className='flex flex-col md:flex-row md:items-center md:justify-between mb-3 gap-3'>
-            <p className='text-sm font-semibold text-[#2c2c2c]'>
+            <p className='text-sm font-regular text-[#2c2c2c]'>
               Urutkan kejadian di bawah ini:
             </p>
             <button
               onClick={handleCheckAnswer}
               disabled={isLocked || isPending || (showIncorrectPopup && lastIncorrectQuestionId === questionId)}
-              className='px-4 py-2 md:px-5 md:py-3 rounded-full text-white font-semibold shadow hover:opacity-90 transition text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed'
+              className='px-4 py-2 md:px-5 md:py-3 rounded-full text-white font-regular shadow hover:opacity-90 transition text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed'
               style={{
                 backgroundColor: isLocked
                   ? "#9ED772"
@@ -883,7 +1130,7 @@ export default function GamePage() {
               {isLocked ? (
                 <span className='flex items-center gap-2'>
                   <span>Jawaban Benar</span>
-                  <span className='inline-flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#7BC142] text-white font-bold ml-2'>
+                  <span className='inline-flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#7BC142] text-white font-regular ml-2'>
                     <Check size={18} strokeWidth={3} color='#ffffff' />
                   </span>
                 </span>
@@ -933,12 +1180,12 @@ export default function GamePage() {
                       } ${ringClass}`}
                     style={bgStyle}
                   >
-                    <div className='text-xs font-bold text-gray-500 mb-2'>
+                    <div className='text-xs font-regular text-gray-500 mb-2'>
                       {index + 1}
                     </div>
                     {item ? (
                       <div className='flex flex-col items-center gap-2 w-full'>
-                        <span className='text-sm font-semibold text-[#1f1f1f] text-center px-2'>
+                        <span className='text-sm font-regular text-[#1f1f1f] text-center px-2'>
                           {item.label}
                         </span>
                         {!isLocked && (
@@ -961,14 +1208,14 @@ export default function GamePage() {
           </div>
 
           {isIncorrect && (
-            <p className='text-[#E9645F] font-semibold text-sm mt-3'>
+            <p className='text-[#E9645F] font-regular text-sm mt-3'>
               Item yang ditandai merah perlu dipindahkan ke posisi yang tepat.
             </p>
           )}
           {isLocked && (
-            <p className='text-[#7BC142] font-semibold text-sm mt-3 flex items-center'>
+            <p className='text-[#7BC142] font-regular text-sm mt-3 flex items-center'>
               Sempurna! Semua urutan sudah benar!
-              <span className='inline-flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#7BC142] text-white font-bold ml-2'>
+              <span className='inline-flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#7BC142] text-white font-regular ml-2'>
                 <Check size={18} strokeWidth={3} color='#ffffff' />
               </span>
             </p>
@@ -978,7 +1225,7 @@ export default function GamePage() {
         {/* Available items to drag */}
         {availableItems.length > 0 && !isLocked && (
           <div>
-            <p className='text-sm font-semibold text-[#2c2c2c] mb-3'>
+            <p className='text-sm font-regular text-[#2c2c2c] mb-3'>
               Pilih kejadian:
             </p>
             <div className='grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3'>
@@ -990,7 +1237,7 @@ export default function GamePage() {
                     key={item.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, item.id)}
-                    className='rounded-xl px-3 py-4 md:px-4 md:py-3 shadow text-center font-semibold cursor-move text-[#1f1f1f] transition hover:scale-105 text-sm border-2 border-[#2c2c2c]'
+                    className='rounded-xl px-3 py-4 md:px-4 md:py-3 shadow text-center font-regular cursor-move text-[#1f1f1f] transition hover:scale-105 text-sm border-2 border-[#2c2c2c]'
                     style={{ backgroundColor: color }}
                   >
                     {item.label}
@@ -1046,8 +1293,8 @@ export default function GamePage() {
           onBlur={handleEssayBlur}
         ></textarea>
         {textValue.trim().length > 0 && (
-          <div className='font-semibold flex items-center gap-2'>
-            <span className='inline-flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#4fb986] text-white font-bold mr-2'>
+          <div className='font-regular flex items-center gap-2'>
+            <span className='inline-flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#4fb986] text-white font-regular mr-2'>
               <Check size={18} strokeWidth={3} color='#ffffff' />
             </span>
             <span className='text-[#1f1f1f]'>Jawaban tersimpan</span>
@@ -1092,7 +1339,7 @@ export default function GamePage() {
                 className='w-full max-h-[220px] md:max-h-[400px] object-contain mx-auto mb-4 rounded-lg'
               />
             )}
-            {/* <p className='text-base md:text-lg font-semibold text-[#2c2c2c] leading-relaxed'>
+            {/* <p className='text-base md:text-lg font-regular text-[#2c2c2c] leading-relaxed'>
               {question.questionText}
             </p> */}
           </div>
@@ -1118,22 +1365,22 @@ export default function GamePage() {
     return (
       <div className='w-full max-w-4xl mx-auto px-2'>
         <div className='bg-white rounded-[40px] shadow-2xl p-6 md:p-10 border-[3px] border-[#2c2c2c] text-center'>
-          <div className='bg-[#E4AE28] text-white font-extrabold text-3xl px-12 py-3 rounded-full shadow-lg mb-8 inline-block'>
+          <div className='bg-[#E4AE28] text-white font-regular text-3xl px-12 py-3 rounded-full shadow-lg mb-8 inline-block'>
             Selesai!
           </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-8'>
             <div className='bg-[#FF9ECF] rounded-3xl p-6 border-[3px] border-[#2c2c2c]'>
-              <span className='font-bold text-xl'>Waktu</span>
+              <span className='font-regular text-xl'>Waktu</span>
               <div className='text-3xl font-black'>{formatTime(finalTime)}</div>
             </div>
             <div className='bg-[#BDEBFF] rounded-3xl p-6 border-[3px] border-[#2c2c2c]'>
-              <span className='font-bold text-xl'>Total XP</span>
+              <span className='font-regular text-xl'>Total XP</span>
               <div className='text-3xl font-black'>+{score} XP</div>
             </div>
           </div>
           <button
             onClick={() => navigate(`/home?island=${islandSlug}`)}
-            className='bg-[#F7885E] text-white font-extrabold text-xl px-12 py-3 rounded-full shadow-lg hover:bg-[#e4764c] transition'
+            className='bg-[#F7885E] text-white font-regular text-xl px-12 py-3 rounded-full shadow-lg hover:bg-[#e4764c] transition'
           >
             Kembali ke Beranda
           </button>
@@ -1161,20 +1408,20 @@ export default function GamePage() {
       <div className='w-full max-w-5xl mx-auto px-2 mb-6 flex justify-between items-center'>
         <button
           onClick={() => setShowExitWarning(true)}
-          className='px-4 py-2 bg-white/80 border-2 border-[#2c2c2c] rounded-full flex gap-2 items-center font-semibold hover:bg-gray-100'
+          className='px-4 py-2 bg-white/80 border-2 border-[#2c2c2c] rounded-full flex gap-2 items-center font-regular hover:bg-gray-100'
         >
           <ArrowLeft size={18} /> Keluar
         </button>
         <div className='flex gap-2'>
           <div className='flex gap-2 bg-white/70 px-4 py-2 rounded-full border-2 border-[#2c2c2c] shadow-sm'>
-            <span className='font-bold text-[#E4AE28]'>XP</span>
-            <span className='font-semibold'>
+            <span className='font-regular text-[#E4AE28]'>XP</span>
+            <span className='font-regular'>
               {currentXP}/{totalQuestions > 0 ? "100" : "0"}
             </span>
           </div>
           <div className='flex gap-2 bg-white/70 px-4 py-2 rounded-full border-2 border-[#2c2c2c] shadow-sm'>
             <Clock size={20} />
-            <span className='font-semibold'>{formatTime(timeElapsed)}</span>
+            <span className='font-regular'>{formatTime(timeElapsed)}</span>
           </div>
         </div>
       </div>
@@ -1212,12 +1459,12 @@ export default function GamePage() {
             alt='Notifikasi Kesalahan'
             className='mx-auto mb-4 max-w-[140px] md:max-w-[180px] rounded-md'
           />
-          <p className='text-lg font-semibold text-[#2f2f2f] mb-4'>
+          <p className='text-lg font-regular text-[#2f2f2f] mb-4'>
             Ups!! jawaban kamu kurang tepat. Tenang, coba lagi ya, kamu pasti bisa!
           </p>
           <button
             onClick={handleCloseIncorrectPopup}
-            className='w-full bg-[#f88c63] text-white font-bold py-2 rounded-full hover:bg-[#e27852]'
+            className='w-full bg-[#f88c63] text-white font-regular py-2 rounded-full hover:bg-[#e27852]'
           >
             Siap, coba lagi
           </button>
@@ -1231,24 +1478,24 @@ export default function GamePage() {
     if (!showExitWarning) return null
     return (
       <div className='fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4'>
-        <div className='bg-[#fff4d6] w-[90%] max-w-md rounded-3xl border-[3px] border-[#e9c499] shadow-2xl p-6 text-center'>
+        <div className='bg-[#fff4d6] w-[90%] max-w-md rounded-3xl border-[3px] border-[#e9c499] shadow-2xl p-6 text-center '>
           <img
             src={'/assets/budayana/islands/image 90.png'}
             alt='Peringatan Keluar'
             className='mx-auto mb-4 max-w-[140px] md:max-w-[180px] rounded-md'
           />
-          <p className='text-lg font-semibold text-[#2f2f2f] mb-4'>
-            Jangan pergi dulu! Progresmu di tahap ini akan hilang kalau kamu berhenti sekarang.
+          <p className='text-lg font-regular text-[#2f2f2f] mb-4 text-[20px]'>
+            Jangan pergi dulu! <br></br> Progresmu di tahap ini akan hilang kalau kamu berhenti sekarang.
           </p>
           <button
             onClick={() => setShowExitWarning(false)}
-            className='w-full bg-[#f88c63] text-white font-bold py-3 rounded-full mb-2'
+            className='w-full bg-[#F28C69] text-white font-normal text-[24px] py-[14px] px-4 rounded-2xl shadow-[0_4px_0_0_#d16b47] hover:translate-y-[2px] hover:shadow-[0_2px_0_0_#d16b47] transition-all active:translate-y-[4px] active:shadow-none cursor-pointer'
           >
             Lanjutkan Main
           </button>
           <button
             onClick={handleExit}
-            className='text-[#e64c45] font-bold'
+            className='w-full text-[#C84B31] font-normal text-[24px] py-2 hover:opacity-75 transition-opacity tracking-wide cursor-pointer mt-2'
           >
             Keluar
           </button>
@@ -1275,19 +1522,19 @@ export default function GamePage() {
                   : null}
       </div>
 
-      {!isResultsPage && !isImage && (
+      {!isResultsPage && (
         <div className='w-full max-w-5xl mx-auto mt-6 flex justify-between'>
           <button
             onClick={goPrev}
             disabled={currentPageIndex === 0}
-            className='flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold transition disabled:opacity-50 disabled:bg-[#ccc] bg-[#f27f68]'
+            className='flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular transition disabled:opacity-50 disabled:bg-[#ccc] bg-[#f27f68] tracking-wide'
           >
             <ArrowLeft size={20} /> Sebelumnya
           </button>
           <button
             onClick={goNext}
             disabled={(isQuestion && answers[currentPageData?.question?.id]?.isCorrect !== true) || isSubmitting}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold transition ${(isQuestion && answers[currentPageData?.question?.id]?.isCorrect !== true) || isSubmitting
+            className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular transition tracking-wide ${(isQuestion && answers[currentPageData?.question?.id]?.isCorrect !== true) || isSubmitting
               ? "bg-gray-400 cursor-not-allowed opacity-70"
               : "bg-[#4fb986]"
               }`}

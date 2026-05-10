@@ -56,7 +56,7 @@
   margin: 0;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   color: #955c2e;
-  font-weight: 600;
+  font-weight: normal;
 }
 
 .profile-grade-badge {
@@ -66,7 +66,7 @@
   background-color: #F6B80F;
   color: #ffffff;
   font-size: clamp(1rem, 3vw, 1.5rem);
-  font-weight: 600;
+  font-weight: normal;
   border: 3px solid #D9A311;
   white-space: nowrap;
 }
@@ -80,7 +80,7 @@
 .data-info {
   color: #5b4631;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: normal;
   margin-bottom: 20px;
 }
 
@@ -113,7 +113,7 @@
   display: block;
   margin-bottom: 6px;
   color: #b0703b;
-  font-weight: 650;
+  font-weight: normal;
   font-size: 1.2rem;
 }
 
@@ -147,7 +147,7 @@
   padding: 6px 14px;
   background-color: #ffd89a;
   color: #955c2e;
-  font-weight: 650;
+  font-weight: normal;
   cursor: pointer;
   height: 50px;
   white-space: nowrap;

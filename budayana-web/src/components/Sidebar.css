@@ -14,7 +14,7 @@
 
 .sidebar-logo {
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: normal;
   color: #955c2e;
   margin-bottom: 50px;
   margin-top: 30px;
@@ -47,7 +47,7 @@
   text-decoration: none;
   color: #955C2E;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: normal;
   cursor: pointer;
 }
 

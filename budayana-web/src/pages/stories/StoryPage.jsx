@@ -348,22 +348,22 @@ export default function StoryPage() {
     return (
       <div className='w-full max-w-4xl mx-auto px-2 absolute z-50'>
         <div className='bg-white/95 backdrop-blur-md rounded-[40px] shadow-2xl p-6 md:p-10 border-[3px] border-[#2c2c2c] text-center'>
-          <div className='bg-[#E4AE28] text-white font-extrabold text-3xl px-12 py-3 rounded-full shadow-lg mb-8 inline-block'>
+          <div className='bg-[#E4AE28] text-white font-regular text-3xl px-12 py-3 rounded-full shadow-lg mb-8 inline-block'>
             Selesai!
           </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-8'>
             <div className='bg-[#FF9ECF] rounded-3xl p-6 border-[3px] border-[#2c2c2c]'>
-              <span className='font-bold text-xl'>Waktu</span>
+              <span className='font-regular text-xl'>Waktu</span>
               <div className='text-3xl font-black'>{formatTime(timeElapsed)}</div>
             </div>
             <div className='bg-[#BDEBFF] rounded-3xl p-6 border-[3px] border-[#2c2c2c]'>
-              <span className='font-bold text-xl'>Total XP</span>
+              <span className='font-regular text-xl'>Total XP</span>
               <div className='text-3xl font-black'>+100 XP</div>
             </div>
           </div>
           <button
             onClick={() => navigate(`/home?island=${islandSlug}`)}
-            className='bg-[#F7885E] text-white font-extrabold text-xl px-12 py-3 rounded-full shadow-lg hover:scale-105 transition border-2 border-[#c7623a]'
+            className='bg-[#F7885E] text-white font-regular text-xl px-12 py-3 rounded-full shadow-lg hover:scale-105 transition border-2 border-[#c7623a]'
           >
             Kembali ke Beranda
           </button>
@@ -380,7 +380,7 @@ export default function StoryPage() {
     return (
       <div className='min-h-screen bg-gradient-to-br from-[#fef8e7] to-[#f4e4c1] flex items-center justify-center'>
         <div className='text-center p-10'>
-          <p className='text-lg font-semibold text-[#2c2c2c]'>
+          <p className='text-lg font-regular text-[#2c2c2c]'>
             Story not found
           </p>
         </div>
@@ -391,7 +391,7 @@ export default function StoryPage() {
     return (
       <div className='min-h-screen bg-gradient-to-br from-[#fef8e7] to-[#f4e4c1] flex items-center justify-center'>
         <div className='text-center p-10'>
-          <p className='text-lg font-semibold text-[#2c2c2c]'>
+          <p className='text-lg font-regular text-[#2c2c2c]'>
             No story slides available
           </p>
         </div>
@@ -430,7 +430,7 @@ export default function StoryPage() {
             <button
               onClick={handleFinish}
               disabled={isSubmitting}
-              className={`pointer-events-auto bg-linear-to-r from-[#E4AE28] to-[#F7C951] text-white px-8 py-4 rounded-full flex items-center gap-2 shadow-xl hover:scale-105 transition-all font-bold text-lg border-2 border-[#c79620] ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
+              className={`pointer-events-auto bg-linear-to-r from-[#E4AE28] to-[#F7C951] text-white px-8 py-4 rounded-full flex items-center gap-2 shadow-xl hover:scale-105 transition-all font-regular text-lg border-2 border-[#c79620] ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
             >
               <Sparkles size={20} />
               {isSubmitting ? "Menyimpan..." : "Selesai"}
@@ -451,14 +451,14 @@ export default function StoryPage() {
         <div className='flex justify-start'>
           <button
             onClick={() => setShowExitWarning(true)}
-            className='px-5 py-2.5 bg-white/90 backdrop-blur-sm border-2 border-[#2c2c2c] flex items-center gap-2 rounded-full shadow-md hover:bg-white hover:scale-105 transition-all font-semibold text-sm md:text-base'
+            className='px-5 py-2.5 bg-white/90 backdrop-blur-sm border-2 border-[#2c2c2c] flex items-center gap-2 rounded-full shadow-md hover:bg-white hover:scale-105 transition-all font-regular text-sm md:text-base'
           >
             <ArrowLeft size={18} /> Keluar
           </button>
         </div>
         <div className='flex justify-center'>
           <div className='bg-white/90 backdrop-blur-sm px-6 py-2.5 rounded-full border-2 border-[#2c2c2c] shadow-md'>
-            <span className='text-[#2c2c2c] font-bold text-xl'>
+            <span className='text-[#2c2c2c] font-regular text-xl'>
               {currentPageFromUrl} / {totalPages}
             </span>
           </div>
@@ -466,7 +466,7 @@ export default function StoryPage() {
         <div className='flex justify-end items-center gap-3'>
           <div className='flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2.5 rounded-full shadow-md border-2 border-[#2c2c2c]'>
             <Clock size={20} className='text-[#2c2c2c]' />
-            <span className='text-[#2c2c2c] font-semibold tracking-wide'>
+            <span className='text-[#2c2c2c] font-regular tracking-wide'>
               {formatTime(timeElapsed)}
             </span>
           </div>
@@ -476,11 +476,11 @@ export default function StoryPage() {
               : "border-[#2c2c2c]"
               }`}
           >
-            <span className='font-bold' style={{ color: "#E4AE28" }}>
+            <span className='font-regular' style={{ color: "#E4AE28" }}>
               XP
             </span>
             <span
-              className={`font-bold transition-colors duration-300 ${xpHighlight ? "text-green-600" : "text-[#2c2c2c]"
+              className={`font-regular transition-colors duration-300 ${xpHighlight ? "text-green-600" : "text-[#2c2c2c]"
                 }`}
             >
               {Math.round(xp)}/100
@@ -547,20 +547,20 @@ export default function StoryPage() {
               alt='warning'
               className='w-32 mx-auto mb-4'
             />
-            <p className='text-xl font-bold text-[#2c2c2c] leading-relaxed mb-6'>
+            <p className='text-xl font-regular text-[#2c2c2c] leading-relaxed mb-6'>
               Jangan pergi dulu! Progresmu di tahap ini akan hilang kalau kamu
               berhenti sekarang.
             </p>
             <button
               onClick={() => setShowExitWarning(false)}
-              className='w-full bg-linear-to-r from-[#f88c63] to-[#ff6b45] text-white font-bold py-3.5 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all mb-3 border-2 border-[#c7623a]'
+              className='w-full bg-linear-to-r from-[#f88c63] to-[#ff6b45] text-white font-regular py-3.5 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all mb-3 border-2 border-[#c7623a]'
             >
               Lanjutkan Belajar
             </button>
             <button
               onClick={handleExit}
               disabled={isExitSubmitting}
-              className={`font-bold hover:underline ${isExitSubmitting ? "text-gray-400" : "text-[#e64c45]"}`}
+              className={`font-regular hover:underline ${isExitSubmitting ? "text-gray-400" : "text-[#e64c45]"}`}
             >
               {isExitSubmitting ? "Mengakhiri..." : "Akhiri Sesi"}
             </button>

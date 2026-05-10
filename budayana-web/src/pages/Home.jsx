@@ -225,8 +225,9 @@ function IslandPopup({ activeIsland, islandDetails, onClose }) {
   // Force UI to use activeIsland.storyTitle (from islands.js)
   const storyTitle = activeIsland.storyTitle || islandDetails?.stories?.[0]?.title || "Coming Soon"
 
-  // Route to the first story game by default, or just fallback
-  const firstStoryId = islandDetails?.stories?.[0]?.id
+  // Route to the main interactive story by default (skipping Pre-Test and Post-Test)
+  const mainStory = islandDetails?.stories?.find(s => !s.title.includes("Pre-Test") && !s.title.includes("Post-Test"))
+  const firstStoryId = mainStory?.id || islandDetails?.stories?.[0]?.id
   const routeToMulai = firstStoryId
     ? `/islands/${activeIsland.slug || activeIsland.id}/story/${firstStoryId}/game?page=1`
     : `/cerita-rakyat?island=${activeIsland.id}`
@@ -239,10 +240,10 @@ function IslandPopup({ activeIsland, islandDetails, onClose }) {
       >
         {/* Top Bar for Modal */}
         <div className='flex items-center justify-between mb-6'>
-          <div className='text-lg md:text-xl font-bold text-black z-10'>
+          <div className='text-lg md:text-xl font-regular text-black z-10'>
             Percobaan : {attemptCount}
           </div>
-          <div className='text-center text-3xl md:text-4xl font-extrabold text-[#000000] absolute left-1/2 -translate-x-1/2 w-full'>
+          <div className='text-center text-3xl md:text-4xl font-regular text-[#000000] absolute left-1/2 -translate-x-1/2 w-full'>
             {activeIsland.name}
           </div>
           <button
@@ -260,13 +261,13 @@ function IslandPopup({ activeIsland, islandDetails, onClose }) {
           className='flex flex-col items-center justify-center rounded-[20px] p-6 lg:p-8 mt-10 sm:mt-16 w-full sm:w-[500px] mx-auto shadow-[0_4px_12px_rgba(0,0,0,0.1)]'
           style={{ backgroundColor: cardColor }}
         >
-          <div className='text-center text-white text-[22px] md:text-[28px] font-extrabold leading-snug mb-5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]' style={{ fontFamily: "Comic Sans MS, sans-serif" }}>
+          <div className='text-center text-white text-[22px] md:text-[28px] font-bold leading-snug mb-5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]' style={{ fontFamily: "Comic Sans MS, sans-serif" }}>
             Cerita Rakyat Interaktif<br />{storyTitle}
           </div>
 
           <button
             onClick={() => handleStageClick(routeToMulai)}
-            className='bg-[#eebe40] hover:bg-[#d8a82d] text-white font-bold py-2.5 px-8 rounded-full shadow-lg text-lg md:text-xl flex items-center justify-center mb-6 transition-transform hover:-translate-y-1 active:scale-95 border-2 border-transparent'
+            className='bg-[#eebe40] hover:bg-[#d8a82d] text-white font-regular py-2.5 px-8 rounded-full shadow-lg text-lg md:text-xl flex items-center justify-center mb-6 transition-transform hover:-translate-y-1 active:scale-95 border-2 border-transparent'
           >
             Mulai <span className='ml-2 text-xl md:text-2xl font-black'>▶</span>
           </button>
