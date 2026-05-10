@@ -28,6 +28,7 @@ interface QuestionData {
 interface InteractiveStoryData {
   title: string
   storyImageMap: Record<number, string>
+  storyAudioMap?: Record<number, string>
   storyTextMap?: Record<number, string>
   questions: QuestionData[]
 }
@@ -41,6 +42,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       5: "/assets/budayana/islands/sulawesi33.png",
       7: "/assets/budayana/islands/sulawesi4.png",
       9: "/assets/budayana/islands/sulawesi5.png",
+    },
+    storyAudioMap: {
+      1: "/audio/sulawesi/SULAWESI 1.mp3",
+      3: "/audio/sulawesi/SULAWESI 2.mp3",
+      5: "/audio/sulawesi/SULAWESI 3.mp3",
+      7: "/audio/sulawesi/SULAWESI 4.mp3",
+      9: "/audio/sulawesi/SULAWESI 5.mp3",
     },
     questions: [
       {
@@ -128,6 +136,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       7: "Sang ibu berlari menghampiri, memeluk Malin sambil menangis bahagia.\nTapi Malin menepis pelukan itu.\n“Ibu? Aku tidak kenal wanita miskin ini!” katanya dengan angkuh.\nIstrinya memandang jijik.\nHati sang ibu hancur. Dengan air mata yang jatuh, ia berdoa,\n“Ya Tuhan, jika benar dia anakku, hukumlah dia atas kedurhakaannya.”",
       9: "Tiba-tiba, langit gelap. Badai datang menggulung laut.\nPetir menyambar kapal Malin. Ia menyesal dan berteriak meminta ampun,\ntetapi semua sudah terlambat.\nKetika badai reda, orang-orang menemukan batu menyerupai manusia\nterduduk di tepi pantai batu Malin Kundang.",
     },
+    storyAudioMap: {
+      1: "/audio/sumatra/SUMATRA 1.mp3",
+      3: "/audio/sumatra/SUMATRA 2.mp3",
+      5: "/audio/sumatra/SUMATRA 3.mp3",
+      7: "/audio/sumatra/SUMATRA 4.mp3",
+      9: "/audio/sumatra/SUMATRA 5.mp3",
+    },
     questions: [
       {
         slideNumber: 2,
@@ -197,6 +212,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       5: "/assets/budayana/islands/maluku33.png",
       7: "/assets/budayana/islands/maluku44.png",
       9: "/assets/budayana/islands/maluku5.png",
+    },
+    storyAudioMap: {
+      1: "/audio/maluku/MALUKU 1.mp3",
+      3: "/audio/maluku/MALUKU 2.mp3",
+      5: "/audio/maluku/MALUKU 3.mp3",
+      7: "/audio/maluku/MALUKU 4.mp3",
+      9: "/audio/maluku/MALUKU 5.mp3",
     },
     questions: [
       {
@@ -273,6 +295,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       7: "/assets/budayana/islands/kalimantan4.png",
       9: "/assets/budayana/islands/kalimantan55.png",
     },
+    storyAudioMap: {
+      1: "/audio/kalimantan/KALIMANTAN 1.mp3",
+      3: "/audio/kalimantan/KALIMANTAN 2.mp3",
+      5: "/audio/kalimantan/KALIMANTAN 3.mp3",
+      7: "/audio/kalimantan/KALIMANTAN 4.mp3",
+      9: "/audio/kalimantan/KALIMANTAN 5.mp3",
+    },
     questions: [
       {
         slideNumber: 2,
@@ -347,6 +376,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       5: "/assets/budayana/islands/nusa tenggara3.png",
       7: "/assets/budayana/islands/nusa tenggara4.png",
       9: "/assets/budayana/islands/nusa tenggara5.png",
+    },
+    storyAudioMap: {
+      1: "/audio/ntt/NTT 1.mp3",
+      3: "/audio/ntt/NTT 2.mp3",
+      5: "/audio/ntt/NTT 3.mp3",
+      7: "/audio/ntt/NTT 4.mp3",
+      9: "/audio/ntt/NTT 5.mp3",
     },
     questions: [
       {
@@ -423,6 +459,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       7: "/assets/budayana/islands/bali44.png",
       9: "/assets/budayana/islands/bali55.png",
     },
+    storyAudioMap: {
+      1: "/audio/bali/BALI 1.mp3",
+      3: "/audio/bali/BALI 2.mp3",
+      5: "/audio/bali/BALI 3.mp3",
+      7: "/audio/bali/BALI 4.mp3",
+      9: "/audio/bali/BALI 5.mp3",
+    },
     questions: [
       {
         slideNumber: 2,
@@ -498,6 +541,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       7: "/assets/budayana/islands/papua4.png",
       9: "/assets/budayana/islands/papua5.png",
     },
+    storyAudioMap: {
+      1: "/audio/papua/PAPUA 1.mp3",
+      3: "/audio/papua/PAPUA 2.mp3",
+      5: "/audio/papua/PAPUA 3.mp3",
+      7: "/audio/papua/PAPUA 4.mp3",
+      9: "/audio/papua/PAPUA 5.mp3",
+    },
     questions: [
       {
         slideNumber: 2,
@@ -572,6 +622,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       5: "/assets/budayana/islands/jawa33.png",
       7: "/assets/budayana/islands/jawa44.png",
       9: "/assets/budayana/islands/jawa5.png",
+    },
+    storyAudioMap: {
+      1: "/audio/jawa/JAWA 1.mp3",
+      3: "/audio/jawa/JAWA 2.mp3",
+      5: "/audio/jawa/JAWA 3.mp3",
+      7: "/audio/jawa/JAWA 4.mp3",
+      9: "/audio/jawa/JAWA 5.mp3",
     },
     questions: [
       {
@@ -751,6 +808,7 @@ async function main() {
       slideType: SlideType
       imageUrl?: string | null
       contentText?: string | null
+      audioUrl?: string | null
       questionId?: string | null
     }> = []
 
@@ -763,6 +821,7 @@ async function main() {
           slideType: SlideType.IMAGE,
           imageUrl: data.storyImageMap[i] || null,
           contentText: data.storyTextMap?.[i] || null,
+          audioUrl: data.storyAudioMap?.[i] || null,
         })
       } else {
         // Even: GAME slide linked to question
@@ -798,6 +857,7 @@ async function main() {
           slideType: slide.slideType,
           imageUrl: slide.imageUrl || null,
           contentText: slide.contentText || null,
+          audioUrl: slide.audioUrl || null,
           questionId: slide.questionId || null,
         },
       })

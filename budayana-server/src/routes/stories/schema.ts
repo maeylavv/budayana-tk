@@ -68,6 +68,7 @@ export const InteractiveSlideBaseSchema = t.Object({
   slideType: SlideTypeEnum,
   imageUrl: t.Nullable(t.String()),
   contentText: t.Nullable(t.String()),
+  audioUrl: t.Nullable(t.String()),
 })
 
 // Interactive Slide schema with question (for GET story response)
@@ -79,6 +80,7 @@ export const InteractiveSlideSchema = t.Object({
   slideType: SlideTypeEnum,
   imageUrl: t.Nullable(t.String()),
   contentText: t.Nullable(t.String()),
+  audioUrl: t.Nullable(t.String()),
   question: t.Optional(t.Nullable(QuestionSchema)),
 })
 
@@ -140,6 +142,7 @@ export const CreateInteractiveSlideSchema = t.Object({
   slideType: SlideTypeEnum,
   imageUrl: t.Optional(t.String()),
   contentText: t.Optional(t.String()),
+  audioUrl: t.Optional(t.String()),
 })
 
 // Paginated response

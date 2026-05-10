@@ -1664,7 +1664,8 @@ export const StaticSlideScalarFieldEnum = {
   slideNumber: 'slideNumber',
   slideType: 'slideType',
   imageUrl: 'imageUrl',
-  contentText: 'contentText'
+  contentText: 'contentText',
+  audioUrl: 'audioUrl'
 } as const
 
 export type StaticSlideScalarFieldEnum = (typeof StaticSlideScalarFieldEnum)[keyof typeof StaticSlideScalarFieldEnum]
@@ -1677,7 +1678,8 @@ export const InteractiveSlideScalarFieldEnum = {
   slideNumber: 'slideNumber',
   slideType: 'slideType',
   imageUrl: 'imageUrl',
-  contentText: 'contentText'
+  contentText: 'contentText',
+  audioUrl: 'audioUrl'
 } as const
 
 export type InteractiveSlideScalarFieldEnum = (typeof InteractiveSlideScalarFieldEnum)[keyof typeof InteractiveSlideScalarFieldEnum]
