@@ -41,6 +41,7 @@ export type StaticSlideMinAggregateOutputType = {
   slideType: $Enums.SlideType | null
   imageUrl: string | null
   contentText: string | null
+  audioUrl: string | null
 }
 
 export type StaticSlideMaxAggregateOutputType = {
@@ -50,6 +51,7 @@ export type StaticSlideMaxAggregateOutputType = {
   slideType: $Enums.SlideType | null
   imageUrl: string | null
   contentText: string | null
+  audioUrl: string | null
 }
 
 export type StaticSlideCountAggregateOutputType = {
@@ -59,6 +61,7 @@ export type StaticSlideCountAggregateOutputType = {
   slideType: number
   imageUrl: number
   contentText: number
+  audioUrl: number
   _all: number
 }
 
@@ -78,6 +81,7 @@ export type StaticSlideMinAggregateInputType = {
   slideType?: true
   imageUrl?: true
   contentText?: true
+  audioUrl?: true
 }
 
 export type StaticSlideMaxAggregateInputType = {
@@ -87,6 +91,7 @@ export type StaticSlideMaxAggregateInputType = {
   slideType?: true
   imageUrl?: true
   contentText?: true
+  audioUrl?: true
 }
 
 export type StaticSlideCountAggregateInputType = {
@@ -96,6 +101,7 @@ export type StaticSlideCountAggregateInputType = {
   slideType?: true
   imageUrl?: true
   contentText?: true
+  audioUrl?: true
   _all?: true
 }
 
@@ -192,6 +198,7 @@ export type StaticSlideGroupByOutputType = {
   slideType: $Enums.SlideType
   imageUrl: string | null
   contentText: string | null
+  audioUrl: string | null
   _count: StaticSlideCountAggregateOutputType | null
   _avg: StaticSlideAvgAggregateOutputType | null
   _sum: StaticSlideSumAggregateOutputType | null
@@ -224,6 +231,7 @@ export type StaticSlideWhereInput = {
   slideType?: Prisma.EnumSlideTypeFilter<"StaticSlide"> | $Enums.SlideType
   imageUrl?: Prisma.StringNullableFilter<"StaticSlide"> | string | null
   contentText?: Prisma.StringNullableFilter<"StaticSlide"> | string | null
+  audioUrl?: Prisma.StringNullableFilter<"StaticSlide"> | string | null
   story?: Prisma.XOR<Prisma.StoryScalarRelationFilter, Prisma.StoryWhereInput>
 }
 
@@ -234,6 +242,7 @@ export type StaticSlideOrderByWithRelationInput = {
   slideType?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   contentText?: Prisma.SortOrderInput | Prisma.SortOrder
+  audioUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   story?: Prisma.StoryOrderByWithRelationInput
 }
 
@@ -247,6 +256,7 @@ export type StaticSlideWhereUniqueInput = Prisma.AtLeast<{
   slideType?: Prisma.EnumSlideTypeFilter<"StaticSlide"> | $Enums.SlideType
   imageUrl?: Prisma.StringNullableFilter<"StaticSlide"> | string | null
   contentText?: Prisma.StringNullableFilter<"StaticSlide"> | string | null
+  audioUrl?: Prisma.StringNullableFilter<"StaticSlide"> | string | null
   story?: Prisma.XOR<Prisma.StoryScalarRelationFilter, Prisma.StoryWhereInput>
 }, "id">
 
@@ -257,6 +267,7 @@ export type StaticSlideOrderByWithAggregationInput = {
   slideType?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   contentText?: Prisma.SortOrderInput | Prisma.SortOrder
+  audioUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.StaticSlideCountOrderByAggregateInput
   _avg?: Prisma.StaticSlideAvgOrderByAggregateInput
   _max?: Prisma.StaticSlideMaxOrderByAggregateInput
@@ -274,6 +285,7 @@ export type StaticSlideScalarWhereWithAggregatesInput = {
   slideType?: Prisma.EnumSlideTypeWithAggregatesFilter<"StaticSlide"> | $Enums.SlideType
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"StaticSlide"> | string | null
   contentText?: Prisma.StringNullableWithAggregatesFilter<"StaticSlide"> | string | null
+  audioUrl?: Prisma.StringNullableWithAggregatesFilter<"StaticSlide"> | string | null
 }
 
 export type StaticSlideCreateInput = {
@@ -282,6 +294,7 @@ export type StaticSlideCreateInput = {
   slideType: $Enums.SlideType
   imageUrl?: string | null
   contentText?: string | null
+  audioUrl?: string | null
   story: Prisma.StoryCreateNestedOneWithoutStaticSlidesInput
 }
 
@@ -292,6 +305,7 @@ export type StaticSlideUncheckedCreateInput = {
   slideType: $Enums.SlideType
   imageUrl?: string | null
   contentText?: string | null
+  audioUrl?: string | null
 }
 
 export type StaticSlideUpdateInput = {
@@ -300,6 +314,7 @@ export type StaticSlideUpdateInput = {
   slideType?: Prisma.EnumSlideTypeFieldUpdateOperationsInput | $Enums.SlideType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   story?: Prisma.StoryUpdateOneRequiredWithoutStaticSlidesNestedInput
 }
 
@@ -310,6 +325,7 @@ export type StaticSlideUncheckedUpdateInput = {
   slideType?: Prisma.EnumSlideTypeFieldUpdateOperationsInput | $Enums.SlideType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type StaticSlideCreateManyInput = {
@@ -319,6 +335,7 @@ export type StaticSlideCreateManyInput = {
   slideType: $Enums.SlideType
   imageUrl?: string | null
   contentText?: string | null
+  audioUrl?: string | null
 }
 
 export type StaticSlideUpdateManyMutationInput = {
@@ -327,6 +344,7 @@ export type StaticSlideUpdateManyMutationInput = {
   slideType?: Prisma.EnumSlideTypeFieldUpdateOperationsInput | $Enums.SlideType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type StaticSlideUncheckedUpdateManyInput = {
@@ -336,6 +354,7 @@ export type StaticSlideUncheckedUpdateManyInput = {
   slideType?: Prisma.EnumSlideTypeFieldUpdateOperationsInput | $Enums.SlideType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type StaticSlideListRelationFilter = {
@@ -355,6 +374,7 @@ export type StaticSlideCountOrderByAggregateInput = {
   slideType?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   contentText?: Prisma.SortOrder
+  audioUrl?: Prisma.SortOrder
 }
 
 export type StaticSlideAvgOrderByAggregateInput = {
@@ -368,6 +388,7 @@ export type StaticSlideMaxOrderByAggregateInput = {
   slideType?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   contentText?: Prisma.SortOrder
+  audioUrl?: Prisma.SortOrder
 }
 
 export type StaticSlideMinOrderByAggregateInput = {
@@ -377,6 +398,7 @@ export type StaticSlideMinOrderByAggregateInput = {
   slideType?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   contentText?: Prisma.SortOrder
+  audioUrl?: Prisma.SortOrder
 }
 
 export type StaticSlideSumOrderByAggregateInput = {
@@ -435,6 +457,7 @@ export type StaticSlideCreateWithoutStoryInput = {
   slideType: $Enums.SlideType
   imageUrl?: string | null
   contentText?: string | null
+  audioUrl?: string | null
 }
 
 export type StaticSlideUncheckedCreateWithoutStoryInput = {
@@ -443,6 +466,7 @@ export type StaticSlideUncheckedCreateWithoutStoryInput = {
   slideType: $Enums.SlideType
   imageUrl?: string | null
   contentText?: string | null
+  audioUrl?: string | null
 }
 
 export type StaticSlideCreateOrConnectWithoutStoryInput = {
@@ -481,6 +505,7 @@ export type StaticSlideScalarWhereInput = {
   slideType?: Prisma.EnumSlideTypeFilter<"StaticSlide"> | $Enums.SlideType
   imageUrl?: Prisma.StringNullableFilter<"StaticSlide"> | string | null
   contentText?: Prisma.StringNullableFilter<"StaticSlide"> | string | null
+  audioUrl?: Prisma.StringNullableFilter<"StaticSlide"> | string | null
 }
 
 export type StaticSlideCreateManyStoryInput = {
@@ -489,6 +514,7 @@ export type StaticSlideCreateManyStoryInput = {
   slideType: $Enums.SlideType
   imageUrl?: string | null
   contentText?: string | null
+  audioUrl?: string | null
 }
 
 export type StaticSlideUpdateWithoutStoryInput = {
@@ -497,6 +523,7 @@ export type StaticSlideUpdateWithoutStoryInput = {
   slideType?: Prisma.EnumSlideTypeFieldUpdateOperationsInput | $Enums.SlideType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type StaticSlideUncheckedUpdateWithoutStoryInput = {
@@ -505,6 +532,7 @@ export type StaticSlideUncheckedUpdateWithoutStoryInput = {
   slideType?: Prisma.EnumSlideTypeFieldUpdateOperationsInput | $Enums.SlideType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type StaticSlideUncheckedUpdateManyWithoutStoryInput = {
@@ -513,6 +541,7 @@ export type StaticSlideUncheckedUpdateManyWithoutStoryInput = {
   slideType?: Prisma.EnumSlideTypeFieldUpdateOperationsInput | $Enums.SlideType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -524,6 +553,7 @@ export type StaticSlideSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   slideType?: boolean
   imageUrl?: boolean
   contentText?: boolean
+  audioUrl?: boolean
   story?: boolean | Prisma.StoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staticSlide"]>
 
@@ -534,6 +564,7 @@ export type StaticSlideSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   slideType?: boolean
   imageUrl?: boolean
   contentText?: boolean
+  audioUrl?: boolean
   story?: boolean | Prisma.StoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staticSlide"]>
 
@@ -544,6 +575,7 @@ export type StaticSlideSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   slideType?: boolean
   imageUrl?: boolean
   contentText?: boolean
+  audioUrl?: boolean
   story?: boolean | Prisma.StoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staticSlide"]>
 
@@ -554,9 +586,10 @@ export type StaticSlideSelectScalar = {
   slideType?: boolean
   imageUrl?: boolean
   contentText?: boolean
+  audioUrl?: boolean
 }
 
-export type StaticSlideOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "storyId" | "slideNumber" | "slideType" | "imageUrl" | "contentText", ExtArgs["result"]["staticSlide"]>
+export type StaticSlideOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "storyId" | "slideNumber" | "slideType" | "imageUrl" | "contentText" | "audioUrl", ExtArgs["result"]["staticSlide"]>
 export type StaticSlideInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   story?: boolean | Prisma.StoryDefaultArgs<ExtArgs>
 }
@@ -579,6 +612,7 @@ export type $StaticSlidePayload<ExtArgs extends runtime.Types.Extensions.Interna
     slideType: $Enums.SlideType
     imageUrl: string | null
     contentText: string | null
+    audioUrl: string | null
   }, ExtArgs["result"]["staticSlide"]>
   composites: {}
 }
@@ -1009,6 +1043,7 @@ export interface StaticSlideFieldRefs {
   readonly slideType: Prisma.FieldRef<"StaticSlide", 'SlideType'>
   readonly imageUrl: Prisma.FieldRef<"StaticSlide", 'String'>
   readonly contentText: Prisma.FieldRef<"StaticSlide", 'String'>
+  readonly audioUrl: Prisma.FieldRef<"StaticSlide", 'String'>
 }
     
 
