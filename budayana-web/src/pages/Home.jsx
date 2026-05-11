@@ -163,19 +163,20 @@ export default function Home() {
 
       {/* HEADER */}
       <div className='header'>
-        <div style={{ zIndex: 10 }}>
-          {/* ToggleMenu removed — Kids version has no Quiz Kultur */}
+        {/* Top row: badge (kiri) + profil (kanan) */}
+        <div className='header-top-row'>
           <div className='kids-mode-badge'>🏫 Cerita Rakyat</div>
+          <div className='profile' onClick={goToProfile}>
+            <img src='/assets/budayana/islands/Profile.png' alt='Profil' />
+          </div>
         </div>
 
+        {/* Game name logo — centered below top row on mobile */}
         <div className='gameName'>
           <img src='/assets/budayana/islands/Game Name.png' alt='Budayana' />
         </div>
-
-        <div className='profile' onClick={goToProfile}>
-          <img src='/assets/budayana/islands/Profile.png' alt='Profil' />
-        </div>
       </div>
+
 
       {/* MAP ISLANDS */}
       <MapUI allIslands={allIslands} onIslandClick={handleOpenIsland} />
@@ -239,21 +240,37 @@ function IslandPopup({ activeIsland, islandDetails, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Bar for Modal */}
-        <div className='flex items-center justify-between mb-6'>
-          <div className='text-lg md:text-xl font-regular text-black z-10'>
-            Percobaan : {attemptCount}
-          </div>
-          <div className='text-center text-3xl md:text-4xl font-regular text-[#000000] absolute left-1/2 -translate-x-1/2 w-full'>
-            {activeIsland.name}
-          </div>
+        <div className='relative w-full mb-6 pt-1 md:pt-0'>
+          
+          {/* Close Button: Absolute positioned to the top right so it never breaks center alignment */}
           <button
-            className='text-black relative w-8 h-8 rounded-full border-2 border-black flex items-center justify-center bg-transparent transition-transform hover:scale-110 active:scale-95 z-10'
+            className='absolute top-0 right-0 text-black w-8 h-8 rounded-full border-2 border-black flex items-center justify-center bg-transparent transition-transform hover:scale-110 active:scale-95 z-20'
             onClick={onClose}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
           </button>
+
+          {/* Title Container: Flex Column on Mobile, Flex Row on Desktop */}
+          <div className='flex flex-col md:flex-row w-full items-center justify-between'>
+            
+            {/* Left Side: Percobaan */}
+            {/* Mobile: order-2 (goes below title), centered. Desktop: left-aligned, takes 1/3 width */}
+            <div className='order-2 md:order-none w-full md:w-1/3 text-center md:text-left text-lg md:text-xl font-regular text-black z-10 mt-1 md:mt-0'>
+              Percobaan : {attemptCount}
+            </div>
+
+            {/* Center: Island Name */}
+            {/* Mobile: order-1 (goes to top), centered. Desktop: true center, takes 1/3 width */}
+            <div className='order-1 md:order-none w-full md:w-1/3 text-center text-3xl md:text-4xl font-regular text-[#000000] z-10'>
+              {activeIsland.name}
+            </div>
+
+            {/* Right Side: Empty spacer. This strictly exists so the Desktop view stays perfectly centered */}
+            <div className='hidden md:block md:w-1/3'></div>
+            
+          </div>
         </div>
 
         {/* Central Card content — no loading state, data is always ready here */}

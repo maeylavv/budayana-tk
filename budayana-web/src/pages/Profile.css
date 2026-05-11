@@ -230,4 +230,9 @@
     height: 45px;
     padding: 0 10px;
   }
+
+  .form_profile {
+    align-items: center;
+    margin: 0;
+  }
 }

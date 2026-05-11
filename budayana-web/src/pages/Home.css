@@ -689,6 +689,14 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 5;
+}
+
+/* header-top-row: digunakan di mobile untuk menempatkan badge & profil sejajar */
+.header-top-row {
+  display: contents; /* desktop: tidak membuat wrapper baru, anak-anaknya ikut flex parent */
 }
 
 .header h1 {
@@ -1251,4 +1259,60 @@
 
 .audio-replay-btn:active {
   transform: scale(0.97);
+}
+
+/* ─── Mobile: ensure page scrolls and header is compact ─── */
+@media (max-width: 768px) {
+  .home-page {
+    min-height: 100dvh;
+    height: auto;
+    overflow-y: auto;
+    padding: 16px 14px 40px;
+  }
+
+  /* Keep header row on one line with smaller assets */
+  .home-page .header {
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0;
+    margin-bottom: 16px;
+  }
+
+  .home-page .header-top-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-left: 10% ;
+  margin-right: 10% ;
+  width: 100%;
+}
+
+  .home-page .gameName {
+    position: static;
+    transform: none;
+    left: auto;
+    margin-top: 3%;
+  }
+
+  .home-page .gameName img {
+    height: clamp(100px, 16vw, 90px);
+  }
+
+  .home-page .profile img {
+    height: clamp(48px, 12vw, 68px);
+  }
+
+  .kids-mode-badge {
+    font-size: 0.85rem;
+    padding: 5px 12px;
+  }
+}
+
+@media (max-width: 1024px)  and (orientation: portrait){
+
+  .header {
+    margin-top: 3%;
+  }
 }

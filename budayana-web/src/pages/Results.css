@@ -169,29 +169,29 @@
 }
 
 /* Responsive */
+/* Responsive */
 @media (max-width: 768px) {
-  .stats-grid {
+  .stats-grid,
+  .stats-grid-kids {
     grid-template-columns: 1fr 1fr;
   }
 
-  .history-header,
-  .history-row {
-    font-size: 0.8rem;
-    padding: 12px;
-    gap: 8px;
-    /* Adjust columns for mobile */
-    grid-template-columns: 2fr 1fr 1fr 0.8fr 1.8fr;
+  /* Target the specific -kids classes used in your React code */
+  .history-header-kids,
+  .history-row-kids {
+    font-size: 0.75rem; /* Slightly smaller font to fit mobile */
+    padding: 12px 8px; /* Less horizontal padding */
+    gap: 6px;
+    
+    /* We hid the 5th column, so we ONLY define 4 columns here */
+    /* Ratios: Cerita | Pulau | XP | Tanggal */
+    grid-template-columns: 1.5fr 1fr 0.8fr 1.2fr;
   }
 
-  /* Hide Time on very small screens? Or XP? */
-  .history-header > div:last-child,
-  .history-row > div:last-child {
-    display: none; /* Hide Time column on mobile */
-  }
-
-  .history-header,
-  .history-row {
-    grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+  /* Hide Time column on mobile to save space */
+  .history-header-kids > div:last-child,
+  .history-row-kids > div:last-child {
+    display: none; 
   }
 }
 
