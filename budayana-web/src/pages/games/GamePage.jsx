@@ -1406,23 +1406,32 @@ export default function GamePage() {
 
     return (
       <div className='w-full max-w-5xl mx-auto px-2 mb-6 flex justify-between items-center'>
+        
+        {/* Keluar Button */}
         <button
           onClick={() => setShowExitWarning(true)}
-          className='px-4 py-2 bg-white/80 border-2 border-[#2c2c2c] rounded-full flex gap-2 items-center font-regular hover:bg-gray-100'
+          className='px-3 py-1.5 md:px-4 md:py-2 bg-white/80 border-2 border-[#2c2c2c] rounded-full flex gap-1 md:gap-2 items-center font-regular hover:bg-gray-100 text-sm md:text-base whitespace-nowrap shrink-0'
         >
-          <ArrowLeft size={18} /> Keluar
+          <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" /> Keluar
         </button>
-        <div className='flex gap-2'>
-          <div className='flex gap-2 bg-white/70 px-4 py-2 rounded-full border-2 border-[#2c2c2c] shadow-sm'>
+        
+        {/* Stats Container */}
+        <div className='flex gap-1.5 md:gap-2 shrink-0'>
+          
+          {/* XP Pill */}
+          <div className='flex items-center gap-1 md:gap-2 bg-white/70 px-3 py-1.5 md:px-4 md:py-2 rounded-full border-2 border-[#2c2c2c] shadow-sm text-sm md:text-base whitespace-nowrap'>
             <span className='font-regular text-[#E4AE28]'>XP</span>
             <span className='font-regular'>
               {currentXP}/{totalQuestions > 0 ? "100" : "0"}
             </span>
           </div>
-          <div className='flex gap-2 bg-white/70 px-4 py-2 rounded-full border-2 border-[#2c2c2c] shadow-sm'>
-            <Clock size={20} />
+          
+          {/* Clock Pill */}
+          <div className='flex items-center gap-1 md:gap-2 bg-white/70 px-3 py-1.5 md:px-4 md:py-2 rounded-full border-2 border-[#2c2c2c] shadow-sm text-sm md:text-base whitespace-nowrap'>
+            <Clock className="w-4 h-4 md:w-5 md:h-5" />
             <span className='font-regular'>{formatTime(timeElapsed)}</span>
           </div>
+          
         </div>
       </div>
     )

@@ -121,6 +121,22 @@
   right: 20%;
 }
 
+/* ──────────────────────────────────────────────
+   DESKTOP / MOBILE TOGGLE
+   Desktop map is visible ≥769px, hidden ≤768px
+   Mobile list is visible ≤768px, hidden ≥769px
+────────────────────────────────────────────── */
+
+/* Desktop map wrapper — always shown on desktop */
+.islands-desktop-map {
+  display: block;
+}
+
+/* Mobile list — hidden by default on desktop */
+.islands-mobile-list {
+  display: none;
+}
+
 /* Mobile & Tablet Styles */
 @media (max-width: 1366px) {
   .island.sumatra {
@@ -136,7 +152,7 @@
   }
 }
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
   .island.sumatra {
     left: 2%;
   }
@@ -148,51 +164,148 @@
   .island.maluku {
     left: 75%;
   }
+} */
+
+@media (max-width: 1024px) {
+  [class*="island-container"][class$="-wrapper"] {
+    margin-top: 0;
+  }
+  .backgroundassets {
+    margin: 0;
+    margin-top: 5%;
+  }
+  
+  /* Scale down the images slightly */
+  .island.sumatra { width: 200px; }
+  .island.kalimantan { width: 210px; }
+  .island.sulawesi { width: 150px; }
+  .island.maluku { width: 100px; }
+  .island.jawa { width: 260px; }
+  .island.bali { width: 97px; }
+  .island.nusa-tenggara { width: 230px; }
+  .island.papua { width: 210px; }
 }
 
-@media (max-width: 768px) {
-  .island {
+/* 1. TABLET LANDSCAPE (Horizontal - e.g., iPad Mini) */
+@media (max-width: 1024px) and (orientation: landscape) {
+
+  .backgroundassets {
+    margin: 0;
+    margin-top: 4%;
+  }
+
+  .sumatra-wrapper { top: 32% !important; left: 5% !important; }
+  .kalimantan-wrapper { top: 35% !important; left: 28% !important; }
+  .sulawesi-wrapper { top: 38% !important; left: 49% !important; }
+  .maluku-wrapper { top: 41% !important; left: 63% !important; }
+  .papua-wrapper { top: 42% !important; left: 75% !important; }
+  
+  .jawa-wrapper { top: 65% !important; left: 24% !important; }
+  .bali-wrapper { top: 65% !important; left: 51% !important; }
+  .nusa-tenggara-wrapper { top: 65% !important; left: 62% !important; }
+}
+
+/* 2. TABLET PORTRAIT (Vertical - e.g., iPad Pro) */
+@media (max-width: 1024px) and (orientation: portrait) {
+
+  [class*="island-container"][class$="-wrapper"] {
+    margin-top: 20%;
+  }
+
+  .backgroundassets {
+    margin: 0;
+    margin-top: 33%;
+  }
+
+  /* Pulled tighter vertically because the screen is much taller */
+  .sumatra-wrapper { top: 22% !important; left: 5% !important; }
+  .kalimantan-wrapper { top: 23% !important; left: 28% !important; }
+  .sulawesi-wrapper { top: 28% !important; left: 50% !important; }
+  .maluku-wrapper { top: 31% !important; left: 63% !important; }
+  .papua-wrapper { top: 32% !important; left: 75% !important; }
+  .jawa-wrapper { top: 42% !important; left: 25% !important; }
+  .bali-wrapper { top: 45% !important; left: 53% !important; }
+  .nusa-tenggara-wrapper { top: 45% !important; left: 64% !important; }
+
+}
+
+@media (max-width: 1000px) {
+  /* Hide the desktop absolute-positioned map */
+  .islands-desktop-map {
+    display: none !important;
+  }
+
+  /* Show the mobile vertical list */
+  .islands-mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 12px 4px 32px;
+    width: 100%;
+  }
+
+  /* Each island card row */
+  .island-mobile-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    padding: 12px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 50, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .island-mobile-card:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 8px rgba(0, 0, 50, 0.1);
+  }
+
+  .island-mobile-locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Image wrapper keeps the lock icon centred over the island image */
+  .island-mobile-img-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 110px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .island-mobile-img {
+    max-width: 110px;
+    max-height: 80px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: filter 0.3s ease;
+  }
+
+  .island-mobile-lock {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
   }
 
-  .island.sumatra {
-    width: 180px;
-    top: 120px;
-    left: 0;
-  }
-
-  .island.jawa {
-    width: 200px;
-    top: 280px;
-    left: 15%;
-  }
-
-  .island.kalimantan {
-    width: 180px;
-    top: 80px;
-    left: 35%;
-  }
-
-  .island.sulawesi {
-    width: 120px;
-    top: 140px;
-    left: 65%;
-  }
-
-  .island.bali {
-    width: 70px;
-    top: 340px;
-    left: 45%;
-  }
-
-  .island.maluku {
-    width: 90px;
-    top: 160px;
-    left: 80%;
-  }
-
-  .paus,
-  .hiuk {
-    display: none;
+  /* Island name label */
+  .island-mobile-label {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #1a3a5c;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    flex: 1;
   }
 }
