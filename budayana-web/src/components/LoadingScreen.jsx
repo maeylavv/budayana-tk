@@ -51,7 +51,7 @@ export default function LoadingScreen({ message }) {
         }}
       >
         <img
-          src="/assets/budayana/islands/bocah say hi.gif"
+          src="/assets/budayana/islands/new gif.gif"
           alt="Memuat..."
           style={{
             width: "280px",

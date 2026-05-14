@@ -51,8 +51,9 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     justify-content: center;
     align-items: flex-end;
     padding-top: 15% !important;
-    gap: 20%;
+    gap: 8%;
     padding: 140px 5% 0;
+    padding-left: 2%;
 }
 .lnd-hero-mascots {
     width: 100%;
@@ -88,7 +89,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     font-weight: normal;
     font-size: 1.25rem;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(149, 92, 46, 0.4);
+    box-shadow: none;
     transition: transform 0.2s;
 }
 .lnd-daftar-btn:hover { transform: scale(1.05); }
@@ -160,6 +161,7 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     align-items: center;
     border-radius: 20px;
     margin: 60px auto;
+    margin-top: 100px;
     width: 95%;
     max-width: 1300px;
     box-sizing: border-box;
@@ -311,20 +313,35 @@ body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: 'Fredoka O
     width: 30px;
 }
 
+/* Tablet / iPad Responsiveness */
+@media (min-width: 901px) and (max-width: 1200px) {
+    .lnd-hero {
+        gap: 5%;
+        padding-left: 1%;
+    }
+    .lnd-hero-text {
+        padding-right: 3%;
+    }
+    .lnd-banner { width: 340px; }
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 900px) {
     .lnd-navbar-container { display: none; }
-    .lnd-hero { flex-direction: column; padding-top: 80px !important; align-items: center; gap: 0; }
+    .lnd-hero { flex-direction: column; padding-top: 80px !important; padding-left: 5% !important; align-items: center; gap: 0; }
     .lnd-hero-text { order: 1; padding-bottom: 30px; }
     .lnd-hero-mascots { order: 2; width: 80%; margin-bottom: -5px; }
     .lnd-ground-wave { margin-top: -1%; }
     .lnd-grid-islands { grid-template-columns: repeat(2, 1fr); padding: 0 10px; }
     .lnd-about-content { flex-direction: column; text-align: center; gap: 30px; }
+    .lnd-about-img-circle { width: 200px; height: 200px; }
+    .lnd-about-text-content p { font-size: 1.05rem; line-height: 1.5; }
     .lnd-features-content { flex-direction: column; align-items: center; }
+    .lnd-features-content img { width: 95% !important; max-width: unset !important; }
     .lnd-feature-img { width: 95%; margin-bottom: 50px; }
     .lnd-badak-float { position: relative; right: 0; bottom: 0; margin-top: -30px; width: 200px; }
     .lnd-contact-info { flex-direction: column; gap: 20px; }
-    
+
     .lnd-title-brown, .lnd-title-white { font-size: 2.2rem; }
     .lnd-subtitle-white, .lnd-subtitle-brown { font-size: 1.1rem; }
     .lnd-interaktif { padding: 40px 10px; margin: 30px auto; border-radius: 16px; }
