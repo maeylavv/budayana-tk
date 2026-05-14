@@ -211,7 +211,7 @@ function IslandPopup({ activeIsland, islandDetails, onClose }) {
     bali: "#F2E686",
     nusa: "#F7885E",
   }
-  const cardColor = ISLAND_COLORS[activeIsland?.slug] || "#a6baf7"
+  const cardColor = ISLAND_COLORS[activeIsland?.slug] || "#F7885E"
 
   // Fetch attempts for this island (fast — uses cached island id)
   const { data: attempts } = useAttempts(islandDetails?.id)

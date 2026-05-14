@@ -66,7 +66,7 @@ export default function Landing() {
                <h1 className="lnd-title-brown">Fitur Utama</h1>
                <p className="lnd-subtitle-brown">Jelajahi kekayaan budaya Indonesia dari 8 pulau<br/>dengan cara yang menyenangkan!</p>
                <div className="lnd-features-content w-full flex justify-center mt-[-20px] mb-12">
-                 <img src="/assets/budayana/islands/new landing.png" alt="Features" className="w-[85%] max-w-[1000px] object-contain drop-shadow-xl" />
+                 <img src="/assets/budayana/islands/newest landing.png" alt="Features" className="w-[85%] max-w-[1000px] object-contain drop-shadow-xl" />
                </div>
             </div>
 
@@ -82,10 +82,7 @@ export default function Landing() {
                 <div className="lnd-contact-info">
                    <div className="lnd-contact-row">
                       <img src="/assets/budayana/islands/email.png" alt="email" />
-                      <span>budayana@gmail.com</span>
-                   </div>
-                   <div className="lnd-contact-row">
-                      <span>📞 0895-000-000</span>
+                      <span>budayana.tk@gmail.com</span>
                    </div>
                 </div>
             </div>

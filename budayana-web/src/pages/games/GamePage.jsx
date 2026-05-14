@@ -564,6 +564,46 @@ export default function GamePage() {
     }
   }
 
+  // Clear ALL drag-drop entries from localStorage (used on exit/reset)
+  const clearAllDragDropStorage = () => {
+    try {
+      const keysToRemove = []
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i)
+        if (key && key.startsWith("budayana_dragdrop_")) {
+          keysToRemove.push(key)
+        }
+      }
+      keysToRemove.forEach((k) => localStorage.removeItem(k))
+    } catch (e) {
+      console.warn("Failed to clear all drag-drop storage:", e)
+    }
+  }
+
+  // SessionStorage helpers for fresh-start flag
+  const getFreshStartKey = (sId) => `budayana_fresh_${sId}`
+
+  const setFreshStartFlag = (sId) => {
+    try {
+      sessionStorage.setItem(getFreshStartKey(sId), "1")
+    } catch (e) {
+      console.warn("Failed to set fresh start flag:", e)
+    }
+  }
+
+  const consumeFreshStartFlag = (sId) => {
+    try {
+      const val = sessionStorage.getItem(getFreshStartKey(sId))
+      if (val) {
+        sessionStorage.removeItem(getFreshStartKey(sId))
+        return true
+      }
+    } catch (e) {
+      console.warn("Failed to read fresh start flag:", e)
+    }
+    return false
+  }
+
   // Helper to restore answers from questionLogs
   const restoreAnswersFromLogs = (logs, storyPages) => {
     if (!logs || !storyPages?.length) return
@@ -618,7 +658,19 @@ export default function GamePage() {
           setAttemptId(data.id)
           setAttemptStartedAt(data.startedAt)
 
-          // Resume timer logic
+          // Check if user exited previously and should start fresh
+          const isFreshStart = consumeFreshStartFlag(storyId)
+
+          if (isFreshStart) {
+            // Fresh start: do NOT restore any previous state
+            // Reset timer to zero
+            startTimeRef.current = Date.now()
+            setTimeElapsed(0)
+            // State is already at initial values (answers={}, dragDropOrder={})
+            return
+          }
+
+          // Resume timer logic (only when not fresh start)
           if (data.totalTimeSeconds) {
             const savedDuration = data.totalTimeSeconds * 1000
             startTimeRef.current = Date.now() - savedDuration
@@ -857,15 +909,23 @@ export default function GamePage() {
 
   const handleExit = async () => {
     setIsExitSubmitting(true)
-    // Clear drag-drop storage
-    clearDragDropStorage()
+
+    // 1. Clear ALL drag-drop localStorage entries
+    clearAllDragDropStorage()
+
+    // 2. Set fresh-start flag so next mount resets all state
+    if (storyId) {
+      setFreshStartFlag(storyId)
+    }
+
+    // 3. Reset URL page param to 1 so next visit starts at page 1
+    setSearchParams({ page: "1" }, { replace: true })
 
     if (attemptId) {
       try {
         await updateAttempt.mutateAsync({
           attemptId,
           data: {
-            // finishedAt: new Date().toISOString(), // removed to prevent premature finishing
             totalTimeSeconds: timeElapsed,
           },
         })
@@ -876,7 +936,7 @@ export default function GamePage() {
       }
     }
 
-    // Navigate away
+    // 4. Navigate away
     navigate(`/home?island=${islandSlug}`)
   }
 
@@ -892,7 +952,7 @@ export default function GamePage() {
     const mcColors = ["#BDEBFF", "#CBD2FF", "#FFA5C9", "#F7885E"]
 
     return (
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 '>
         {question.answerOptions?.map((opt, idx) => {
           const isSelected = current?.choiceIndex === idx
           const isPending = current?.pending === true
@@ -928,7 +988,7 @@ export default function GamePage() {
               key={opt.id}
               onClick={() => handleAnswer(question, idx)}
               disabled={current?.isCorrect === true || isPending || (showIncorrectPopup && lastIncorrectQuestionId === question.id)}
-              className='w-full text-left rounded-2xl px-4 py-3 md:px-5 md:py-4 font-regular shadow-sm transition border-2 relative'
+              className='w-full text-left rounded-2xl px-4 py-3 md:px-5 md:py-4 font-regular shadow-sm transition border-2 relative cursor-pointer'
               style={{ backgroundColor: bgColor, opacity, borderColor }}
             >
               <div className='flex items-center gap-2 md:gap-3'>
@@ -1410,7 +1470,7 @@ export default function GamePage() {
         {/* Keluar Button */}
         <button
           onClick={() => setShowExitWarning(true)}
-          className='px-3 py-1.5 md:px-4 md:py-2 bg-white/80 border-2 border-[#2c2c2c] rounded-full flex gap-1 md:gap-2 items-center font-regular hover:bg-gray-100 text-sm md:text-base whitespace-nowrap shrink-0'
+          className='px-3 py-1.5 md:px-4 md:py-2 bg-white/80 border-2 border-[#2c2c2c] rounded-full flex gap-1 md:gap-2 items-center font-regular hover:bg-gray-100 text-sm md:text-base whitespace-nowrap shrink-0 cursor-pointer'
         >
           <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" /> Keluar
         </button>
@@ -1536,14 +1596,14 @@ export default function GamePage() {
           <button
             onClick={goPrev}
             disabled={currentPageIndex === 0}
-            className='flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular transition disabled:opacity-50 disabled:bg-[#ccc] bg-[#f27f68] tracking-wide'
+            className='flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular transition disabled:opacity-50 disabled:bg-[#ccc] bg-[#f27f68] tracking-wide cursor-pointer'
           >
             <ArrowLeft size={20} /> Sebelumnya
           </button>
           <button
             onClick={goNext}
             disabled={(isQuestion && answers[currentPageData?.question?.id]?.isCorrect !== true) || isSubmitting}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular transition tracking-wide ${(isQuestion && answers[currentPageData?.question?.id]?.isCorrect !== true) || isSubmitting
+            className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular transition tracking-wide cursor-pointer ${(isQuestion && answers[currentPageData?.question?.id]?.isCorrect !== true) || isSubmitting
               ? "bg-gray-400 cursor-not-allowed opacity-70"
               : "bg-[#4fb986]"
               }`}

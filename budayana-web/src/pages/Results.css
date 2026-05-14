@@ -112,6 +112,8 @@
   grid-template-columns: repeat(5, 1fr);
   padding: 12px 16px;
   font-size: 0.9rem;
+  text-align: center;
+  justify-items: center;
 }
 
 .history-body {
@@ -151,6 +153,8 @@
   grid-template-columns: repeat(5, 1fr);
   padding: 12px 16px;
   font-size: 0.85rem;
+  text-align: center;
+  justify-items: center;
 }
 
 .history-row:last-child {
