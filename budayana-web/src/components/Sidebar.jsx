@@ -55,7 +55,7 @@ export default function Sidebar() {
       />
 
       <aside className={`sidebar ${isOpen ? "open" : ""}`}>
-        <div className='sidebar-logo cursor-pointer'>
+        <div className='sidebar-logo cursor-pointer transition-transform duration-300 hover:scale-[1.05]'>
           <img src="/assets/budayana/islands/Budayana text.png" alt="Budayana" onClick={goToHome} />
         </div>
 

@@ -82,6 +82,10 @@
   justify-content: flex-end;
 }
 
+.profile:hover {
+  transform: scale(1.12);
+}
+
 .profile img {
   height: clamp(70px, 8vw, 100px);
   width: auto;
