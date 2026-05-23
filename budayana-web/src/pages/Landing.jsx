@@ -12,7 +12,7 @@ export default function Landing() {
         <div className="page_landing">
             <div className="lnd-navbar-container">
                 <div className="lnd-navbar">
-                    <img src="/assets/budayana/islands/Budayana text.png" alt="Budayana" className="lnd-logo" onClick={() => window.scrollTo(0, 0)} />
+                    <img src="/assets/budayana/islands/Cerita Budayana text.png" alt="Budayana" className="lnd-logo" onClick={() => window.scrollTo(0, 0)} />
                     <nav className="lnd-links">
                         <button onClick={() => scrollToSection("about")}>Tentang Kami</button>
                         <button onClick={() => scrollToSection("features")}>Fitur Utama</button>
@@ -26,6 +26,7 @@ export default function Landing() {
                 <img src="/assets/budayana/islands/Landing Group.png" alt="Mascot Group" className="lnd-hero-mascots" />
                 <div className="lnd-hero-text">
                     <img src="/assets/budayana/islands/Game Name.png" alt="Banner" className="lnd-banner" />
+                    
                     <h2 className="lnd-hero-sub">Platform Literasi<br/>Budaya untuk Siswa</h2>
                     <button className="lnd-daftar-btn" onClick={() => navigate('/sign-up')}>Daftar Akun</button>
                 </div>
@@ -40,7 +41,7 @@ export default function Landing() {
                         <img src="/assets/budayana/islands/Harimau.png" alt="Harimau" />
                     </div>
                     <div className="lnd-about-text-content">
-                        <p>Budayana adalah platform pembelajaran digital yang dirancang untuk membantu siswa mengenal dan memahami budaya Indonesia melalui pendekatan literasi berbasis cerita.</p>
+                        <p>Cerita Budayana adalah platform pembelajaran digital yang dirancang untuk membantu siswa mengenal dan memahami budaya Indonesia melalui pendekatan literasi berbasis cerita.</p>
                         <p>Kami menggabungkan teknologi dan nilai budaya untuk menciptakan pengalaman belajar yang ramah anak, mudah digunakan, dan relevan dengan kebutuhan pendidikan saat ini.</p>
                     </div>
                 </div>
@@ -78,11 +79,11 @@ export default function Landing() {
 
             <div id="contact" className="lnd-kontak">
                 <h1 className="lnd-title-white">Kontak Kami</h1>
-                <p className="lnd-kontak-sub">Punya pertanyaan, saran, atau ingin berkolaborasi? Jangan ragu untuk mengirimkan pesan kepada kami.</p>
+                <p className="lnd-kontak-sub">Punya pertanyaan, saran, atau ingin berkolaborasi?<br></br> Jangan ragu untuk mengirimkan pesan kepada kami.</p>
                 <div className="lnd-contact-info">
                    <div className="lnd-contact-row">
                       <img src="/assets/budayana/islands/email.png" alt="email" />
-                      <span>budayana.tk@gmail.com</span>
+                      <a href="mailto:budayana3ra@gmail.com" class="no-underline hover:underline">budayana3ra@gmail.com</a>
                    </div>
                 </div>
             </div>

@@ -257,7 +257,7 @@ const StoryAudioPlayerPage = ({
         </div>
 
         {/* Audio Player UI */}
-        <div className='w-[95%] md:w-[95%] border-[3px] border-[#8e5c3b] bg-transparent rounded-full px-4 md:px-8 py-3 flex items-center justify-between mx-auto gap-4 md:gap-6'>
+        <div className='w-[95%] md:w-[100%] border-[3px] border-[#8e5c3b] bg-transparent rounded-3xl md:rounded-full px-5 md:px-8 py-4 md:py-3 flex flex-wrap md:flex-nowrap items-center justify-between mx-auto'>
           {audioUrl && (
             <audio
               ref={audioRef}
@@ -270,54 +270,56 @@ const StoryAudioPlayerPage = ({
             />
           )}
 
-          {/* Play/Pause Button */}
-          <button
-            onClick={handlePlay}
-            disabled={!audioLoaded && audioUrl}
-            className='text-[#8e5c3b] flex-shrink-0 transition-transform hover:scale-105 active:scale-95 flex items-center justify-center w-8 h-8 disabled:opacity-50'
-          >
-            {(!audioLoaded && audioUrl) ? (
-              <div className="animate-spin rounded-full h-6 w-6 border-2 border-[#8e5c3b] border-t-transparent"></div>
-            ) : (
-              isPlaying ? <Pause size={32} fill="currentColor" /> : <Play size={32} fill="currentColor" />
-            )}
-          </button>
+          {/* 1. Progress Bar: Full width on mobile (Top), Flexible middle on desktop */}
+          <div className='w-full md:w-auto md:flex-1 order-1 md:order-2 mb-3 md:mb-0 md:mx-6 flex items-center'>
+            <input
+              ref={progressBarRef}
+              type="range"
+              min="0"
+              max={duration || 100}
+              step="0.01"
+              defaultValue={currentTime}
+              onChange={(e) => {
+                const val = Number(e.target.value)
+                setCurrentTime(val)
+                if (audioRef.current) audioRef.current.currentTime = val
 
-          {/* Time */}
-          <span ref={timeDisplayRef} className='font-regular text-[#1f1f1f] text-sm md:text-base flex-shrink-0 w-24 text-center'>
-            {formatAudioTime(currentTime)} / {formatAudioTime(duration)}
-          </span>
+                const durationVal = duration || 1;
+                const progressPct = durationVal > 0 ? (val / durationVal) * 100 : 0;
+                e.target.style.setProperty('--progress-bg', `linear-gradient(to right, #8e5c3b ${progressPct}%, #e0d6c8 ${progressPct}%)`);
 
-          {/* Progress Bar */}
-          <input
-            ref={progressBarRef}
-            type="range"
-            min="0"
-            max={duration || 100}
-            step="0.01"
-            defaultValue={currentTime}
-            onChange={(e) => {
-              const val = Number(e.target.value)
-              setCurrentTime(val)
-              if (audioRef.current) audioRef.current.currentTime = val
+                if (timeDisplayRef.current) {
+                  timeDisplayRef.current.innerText = `${formatAudioTime(val)} / ${formatAudioTime(durationVal)}`;
+                }
+              }}
+              className='w-full custom-audio-slider'
+              style={{
+                '--progress-bg': `linear-gradient(to right, #8e5c3b ${progressPercent}%, #e0d6c8 ${progressPercent}%)`
+              }}
+            />
+          </div>
 
-              const durationVal = duration || 1;
-              const progressPct = durationVal > 0 ? (val / durationVal) * 100 : 0;
-              e.target.style.setProperty('--progress-bg', `linear-gradient(to right, #8e5c3b ${progressPct}%, #e0d6c8 ${progressPct}%)`);
+          {/* 2. Play & Time: Bottom-left on mobile, Far-left on desktop */}
+          <div className='flex items-center gap-3 md:gap-4 order-2 md:order-1'>
+            <button
+              onClick={handlePlay}
+              disabled={!audioLoaded && audioUrl}
+              className='text-[#8e5c3b] flex-shrink-0 transition-transform hover:scale-105 active:scale-95 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 disabled:opacity-50'
+            >
+              {(!audioLoaded && audioUrl) ? (
+                <div className="animate-spin rounded-full h-6 w-6 border-2 border-[#8e5c3b] border-t-transparent"></div>
+              ) : (
+                isPlaying ? <Pause size={32} fill="currentColor" /> : <Play size={32} fill="currentColor" />
+              )}
+            </button>
 
-              if (timeDisplayRef.current) {
-                timeDisplayRef.current.innerText = `${formatAudioTime(val)} / ${formatAudioTime(durationVal)}`;
-              }
-            }}
-            className='flex-1 custom-audio-slider'
-            style={{
-              '--progress-bg': `linear-gradient(to right, #8e5c3b ${progressPercent}%, #e0d6c8 ${progressPercent}%)`
-            }}
-          />
+            <span ref={timeDisplayRef} className='font-regular text-[#1f1f1f] text-sm md:text-base flex-shrink-0 w-20 md:w-24 text-left'>
+              {formatAudioTime(currentTime)} / {formatAudioTime(duration)}
+            </span>
+          </div>
 
-          {/* Replay & Volume Buttons Wrapper */}
-          <div className="flex gap-2 items-center flex-shrink-0">
-            {/* Replay Button */}
+          {/* 3. Replay & Volume: Bottom-right on mobile, Far-right on desktop */}
+          <div className="flex items-center gap-3 md:gap-4 order-3 md:order-3">
             <button
               onClick={() => {
                 setCurrentTime(0)
@@ -332,7 +334,6 @@ const StoryAudioPlayerPage = ({
               <img src="/assets/budayana/islands/replay-logo.png" alt="Replay" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
             </button>
 
-            {/* Volume Button */}
             <button onClick={() => setIsMuted(!isMuted)} className='flex items-center justify-center w-8 h-8 hover:scale-105 active:scale-95 transition-transform'>
               {isMuted ? (
                 <img src="/assets/budayana/islands/speaker mute-logo.png" alt="Muted" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
