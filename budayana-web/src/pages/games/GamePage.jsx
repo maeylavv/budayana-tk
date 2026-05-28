@@ -430,14 +430,14 @@ export default function GamePage() {
         ...s,
         type: "story",
         sortOrder: s.slideNumber,
-        audioUrl: getHardcodedAudioUrl(islandSlug, s.slideNumber),
+        audioUrl: s.audioUrl,
       })) || []
     const interactiveSlides =
       story.interactiveSlides?.map((s) => ({
         ...s,
         type: getInternalType(s),
         sortOrder: s.slideNumber,
-        audioUrl: getHardcodedAudioUrl(islandSlug, s.slideNumber),
+        audioUrl: s.audioUrl,
       })) || []
 
     // Combine and sort by slideNumber

@@ -37,18 +37,18 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
   sulawesi: {
     title: "Nenek Pakande",
     storyImageMap: {
-      1: "/assets/budayana/islands/sulawesi1.png",
-      3: "/assets/budayana/islands/sulawesi2.png",
-      5: "/assets/budayana/islands/sulawesi33.png",
-      7: "/assets/budayana/islands/sulawesi4.png",
-      9: "/assets/budayana/islands/sulawesi5.png",
+      1: "/assets/budayana/islands/sulawesi1.webp",
+      3: "/assets/budayana/islands/sulawesi2.webp",
+      5: "/assets/budayana/islands/sulawesi33.webp",
+      7: "/assets/budayana/islands/sulawesi4.webp",
+      9: "/assets/budayana/islands/sulawesi5.webp",
     },
     storyAudioMap: {
-      1: "/audio/sulawesi/SULAWESI 1.mp3",
-      3: "/audio/sulawesi/SULAWESI 2.mp3",
-      5: "/audio/sulawesi/SULAWESI 3.mp3",
-      7: "/audio/sulawesi/SULAWESI 4.mp3",
-      9: "/audio/sulawesi/SULAWESI 5.mp3",
+      1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893560/SULAWESI_1_uf9g5i.mp3",
+      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893560/SULAWESI_2_nlj2ew.mp3",
+      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893560/SULAWESI_3_u5ijp1.mp3",
+      7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893558/SULAWESI_4_iucvoq.mp3",
+      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893559/SULAWESI_5_fkqzpl.mp3",
     },
     questions: [
       {
@@ -123,11 +123,11 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
   sumatra: {
     title: "Malin Kundang",
     storyImageMap: {
-      1: "/assets/budayana/islands/sumatra1.png",
-      3: "/assets/budayana/islands/sumatra2.png",
-      5: "/assets/budayana/islands/sumatra3.png",
-      7: "/assets/budayana/islands/sumatra4.png",
-      9: "/assets/budayana/islands/sumatra5.png",
+      1: "/assets/budayana/islands/sumatra1.webp",
+      3: "/assets/budayana/islands/sumatra2.webp",
+      5: "/assets/budayana/islands/sumatra3.webp",
+      7: "/assets/budayana/islands/sumatra4.webp",
+      9: "/assets/budayana/islands/sumatra5.webp",
     },
     storyTextMap: {
       1: "Di sebuah desa kecil di tepi laut, hiduplah Malin Kundang dan ibunya. Hidup mereka sederhana, tapi bahagia.\nSetiap pagi, Malin membantu ibunya mencari ikan dan menjemur hasil tangkapan.\n“Ibu, suatu hari aku akan membuat hidup kita lebih baik,” katanya sambil tersenyum.\nIbunya hanya tersenyum lembut, memeluk anak satu-satunya itu dengan penuh kasih.",
@@ -137,11 +137,11 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       9: "Tiba-tiba, langit gelap. Badai datang menggulung laut.\nPetir menyambar kapal Malin. Ia menyesal dan berteriak meminta ampun,\ntetapi semua sudah terlambat.\nKetika badai reda, orang-orang menemukan batu menyerupai manusia\nterduduk di tepi pantai batu Malin Kundang.",
     },
     storyAudioMap: {
-      1: "/audio/sumatra/SUMATRA 1.mp3",
-      3: "/audio/sumatra/SUMATRA 2.mp3",
-      5: "/audio/sumatra/SUMATRA 3.mp3",
-      7: "/audio/sumatra/SUMATRA 4.mp3",
-      9: "/audio/sumatra/SUMATRA 5.mp3",
+      1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893552/SUMATRA_1_qqduau.mp3",
+      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893552/SUMATRA_2_uw12bc.mp3",
+      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893552/SUMATRA_3_bdhtua.mp3",
+      7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893551/SUMATRA_4_ayqwbu.mp3",
+      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893551/SUMATRA_5_zdjuw0.mp3",
     },
     questions: [
       {
@@ -207,18 +207,18 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
   maluku: {
     title: "Telaga Biru",
     storyImageMap: {
-      1: "/assets/budayana/islands/maluku1.png",
-      3: "/assets/budayana/islands/maluku22.png",
-      5: "/assets/budayana/islands/maluku33.png",
-      7: "/assets/budayana/islands/maluku44.png",
-      9: "/assets/budayana/islands/maluku5.png",
+      1: "/assets/budayana/islands/maluku1.webp",
+      3: "/assets/budayana/islands/maluku22.webp",
+      5: "/assets/budayana/islands/maluku33.webp",
+      7: "/assets/budayana/islands/maluku44.webp",
+      9: "/assets/budayana/islands/maluku5.webp",
     },
     storyAudioMap: {
-      1: "/audio/maluku/MALUKU 1.mp3",
-      3: "/audio/maluku/MALUKU 2.mp3",
-      5: "/audio/maluku/MALUKU 3.mp3",
-      7: "/audio/maluku/MALUKU 4.mp3",
-      9: "/audio/maluku/MALUKU 5.mp3",
+      1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893550/MALUKU_1_ujsuhn.mp3",
+      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893551/MALUKU_2_kordwd.mp3",
+      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893550/MALUKU_3_ak3ugt.mp3",
+      7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893550/MALUKU_4_wnlx8c.mp3",
+      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893550/MALUKU_5_j6ggj8.mp3",
     },
     questions: [
       {
@@ -289,18 +289,18 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
   kalimantan: {
     title: "Pesut Mahakam",
     storyImageMap: {
-      1: "/assets/budayana/islands/kalimantan11.png",
-      3: "/assets/budayana/islands/kalimantan22.png",
-      5: "/assets/budayana/islands/kalimantan33.png",
-      7: "/assets/budayana/islands/kalimantan4.png",
-      9: "/assets/budayana/islands/kalimantan55.png",
+      1: "/assets/budayana/islands/kalimantan11.webp",
+      3: "/assets/budayana/islands/kalimantan22.webp",
+      5: "/assets/budayana/islands/kalimantan33.webp",
+      7: "/assets/budayana/islands/kalimantan4.webp",
+      9: "/assets/budayana/islands/kalimantan55.webp",
     },
     storyAudioMap: {
-      1: "/audio/kalimantan/KALIMANTAN 1.mp3",
-      3: "/audio/kalimantan/KALIMANTAN 2.mp3",
-      5: "/audio/kalimantan/KALIMANTAN 3.mp3",
-      7: "/audio/kalimantan/KALIMANTAN 4.mp3",
-      9: "/audio/kalimantan/KALIMANTAN 5.mp3",
+      1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893564/kalimantan_1_f3an1e.mp3",
+      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893563/kalimantan_2_dwvlne.mp3",
+      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893564/kalimantan_3_mwmqsx.mp3",
+      7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893563/kalimantan_4_croqle.mp3",
+      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893562/kalimantan_5_ccckfk.mp3",
     },
     questions: [
       {
@@ -371,18 +371,18 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
   "nusa tenggara": {
     title: "Watu Maladong",
     storyImageMap: {
-      1: "/assets/budayana/islands/nusa tenggara1.png",
-      3: "/assets/budayana/islands/nusa tenggara2.png",
-      5: "/assets/budayana/islands/nusa tenggara3.png",
-      7: "/assets/budayana/islands/nusa tenggara4.png",
-      9: "/assets/budayana/islands/nusa tenggara5.png",
+      1: "/assets/budayana/islands/nusa tenggara1.webp",
+      3: "/assets/budayana/islands/nusa tenggara2.webp",
+      5: "/assets/budayana/islands/nusa tenggara3.webp",
+      7: "/assets/budayana/islands/nusa tenggara4.webp",
+      9: "/assets/budayana/islands/nusa tenggara5.webp",
     },
     storyAudioMap: {
-      1: "/audio/ntt/NTT 1.mp3",
-      3: "/audio/ntt/NTT 2.mp3",
-      5: "/audio/ntt/NTT 3.mp3",
-      7: "/audio/ntt/NTT 4.mp3",
-      9: "/audio/ntt/NTT 5.mp3",
+      1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893554/NTT_1_sqtwos.mp3",
+      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893554/NTT_2_hnxizc.mp3",
+      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893553/NTT_3_wdnmp9.mp3",
+      7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893553/NTT_4_ncyqmc.mp3",
+      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893552/NTT_5_sqm0th.mp3",
     },
     questions: [
       {
@@ -453,18 +453,18 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
   bali: {
     title: "Bawang dan Kesuna",
     storyImageMap: {
-      1: "/assets/budayana/islands/bali11.png",
-      3: "/assets/budayana/islands/bali22.png",
-      5: "/assets/budayana/islands/bali33.png",
-      7: "/assets/budayana/islands/bali44.png",
-      9: "/assets/budayana/islands/bali55.png",
+      1: "/assets/budayana/islands/bali11.webp",
+      3: "/assets/budayana/islands/bali22.webp",
+      5: "/assets/budayana/islands/bali33.webp",
+      7: "/assets/budayana/islands/bali44.webp",
+      9: "/assets/budayana/islands/bali55.webp",
     },
     storyAudioMap: {
-      1: "/audio/bali/BALI 1.mp3",
-      3: "/audio/bali/BALI 2.mp3",
-      5: "/audio/bali/BALI 3.mp3",
-      7: "/audio/bali/BALI 4.mp3",
-      9: "/audio/bali/BALI 5.mp3",
+      1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893556/BALI_1_zp2dpq.mp3",
+      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893555/BALI_2_xkdx7t.mp3",
+      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893555/BALI_3_nnpkis.mp3",
+      7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893555/BALI_4_cuum0x.mp3",
+      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893554/BALI_5_hzjysf.mp3",
     },
     questions: [
       {
@@ -535,18 +535,18 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
   papua: {
     title: "Biwar",
     storyImageMap: {
-      1: "/assets/budayana/islands/papua1.png",
-      3: "/assets/budayana/islands/papua2.png",
-      5: "/assets/budayana/islands/papua3.png",
-      7: "/assets/budayana/islands/papua4.png",
-      9: "/assets/budayana/islands/papua5.png",
+      1: "/assets/budayana/islands/papua1.webp",
+      3: "/assets/budayana/islands/papua2.webp",
+      5: "/assets/budayana/islands/papua3.webp",
+      7: "/assets/budayana/islands/papua4.webp",
+      9: "/assets/budayana/islands/papua5.webp",
     },
     storyAudioMap: {
-      1: "/audio/papua/PAPUA 1.mp3",
-      3: "/audio/papua/PAPUA 2.mp3",
-      5: "/audio/papua/PAPUA 3.mp3",
-      7: "/audio/papua/PAPUA 4.mp3",
-      9: "/audio/papua/PAPUA 5.mp3",
+      1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893562/PAPUA_1_ydxu2p.mp3",
+      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893562/PAPUA_2_pa1pkf.mp3",
+      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893561/PAPUA_3_cjsgtw.mp3",
+      7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893560/PAPUA_4_r6bjng.mp3",
+      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893561/PAPUA_5_arm5bp.mp3",
     },
     questions: [
       {
@@ -617,18 +617,18 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
   jawa: {
     title: "Roro Jonggrang",
     storyImageMap: {
-      1: "/assets/budayana/islands/jawa1.png",
-      3: "/assets/budayana/islands/jawa22.png",
-      5: "/assets/budayana/islands/jawa33.png",
-      7: "/assets/budayana/islands/jawa44.png",
-      9: "/assets/budayana/islands/jawa5.png",
+      1: "/assets/budayana/islands/jawa1.webp",
+      3: "/assets/budayana/islands/jawa22.webp",
+      5: "/assets/budayana/islands/jawa33.webp",
+      7: "/assets/budayana/islands/jawa44.webp",
+      9: "/assets/budayana/islands/jawa5.webp",
     },
     storyAudioMap: {
-      1: "/audio/jawa/JAWA 1.mp3",
-      3: "/audio/jawa/JAWA 2.mp3",
-      5: "/audio/jawa/JAWA 3.mp3",
-      7: "/audio/jawa/JAWA 4.mp3",
-      9: "/audio/jawa/JAWA 5.mp3",
+      1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893558/JAWA_1_hss4do.mp3",
+      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893558/JAWA_2_in1v7r.mp3",
+      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893557/JAWA_3_zaivj2.mp3",
+      7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893557/JAWA_4_nrqank.mp3",
+      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893556/JAWA_5_m78szm.mp3",
     },
     questions: [
       {

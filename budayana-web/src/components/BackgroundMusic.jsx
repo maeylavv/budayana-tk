@@ -75,6 +75,7 @@ export default function BackgroundMusic() {
       src='/assets/budayana/music/Into the Wild.mp3'
       loop
       muted
+      preload="none"
     />
   )
 }
