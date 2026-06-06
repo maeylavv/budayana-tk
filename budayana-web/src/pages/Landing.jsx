@@ -1,5 +1,6 @@
 import "./Landing.css";
 import { useNavigate } from "react-router-dom";
+import MusicToggle from "../components/MusicToggle";
 
 export default function Landing() {
     const navigate = useNavigate();
@@ -10,7 +11,9 @@ export default function Landing() {
 
     return (
         <div className="page_landing">
+            <MusicToggle style={{ position: "absolute", top: "1%", left: "4%", zIndex: 1001 }} />
             <div className="lnd-navbar-container">
+
                 <div className="lnd-navbar">
                     <img src="/assets/budayana/islands/Cerita Budayana text.png" alt="Budayana" className="lnd-logo" onClick={() => window.scrollTo(0, 0)} />
                     <nav className="lnd-links">

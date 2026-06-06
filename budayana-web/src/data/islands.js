@@ -145,7 +145,7 @@ export const islands = [
     id: "bali",
     slug: "bali",
     name: "Bali",
-    storyTitle: "Kesuna dan Bawang",
+    storyTitle: "Bawang dan Kesuna",
     unlockOrder: 7,
     isLockedDefault: false,
     stages: ["story", "game"],

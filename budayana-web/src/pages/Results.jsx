@@ -5,6 +5,56 @@ import { islands } from "../data/islands"
 import { islandsApi } from "../lib/api"
 import "./Results.css"
 
+const STORY_MAPPING = {
+  "nenek pakande": {
+    fullTitle: "Nenek Pakande",
+    island: "Sulawesi"
+  },
+  "malin kundang": {
+    fullTitle: "Malin Kundang",
+    island: "Sumatra"
+  },
+  "roro jonggrang": {
+    fullTitle: "Roro Jonggrang",
+    island: "Jawa"
+  },
+  "biwar": {
+    fullTitle: "Biwar Penakluk Naga",
+    island: "Papua"
+  },
+  "biwar penakluk naga": {
+    fullTitle: "Biwar Penakluk Naga",
+    island: "Papua"
+  },
+  "pesut mahakam": {
+    fullTitle: "Pesut Makaham",
+    island: "Kalimantan"
+  },
+  "pesut makaham": {
+    fullTitle: "Pesut Makaham",
+    island: "Kalimantan"
+  },
+  "telaga biru": {
+    fullTitle: "Legenda Telaga Biru",
+    island: "Maluku"
+  },
+  "legenda telaga biru": {
+    fullTitle: "Legenda Telaga Biru",
+    island: "Maluku"
+  },
+  "bawang dan kesuna": {
+    fullTitle: "Bawang dan Kesuna",
+    island: "Bali"
+  },
+  "kesuna dan bawang": {
+    fullTitle: "Bawang dan Kesuna",
+    island: "Bali"
+  },
+  "watu maladong": {
+    fullTitle: "Watu Maladong",
+    island: "Nusa Tenggara"
+  }
+}
 
 export default function Results() {
   const { stats, attempts, isLoading } = useResults()
@@ -12,7 +62,6 @@ export default function Results() {
   // so the page never stays stuck.
   const showLoading = isLoading && !stats
   const [storyIslandMap, setStoryIslandMap] = useState({})
-
 
   // Fetch all islands to build a StoryID -> IslandName map
   useEffect(() => {
@@ -40,7 +89,6 @@ export default function Results() {
     fetchAllIslands()
   }, [])
 
-
   const formatDate = (dateString) => {
     if (!dateString) return "-"
     const date = new Date(dateString)
@@ -51,7 +99,6 @@ export default function Results() {
     })
   }
 
-
   const formatDuration = (seconds) => {
     if (seconds === undefined || seconds === null) return "-"
     const mins = Math.floor(seconds / 60)
@@ -61,6 +108,10 @@ export default function Results() {
 
   // Helper to get island name
   const getIslandName = (attempt) => {
+    const title = attempt.story?.title || ""
+    const mapped = STORY_MAPPING[title.toLowerCase()]
+    if (mapped) return mapped.island
+
     // 0. Try map from storyId
     const storyId = attempt.storyId || attempt.story?.id
     if (storyId && storyIslandMap[storyId]) {
@@ -74,7 +125,6 @@ export default function Results() {
     }
 
     // 2. Try to match story title to island configuration
-    const title = attempt.story?.title || ""
     const islandByStory = islands.find(
       (i) => i.storyTitle.toLowerCase() === title.toLowerCase()
     )
@@ -90,6 +140,8 @@ export default function Results() {
 
   const getDisplayTitle = (attempt) => {
     const rawTitle = attempt.story?.title || "Unknown Story"
+    const mapped = STORY_MAPPING[rawTitle.toLowerCase()]
+    if (mapped) return mapped.fullTitle
 
     // Get island name from API data
     let islandName = ""
@@ -108,6 +160,7 @@ export default function Results() {
   }
 
 
+
   if (showLoading) {
     return null
   }
@@ -121,7 +174,7 @@ export default function Results() {
         <div className='stats-grid stats-grid-kids'>
           <div className='stat-card green'>
             <div className='stat-value'>{stats?.storiesCompleted || 0}</div>
-            <div className='stat-label'>Tahap Selesai</div>
+            <div className='stat-label'>Cerita Selesai</div>
           </div>
           <div className='stat-card purple'>
             <div className='stat-value'>{stats?.totalXp || 0}</div>
@@ -162,8 +215,11 @@ export default function Results() {
               }
 
               return filteredAttempts.map((attempt) => {
-                const displayTitle = attempt.story?.title || "Unknown Story"
+                const rawTitle = attempt.story?.title || "Unknown Story"
+                const mapped = STORY_MAPPING[rawTitle.toLowerCase()]
+                const displayTitle = mapped ? mapped.fullTitle : rawTitle
                 const islandName = getIslandName(attempt)
+
 
                 // Display XP
                 let displayXp = attempt.totalXpGained || 0
