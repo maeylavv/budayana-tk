@@ -8,6 +8,7 @@ import { islands as staticIslands } from "../data/islands"
 
 // Components
 import MapUI from "../components/MapUI"
+import MusicToggle from "../components/MusicToggle"
 
 // Helper to see if we need special slug handling
 function getIslandSlug(name) {
@@ -165,7 +166,7 @@ export default function Home() {
       <div className='header'>
         {/* Top row: badge (kiri) + profil (kanan) */}
         <div className='header-top-row'>
-          <div className='kids-mode-badge'>🏫 Cerita Rakyat</div>
+          <MusicToggle />
           <div className='profile' onClick={goToProfile}>
             <img src='/assets/budayana/islands/Profile.png' alt='Profil' />
           </div>
@@ -221,7 +222,8 @@ function IslandPopup({ activeIsland, islandDetails, onClose }) {
   }
 
   const attemptItems = attempts?.items || []
-  const attemptCount = attemptItems.length
+  const attemptCount = attemptItems.filter((a) => a.finishedAt).length
+
 
   // Force UI to use activeIsland.storyTitle (from islands.js)
   const storyTitle = activeIsland.storyTitle || islandDetails?.stories?.[0]?.title || "Coming Soon"

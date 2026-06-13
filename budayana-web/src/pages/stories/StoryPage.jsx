@@ -362,11 +362,12 @@ export default function StoryPage() {
             </div>
           </div>
           <button
-            onClick={() => navigate(`/home?island=${islandSlug}`)}
+            onClick={() => navigate("/home")}
             className='bg-[#F7885E] text-white font-regular text-xl px-12 py-3 rounded-full shadow-lg hover:scale-105 transition border-2 border-[#c7623a]'
           >
             Kembali ke Beranda
           </button>
+
         </div>
       </div>
     )

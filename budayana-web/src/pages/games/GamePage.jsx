@@ -247,7 +247,7 @@ const StoryAudioPlayerPage = ({
             <img
               src={pageData.imageUrl}
               alt='Interactive Story'
-              className='w-full max-h-[500px] md:max-h-[700px] object-contain'
+              className='w-full max-h-[500px] md:max-h-[600px] object-contain'
             />
           ) : (
             <div className='text-center p-8 text-gray-400'>
@@ -509,10 +509,15 @@ export default function GamePage() {
         }
         return p
       })
+
     }
+    // Filter out essay questions from the game
+    combined = combined.filter((p) => p.question?.questionType !== "ESSAY")
 
     return combined
+
   }, [story, islandSlug])
+
 
   // Current Page Data
   const currentPageData = pages[currentPageIndex]
@@ -1440,11 +1445,12 @@ export default function GamePage() {
             </div>
           </div>
           <button
-            onClick={() => navigate(`/home?island=${islandSlug}`)}
+            onClick={() => navigate("/home")}
             className='bg-[#F7885E] text-white font-regular text-xl px-12 py-3 rounded-full shadow-lg hover:bg-[#e4764c] transition'
           >
             Kembali ke Beranda
           </button>
+
         </div>
       </div>
     )
@@ -1578,22 +1584,67 @@ export default function GamePage() {
     <div className='min-h-screen bg-[#fdf4d7] flex flex-col p-4'>
       {renderHeader()}
 
-      <div className='flex-1 flex items-center justify-center'>
-        {isResultsPage
-          ? renderResults()
-          : isStory
-            ? renderStoryPage(currentPageData)
-            : isImage
-              ? renderImagePage(currentPageData)
-              : isQuestion
-                ? renderQuestionPage(currentPageData)
-                : isEnding
-                  ? renderEndingPage()
-                  : null}
+      <div className='flex-1 flex items-center justify-center w-full max-w-7xl mx-auto'>
+        <div className='flex flex-row items-center justify-center w-full gap-4 xl:gap-8'>
+          
+          {/* Previous Button (Desktop/Horizontal Tablet) */}
+          {!isResultsPage && (
+            <div className='hidden lg:landscape:block shrink-0'>
+              <button
+                onClick={goPrev}
+                disabled={currentPageIndex === 0}
+                className='flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular transition disabled:opacity-50 disabled:bg-[#ccc] bg-[#f27f68] tracking-wide cursor-pointer'
+              >
+                <ArrowLeft size={20} /> Sebelumnya
+              </button>
+            </div>
+          )}
+
+          {/* Main Content Area */}
+          <div className='flex-1 flex justify-center min-w-0 max-w-4xl xl:max-w-5xl w-full'>
+            {isResultsPage
+              ? renderResults()
+              : isStory
+                ? renderStoryPage(currentPageData)
+                : isImage
+                  ? renderImagePage(currentPageData)
+                  : isQuestion
+                    ? renderQuestionPage(currentPageData)
+                    : isEnding
+                      ? renderEndingPage()
+                      : null}
+          </div>
+
+          {/* Next Button (Desktop/Horizontal Tablet) */}
+          {!isResultsPage && (
+            <div className='hidden lg:landscape:block shrink-0'>
+              <button
+                onClick={goNext}
+                disabled={(isQuestion && answers[currentPageData?.question?.id]?.isCorrect !== true) || isSubmitting}
+                className={`flex items-center gap-2 px-6 py-3 rounded-full text-white font-regular transition tracking-wide cursor-pointer ${(isQuestion && answers[currentPageData?.question?.id]?.isCorrect !== true) || isSubmitting
+                  ? "bg-gray-400 cursor-not-allowed opacity-70"
+                  : "bg-[#4fb986]"
+                  }`}
+              >
+                {isQuestion && answers[currentPageData?.question?.id]?.pending ? (
+                  "Memproses..."
+                ) : isSubmitting ? (
+                  "Menyimpan..."
+                ) : (
+                  <>
+                    {isLastPage ? "Selesai" : "Berikutnya"} <ArrowRight size={20} />
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+
+        </div>
       </div>
 
+      {/* Bottom Buttons (Mobile / Portrait Tablet) */}
       {!isResultsPage && (
-        <div className='w-full max-w-5xl mx-auto mt-6 flex justify-between'>
+        <div className='w-full max-w-5xl mx-auto mt-6 flex justify-between lg:landscape:hidden'>
           <button
             onClick={goPrev}
             disabled={currentPageIndex === 0}

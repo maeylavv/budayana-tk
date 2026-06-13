@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { authClient } from "../../lib/auth-client"
+import { ArrowLeft } from "lucide-react"
+import MusicToggle from "../../components/MusicToggle"
 
 export default function Login() {
   const navigate = useNavigate()
@@ -60,8 +62,48 @@ export default function Login() {
 
   return (
     <div className='signin_page'>
+      <div className="top-left-actions">
+        <button
+
+
+          onClick={() => navigate("/")}
+          className="back-btn"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "10px",
+            background: "transparent",
+            border: "3px solid #955C2E",
+            color: "#955C2E",
+            borderRadius: "30px",
+            padding: "8px 24px",
+            fontFamily: "'Fredoka One', sans-serif",
+            fontSize: "1.2rem",
+            fontWeight: "normal",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            height: "50px",
+            boxSizing: "border-box"
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.05)"
+            e.currentTarget.style.backgroundColor = "rgba(149, 92, 46, 0.05)"
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)"
+            e.currentTarget.style.backgroundColor = "transparent"
+          }}
+        >
+          <ArrowLeft size={20} strokeWidth={3} />
+          <span>Kembali</span>
+        </button>
+        <MusicToggle />
+      </div>
+
+
       <div className='redirect'>
         <p>Belum punya akun?</p>
+
 
         <div className='redi_button'>
           <button className='to_sign' onClick={goToSignin}>

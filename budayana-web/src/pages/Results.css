@@ -110,11 +110,12 @@
 /* Kids version: 5-column header (no Pre/Post test) */
 .history-header-kids {
   grid-template-columns: repeat(5, 1fr);
-  padding: 12px 16px;
-  font-size: 0.9rem;
+  padding: 16px 20px;
+  font-size: 1.25rem;
   text-align: center;
   justify-items: center;
 }
+
 
 .history-body {
   overflow-y: auto;
@@ -151,8 +152,8 @@
 /* Kids version: 5-column row */
 .history-row-kids {
   grid-template-columns: repeat(5, 1fr);
-  padding: 12px 16px;
-  font-size: 0.85rem;
+  padding: 16px 20px;
+  font-size: 1.15rem;
   text-align: center;
   justify-items: center;
 }
@@ -183,8 +184,8 @@
   /* Target the specific -kids classes used in your React code */
   .history-header-kids,
   .history-row-kids {
-    font-size: 0.75rem; /* Slightly smaller font to fit mobile */
-    padding: 12px 8px; /* Less horizontal padding */
+    font-size: 0.95rem; /* Larger font to fit mobile readably */
+    padding: 12px 10px; /* Less horizontal padding */
     gap: 6px;
     
     /* We hid the 5th column, so we ONLY define 4 columns here */

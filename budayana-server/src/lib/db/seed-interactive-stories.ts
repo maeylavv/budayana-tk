@@ -56,7 +56,7 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.MCQ,
         questionText: "Apa yang sedang dilakukan oleh anak-anak tersebut?",
         options: [
-          { text: "Berlari-larian", isCorrect: true },
+          { text: "Berlari-lari", isCorrect: true },
           { text: "Main layangan", isCorrect: false },
           { text: "Main kelereng", isCorrect: false },
           { text: "Memancing", isCorrect: false },
@@ -68,8 +68,8 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionText:
           "Apakah anak-anak itu langsung pulang saat waktu sore tiba?",
         options: [
-          { text: "Benar", isCorrect: false },
-          { text: "Salah", isCorrect: true },
+          { text: "Iya", isCorrect: false },
+          { text: "Tidak", isCorrect: true },
         ],
       },
       {
@@ -101,11 +101,11 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
           "Urutkan kejadian apa saja yang terjadi pada cerita nenek Pakande!",
         metadata: {
           items: [
-            { id: "search", label: "Anak-anak ketakutan" },
-            { id: "play", label: "Anak-anak bermain di ladang" },
-            { id: "home", label: "Warga mencari anak-anak" },
-            { id: "appear", label: "Nenek Pakande muncul" },
-            { id: "sunset", label: "Sore hari mulai datang" },
+            { id: "search", label: "Warga desa mencari anak-anak yang hilang" },
+            { id: "play", label: "Anak-anak bermain sambil menertawakan nasihat ibu" },
+            { id: "home", label: "Orang tua melarang anak keluar malam karena Nenek Pakande mengintai" },
+            { id: "appear", label: "Nenek Pakande muncul dan menculik anak-anak" },
+            { id: "sunset", label: "Sore mulai datang dan anak-anak masih bermain" },
           ],
           correctOrder: ["play", "sunset", "appear", "search", "home"],
         },
@@ -152,7 +152,7 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
           { text: "Membantu Ibunya", isCorrect: true },
           { text: "Menjemur Baju", isCorrect: false },
           { text: "Memancing", isCorrect: false },
-          { text: "Tiduran", isCorrect: false },
+          { text: "Bersantai", isCorrect: false },
         ],
       },
       {
@@ -160,8 +160,8 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.TRUE_FALSE,
         questionText: "Apakah ibu malin selalu memarahi malin?",
         options: [
-          { text: "Benar", isCorrect: false },
-          { text: "Salah", isCorrect: true },
+          { text: "Iya", isCorrect: false },
+          { text: "Tidak", isCorrect: true },
         ],
       },
       {
@@ -237,8 +237,8 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.TRUE_FALSE,
         questionText: "Apakah semua keluarga di desa sudah hadir saat kentungan dipukul?",
         options: [
-          { text: "Benar", isCorrect: false },
-          { text: "Salah", isCorrect: true },
+          { text: "Iya", isCorrect: false },
+          { text: "Tidak", isCorrect: true },
         ],
       },
       {
@@ -269,13 +269,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionText: "Urutkan kejadian apa saja yang terjadi pada cerita Telaga Biru!",
         metadata: {
           items: [
-            { id: "lake", label: "Telaga biru terbentuk" },
-            { id: "promise", label: "Magohiduuru berjanji merantau" },
-            { id: "water", label: "Air muncul dari sela batu" },
-            { id: "news", label: "Majojaru mendengar kabar sedih" },
-            { id: "cry", label: "Majojaru menangis dua hari" },
+            { id: "family", label: "Keluarga berkumpul membahas anak mereka yang hilang." },
+            { id: "news", label: "Kapal Magohiduru dikabarkan tenggelam" },
+            { id: "water", label: "Warga berkumpul akibat air misterius" },
+            { id: "promise", label: "Magohiduru pamit merantau pada Majojaru" },
+            { id: "lake", label: "Air mata Majojaru membentuk telaga" },
           ],
-          correctOrder: ["water", "promise", "news", "cry", "lake"],
+          correctOrder: ["water", "family", "promise", "news", "lake"],
         },
       },
       {
@@ -319,8 +319,8 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.TRUE_FALSE,
         questionText: "Apakah ayah tahu bahwa ibu tiri bersikap kejam pada anak-anaknya?",
         options: [
-          { text: "Benar", isCorrect: false },
-          { text: "Salah", isCorrect: true },
+          { text: "Iya", isCorrect: false },
+          { text: "Tidak", isCorrect: true },
         ],
       },
       {
@@ -380,7 +380,7 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
     storyAudioMap: {
       1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893554/NTT_1_sqtwos.mp3",
       3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893554/NTT_2_hnxizc.mp3",
-      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893553/NTT_3_wdnmp9.mp3",
+      5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1780688240/NTT_3_NEW_x4bm8f.mp3",
       7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893553/NTT_4_ncyqmc.mp3",
       9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893552/NTT_5_sqm0th.mp3",
     },
@@ -401,8 +401,8 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.TRUE_FALSE,
         questionText: "Apakah siluman penyu membawa petani ke pulau seberang?",
         options: [
-          { text: "Benar", isCorrect: true },
-          { text: "Salah", isCorrect: false },
+          { text: "Iya", isCorrect: true },
+          { text: "Tidak", isCorrect: false },
         ],
       },
       {
@@ -433,11 +433,11 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionText: "Urutkan kejadian apa saja yang terjadi pada cerita Watu Maladong!",
         metadata: {
           items: [
-            { id: "water", label: "Mata air muncul dari batu sakti" },
-            { id: "turtle", label: "Petani naik punggung siluman penyu" },
-            { id: "farm", label: "Kebun petani dirusak babi hutan" },
-            { id: "fight", label: "Petani bertarung dengan kepala desa" },
-            { id: "grandma", label: "Nenek tua melatih petani" },
+            { id: "water", label: "Watu Maladong mengeluarkan air dari dalam tanah" },
+            { id: "turtle", label: "Penyu mengantar petani ke pulau seberang" },
+            { id: "farm", label: "Babi hutan merusak kebun petani" },
+            { id: "fight", label: "Petani mengalahkan kepala desa" },
+            { id: "grandma", label: "Nenek memberi ramuan kepada petani" },
           ],
           correctOrder: ["farm", "turtle", "grandma", "fight", "water"],
         },
@@ -464,7 +464,7 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893555/BALI_2_xkdx7t.mp3",
       5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893555/BALI_3_nnpkis.mp3",
       7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893555/BALI_4_cuum0x.mp3",
-      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893554/BALI_5_hzjysf.mp3",
+      9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1780688223/Bali_5_NEW_yiuwcw.mp3",
     },
     questions: [
       {
@@ -483,8 +483,8 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.TRUE_FALSE,
         questionText: "Apakah ayah percaya cerita Bawang dan mengusir Kesuna dari rumah?",
         options: [
-          { text: "Benar", isCorrect: true },
-          { text: "Salah", isCorrect: false },
+          { text: "Iya", isCorrect: true },
+          { text: "Tidak", isCorrect: false },
         ],
       },
       {
@@ -503,9 +503,9 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.MCQ,
         questionText: "Apa yang terjadi saat burung mematuk tubuh Bawang?",
         options: [
-          { text: "Tubuh Bawang terluka dan tidak mendapat emas", isCorrect: true },
-          { text: "Bawang mendapat lebih banyak emas", isCorrect: false },
           { text: "Bawang berubah menjadi burung", isCorrect: false },
+          { text: "Bawang mendapat lebih banyak emas", isCorrect: false },
+          { text: "Bawang dilukai oleh burung", isCorrect: true },
           { text: "Bawang bisa terbang", isCorrect: false },
         ],
       },
@@ -543,7 +543,7 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
     },
     storyAudioMap: {
       1: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893562/PAPUA_1_ydxu2p.mp3",
-      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893562/PAPUA_2_pa1pkf.mp3",
+      3: "https://res.cloudinary.com/dyclbom1b/video/upload/v1780688232/PAPUA_2_NEW_hhytzz.mp3",
       5: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893561/PAPUA_3_cjsgtw.mp3",
       7: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893560/PAPUA_4_r6bjng.mp3",
       9: "https://res.cloudinary.com/dyclbom1b/video/upload/v1779893561/PAPUA_5_arm5bp.mp3",
@@ -565,8 +565,8 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.TRUE_FALSE,
         questionText: "Apakah Biwar menggunakan senjata warisan ayahnya untuk melawan naga?",
         options: [
-          { text: "Benar", isCorrect: true },
-          { text: "Salah", isCorrect: false },
+          { text: "Iya", isCorrect: true },
+          { text: "Tidak", isCorrect: false },
         ],
       },
       {
@@ -574,9 +574,9 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.MCQ,
         questionText: "Bagaimana cara Biwar mengalahkan naga?",
         options: [
-          { text: "Memanah matanya lalu menombak tubuhnya", isCorrect: true },
-          { text: "Menjebak naga dengan perangkap besar", isCorrect: false },
           { text: "Meminta bantuan seluruh warga desa", isCorrect: false },
+          { text: "Menjebak naga dengan perangkap besar", isCorrect: false },
+          { text: "Memanah matanya lalu menombak tubuhnya", isCorrect: true },
           { text: "Mengusir naga dengan api dan obor", isCorrect: false },
         ],
       },
@@ -585,10 +585,10 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.MCQ,
         questionText: "Apa yang dikatakan Biwar kepada warga desa setelah mengalahkan naga?",
         options: [
-          { text: "Selama kita bersatu, tak ada yang tak bisa dikalahkan", isCorrect: true },
           { text: "Aku adalah pahlawan terkuat di Papua", isCorrect: false },
           { text: "Jangan pernah mendekati sungai lagi", isCorrect: false },
           { text: "Kita harus pindah ke desa lain", isCorrect: false },
+          { text: "Selama kita bersatu, tak ada yang tak bisa dikalahkan", isCorrect: true },
         ],
       },
       {
@@ -634,21 +634,21 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       {
         slideNumber: 2,
         questionType: QuestionType.MCQ,
-        questionText: "Mengapa Roro Jonggrang tidak mau menikah dengan Bandung Bondowoso?",
+        questionText: "Dari kerajaan mana Bandung Bondowoso berasal?",
         options: [
-          { text: "Karena Bandung telah membunuh ayahnya", isCorrect: true },
-          { text: "Karena Roro sudah memiliki kekasih", isCorrect: false },
-          { text: "Karena Bandung terlalu miskin", isCorrect: false },
-          { text: "Karena Roro ingin menjadi ratu sendiri", isCorrect: false },
+          { text: "Kerajaan Prambanan", isCorrect: false },
+          { text: "Kerajaan Kutai", isCorrect: false },
+          { text: "Kerajaan Majapahit", isCorrect: false },
+          { text: "Kerajaan Pengging", isCorrect: true },
         ],
       },
       {
         slideNumber: 4,
         questionType: QuestionType.TRUE_FALSE,
-        questionText: "Apakah Bandung Bondowoso membangun seribu candi sendirian tanpa bantuan?",
+        questionText: "Apakah Bandung Bondowoso menerima tantangan dari Roro Jonggrang untuk membangun candi?",
         options: [
-          { text: "Benar", isCorrect: false },
-          { text: "Salah", isCorrect: true },
+          { text: "Iya", isCorrect: true },
+          { text: "Tidak", isCorrect: false },
         ],
       },
       {
@@ -656,7 +656,7 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionType: QuestionType.MCQ,
         questionText: "Apa yang dilakukan Roro Jonggrang untuk menggagalkan pembangunan candi?",
         options: [
-          { text: "Menyuruh gadis desa menyalakan obor dan menumbuk padi", isCorrect: true },
+          { text: "Memerintahkan gadis desa untuk menumbuk padi dan menyalakan obor", isCorrect: true },
           { text: "Meminta bantuan prajurit kerajaan", isCorrect: false },
           { text: "Memanggil hujan deras untuk menghentikan para jin", isCorrect: false },
           { text: "Menghancurkan candi-candi yang sudah dibangun", isCorrect: false },
@@ -665,12 +665,12 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       {
         slideNumber: 8,
         questionType: QuestionType.MCQ,
-        questionText: "Mengapa para jin berhenti membangun candi dan pergi?",
+        questionText: "Apa yang dirasakan Bandung Bondowoso setelah menyadari tipuan Roro Jonggrang??",
         options: [
-          { text: "Karena mereka melihat cahaya pagi dan ketakutan", isCorrect: true },
-          { text: "Karena Bandung menyuruh mereka berhenti", isCorrect: false },
-          { text: "Karena candi sudah selesai dibangun", isCorrect: false },
-          { text: "Karena mereka kehabisan tenaga", isCorrect: false },
+          { text: "Bahagia", isCorrect: false },
+          { text: "Sedih", isCorrect: false },
+          { text: "Marah", isCorrect: true },
+          { text: "Kecewa", isCorrect: false },
         ],
       },
       {
@@ -682,8 +682,8 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
             { id: "stone", label: "Roro Jonggrang berubah menjadi batu" },
             { id: "challenge", label: "Roro memberi tantangan seribu candi" },
             { id: "conquer", label: "Bandung menaklukkan Kerajaan Prambanan" },
-            { id: "trick", label: "Roro menipu dengan obor dan padi" },
-            { id: "jin", label: "Bandung dibantu jin membangun candi" },
+            { id: "trick", label: "Roro mengusir jin dengan padi dan obor" },
+            { id: "jin", label: "Bandung dibantu oleh jin untuk membangun candi" },
           ],
           correctOrder: ["conquer", "challenge", "jin", "trick", "stone"],
         },
