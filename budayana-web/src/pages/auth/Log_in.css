@@ -237,23 +237,31 @@
     }
 
     .redirect {
-      position: static;
-      flex-direction: row;
-      justify-content: center;
-      margin-bottom: 20px;
-      font-size: 1rem;
-      gap: 10px;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      font-size: 0.9rem;
     }
 
     .redirect p {
       margin-bottom: 0;
+      text-align: right;
     }
 
     .redirect button {
       width: auto;
-      padding: 0 20px;
-      height: 40px;
-      font-size: 1rem;
+      padding: 0 16px;
+      height: 38px;
+      font-size: 0.95rem;
+      border-radius: 20px;
+    }
+
+    .header_form {
+      margin-top: 80px !important;
     }
 
     .login_form {
@@ -341,6 +349,29 @@
     }
   }
 
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 3px solid #955C2E;
+    color: #955C2E;
+    border-radius: 30px;
+    padding: 8px 24px;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 1.2rem;
+    font-weight: normal;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 50px;
+    box-sizing: border-box;
+  }
+
+  .back-btn:hover {
+    transform: scale(1.05);
+    background-color: rgba(149, 92, 46, 0.05);
+  }
+
   .top-left-actions {
     position: absolute;
     top: 3%;
@@ -353,12 +384,28 @@
 
   @media (max-width: 768px) {
     .top-left-actions {
-      position: static;
+      position: absolute;
+      top: 16px;
+      left: 16px;
       display: flex;
+      justify-content: flex-start;
+      width: auto;
+      margin-top: 0;
+      margin-bottom: 0;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
-      width: 100%;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      gap: 16px;
+    }
+
+    .back-btn span {
+      display: none;
     }
   }

@@ -621,7 +621,11 @@ export default function GamePage() {
 
     // Group logs by questionId and get the latest one based on answeredAt
     const latestLogsByQuestion = {}
+    const restoredIncorrect = new Set()
     logs.forEach((log) => {
+      if (log.isCorrect === false) {
+        restoredIncorrect.add(log.questionId)
+      }
       const existing = latestLogsByQuestion[log.questionId]
       if (
         !existing ||
@@ -631,14 +635,18 @@ export default function GamePage() {
       }
     })
 
+    if (restoredIncorrect.size > 0) {
+      setIncorrectAttempts(restoredIncorrect)
+    }
+
     // Map logs to answers
     const restoredAnswers = {}
     allQuestions.forEach((q) => {
       const log = latestLogsByQuestion[q.id]
       if (log) {
-        // Find the option index by matching userAnswerText with option text
+        // Find the option index by matching userAnswerText with option text (case-insensitive and trimmed)
         const optionIndex = q.answerOptions?.findIndex(
-          (opt) => opt.optionText === log.userAnswerText
+          (opt) => opt.optionText?.trim().toLowerCase() === log.userAnswerText?.trim().toLowerCase()
         )
         if (optionIndex !== -1) {
           restoredAnswers[q.id] = {
@@ -916,15 +924,7 @@ export default function GamePage() {
   const handleExit = async () => {
     setIsExitSubmitting(true)
 
-    // 1. Clear ALL drag-drop localStorage entries
-    clearAllDragDropStorage()
-
-    // 2. Set fresh-start flag so next mount resets all state
-    if (storyId) {
-      setFreshStartFlag(storyId)
-    }
-
-    // 3. Reset URL page param to 1 so next visit starts at page 1
+    // Reset URL page param to 1 so next visit starts at page 1
     setSearchParams({ page: "1" }, { replace: true })
 
     if (attemptId) {
@@ -942,7 +942,7 @@ export default function GamePage() {
       }
     }
 
-    // 4. Navigate away
+    // Navigate away
     navigate(`/home?island=${islandSlug}`)
   }
 

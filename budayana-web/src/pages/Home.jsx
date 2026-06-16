@@ -9,6 +9,7 @@ import { islands as staticIslands } from "../data/islands"
 // Components
 import MapUI from "../components/MapUI"
 import MusicToggle from "../components/MusicToggle"
+import Watermark from "../components/Watermark"
 
 // Helper to see if we need special slug handling
 function getIslandSlug(name) {
@@ -190,6 +191,7 @@ export default function Home() {
           onClose={handleCloseIsland}
         />
       )}
+      <Watermark />
     </div>
   )
 }

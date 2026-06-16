@@ -1,6 +1,7 @@
 import "./Landing.css";
 import { useNavigate } from "react-router-dom";
 import MusicToggle from "../components/MusicToggle";
+import Watermark from "../components/Watermark";
 
 export default function Landing() {
     const navigate = useNavigate();
@@ -45,7 +46,7 @@ export default function Landing() {
                     </div>
                     <div className="lnd-about-text-content">
                         <p>Cerita Budayana adalah platform pembelajaran digital yang dirancang untuk membantu siswa mengenal dan memahami budaya Indonesia melalui pendekatan literasi berbasis cerita.</p>
-                        <p>Kami menggabungkan teknologi dan nilai budaya untuk menciptakan pengalaman belajar yang ramah anak, mudah digunakan, dan relevan dengan kebutuhan pendidikan saat ini.</p>
+                        <p>Kami menggabungkan teknologi and nilai budaya untuk menciptakan pengalaman belajar yang ramah anak, mudah digunakan, dan relevan dengan kebutuhan pendidikan saat ini.</p>
                     </div>
                 </div>
             </div>
@@ -90,6 +91,8 @@ export default function Landing() {
                    </div>
                 </div>
             </div>
+
+            <Watermark />
         </div>
     );
 }
