@@ -85,7 +85,7 @@ export const games = {
     },
     questionImageMap: {
       2: "/assets/budayana/islands/pertanyaan 1 malin.png",
-      4: "/assets/budayana/islands/pertanyaan 3 malin.png",
+      4: "/assets/budayana/islands/pertanyaan 2 malin.png",
       6: "/assets/budayana/islands/pertanyaan 4 malin.png",
       8: "/assets/budayana/islands/pertanyaan 6 malin.png",
       10: "/assets/budayana/islands/pertanyaan 7 malin.png",
