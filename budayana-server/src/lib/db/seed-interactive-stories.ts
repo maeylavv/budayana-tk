@@ -158,10 +158,10 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       {
         slideNumber: 4,
         questionType: QuestionType.TRUE_FALSE,
-        questionText: "Apakah ibu malin selalu memarahi malin?",
+        questionText: "Apakah ibu mengizinkan Malin pergi berlayar?",
         options: [
-          { text: "Iya", isCorrect: false },
-          { text: "Tidak", isCorrect: true },
+          { text: "Iya", isCorrect: true },
+          { text: "Tidak", isCorrect: false },
         ],
       },
       {
@@ -399,10 +399,10 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       {
         slideNumber: 4,
         questionType: QuestionType.TRUE_FALSE,
-        questionText: "Apakah siluman penyu membawa petani ke pulau seberang?",
+        questionText: "Apakah siluman penyu membawa petani ke pasar ikan?",
         options: [
-          { text: "Iya", isCorrect: true },
-          { text: "Tidak", isCorrect: false },
+          { text: "Iya", isCorrect: false },
+          { text: "Tidak", isCorrect: true },
         ],
       },
       {
@@ -470,12 +470,12 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
       {
         slideNumber: 2,
         questionType: QuestionType.MCQ,
-        questionText: "Apa yang dilakukan Kesuna saat orang tua pergi ke sawah?",
+        questionText: "Kemana kedua orang tua Kesuna dan Bawang pergi?",
         options: [
-          { text: "Mengerjakan semua pekerjaan rumah sendiri", isCorrect: true },
-          { text: "Bermain di luar rumah", isCorrect: false },
-          { text: "Tidur seharian", isCorrect: false },
-          { text: "Pergi ke hutan", isCorrect: false },
+          { text: "Gunung", isCorrect: false },
+          { text: "Sawah", isCorrect: true },
+          { text: "Pasar", isCorrect: false },
+          { text: "Pesisir Pantai", isCorrect: false },
         ],
       },
       {
@@ -515,13 +515,13 @@ const interactiveStoryData: Record<string, InteractiveStoryData> = {
         questionText: "Urutkan kejadian apa saja yang terjadi pada cerita Bawang dan Kesuna!",
         metadata: {
           items: [
-            { id: "gold", label: "Kesuna mendapat perhiasan emas" },
-            { id: "lie", label: "Bawang mengadu kepada ayah" },
-            { id: "hurt", label: "Bawang terluka oleh patukan burung" },
-            { id: "work", label: "Kesuna mengerjakan rumah sendirian" },
-            { id: "forest", label: "Kesuna pergi ke hutan sambil menangis" },
+            { id: "gold", label: "Kesuna mendapat perhiasan emas dari burung ajaib" },
+            { id: "lie", label: "Bawang memfitnah Kesuna hingga diusir ke hutan" },
+            { id: "hurt", label: "Bawang terluka akibat patukan burung ajaib" },
+            { id: "work", label: "Kesuna patuh untuk membersihkan rumah dan Bawang bermalas-malasan" },
+            { id: "sad", label: "Bawang pulang dengan menyesal dan Kesuna hidup tenang dengan Nenek" },
           ],
-          correctOrder: ["work", "lie", "forest", "gold", "hurt"],
+          correctOrder: ["work", "lie", "gold", "hurt", "sad"],
         },
       },
       {
